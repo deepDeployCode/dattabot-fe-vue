@@ -12,16 +12,12 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: () => import('@/views/Home.vue'),
+      name: 'beranda',
+      component: () => import('@/views/Beranda.vue'),
       meta: {
-        pageTitle: 'Home',
-        breadcrumb: [
-          {
-            text: 'Home',
-            active: true,
-          },
-        ],
+        layout: 'full',
+        navbar: true,
+        title: 'Simfoni',
       },
     },
     {
@@ -39,11 +35,49 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/login-legacy',
+      name: 'loginLegacy',
+      component: () => import('@/views/LoginLegacy.vue'),
+      meta: {
+        layout: 'full',
+      },
+    },
+    {
       path: '/login',
       name: 'login',
       component: () => import('@/views/Login.vue'),
       meta: {
         layout: 'full',
+      },
+    },
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('@/views/Register.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Daftar Akun',
+      },
+    },
+    {
+      path: '/forget-password',
+      name: 'forget-password',
+      component: () => import('@/views/ForgetPassword.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Lupa Password',
+      },
+    },
+    {
+      path: '/auth/changePassword/:token',
+      name: 'change-password',
+      component: () => import('@/views/ChangePassword.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Reset Password',
       },
     },
     {

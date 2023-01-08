@@ -5,6 +5,7 @@ export default {
   state: {
     windowWidth: 0,
     shallShowOverlay: false,
+    loadingBlock: false,
   },
   getters: {
     currentBreakPoint: state => {
@@ -22,6 +23,9 @@ export default {
     },
     TOGGLE_OVERLAY(state, val) {
       state.shallShowOverlay = val !== undefined ? val : !state.shallShowOverlay
+    },
+    UPDATE_LOADING_BLOCK(state, val) {
+      state.loadingBlock = val
     },
   },
   actions: {},

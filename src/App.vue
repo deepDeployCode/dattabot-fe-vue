@@ -4,6 +4,16 @@
     class="h-100"
     :class="[skinClasses]"
   >
+    <div
+      v-if="$store.state.app.loadingBlock"
+      id="loading-block"
+    >
+      <b-spinner
+        style="width: 3rem; height: 3rem;"
+        class="mr-1"
+        label="Large Spinner"
+      />
+    </div>
     <component :is="layout">
       <router-view />
     </component>
@@ -14,6 +24,7 @@
 <script>
 
 // This will be populated in `beforeCreate` hook
+import { BSpinner } from 'bootstrap-vue'
 import { $themeColors, $themeBreakpoints, $themeConfig } from '@themeConfig'
 import { provideToast } from 'vue-toastification/composition'
 import { watch } from '@vue/composition-api'
@@ -34,7 +45,7 @@ export default {
     LayoutHorizontal,
     LayoutVertical,
     LayoutFull,
-
+    BSpinner,
   },
   // ! We can move this computed: layout & contentLayoutType once we get to use Vue 3
   // Currently, router.currentRoute is not reactive and doesn't trigger any change
@@ -99,3 +110,18 @@ export default {
   },
 }
 </script>
+
+<style lang="scss">
+  #loading-block {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5000;
+    background: rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

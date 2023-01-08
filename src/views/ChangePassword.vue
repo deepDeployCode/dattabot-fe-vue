@@ -1,10 +1,10 @@
 <template>
   <div class="app-wrapper">
-    <div
-      class="login-wrapper p-2"
-    >
+    <BaseNavigation />
+    <DividerNavigation />
+    <div class="p-2 mx-auto">
 
-      <div class="d-flex justify-content-center mb-3">
+      <div class="d-flex justify-content-center mb-2">
         <b-img
           fluid
           width="150"
@@ -13,23 +13,13 @@
           alt="simfoniLogo"
         />
       </div>
-      <b-card-title
-        title-tag="h2"
-        class="font-weight-bold mb-1"
-      >
-        Selamat datang!
-      </b-card-title>
-      <b-card-text class="mb-2">
-        Silahkan login untuk menggunakan aplikasi layanan terintegrasi <b>IDI Cabang Jakarta</b>
-      </b-card-text>
-
       <!-- form -->
       <validation-observer ref="loginValidation">
         <b-form
-          class="auth-login-form mt-2"
+          class="auth-login-form"
           @submit.prevent
         >
-          <!-- email -->
+
           <b-form-group
             label="Email"
             label-for="login-email"
@@ -52,15 +42,10 @@
 
           <!-- forgot password -->
           <b-form-group>
-            <div class="d-flex justify-content-between">
-              <label for="login-password">Password</label>
-              <b-link :to="{name:'forget-password'}">
-                <small>Lupa Password?</small>
-              </b-link>
-            </div>
+            <label for="change-new-password">Password baru</label>
             <validation-provider
               #default="{ errors }"
-              name="Password"
+              name="Password baru"
               rules="required"
             >
               <b-input-group
@@ -68,12 +53,44 @@
                 :class="errors.length > 0 ? 'is-invalid':null"
               >
                 <b-form-input
-                  id="login-password"
+                  id="change-new-password"
                   v-model="password"
                   :state="errors.length > 0 ? false:null"
                   class="form-control-merge"
                   :type="passwordFieldType"
-                  name="login-password"
+                  name="change-new-password"
+                  placeholder="············"
+                />
+                <b-input-group-append is-text>
+                  <feather-icon
+                    class="cursor-pointer"
+                    :icon="passwordToggleIcon"
+                    @click="togglePasswordVisibility"
+                  />
+                </b-input-group-append>
+              </b-input-group>
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+
+          <b-form-group>
+            <label for="change-confirm-new-password">Konfirmasi Password baru</label>
+            <validation-provider
+              #default="{ errors }"
+              name="Konfirmasi Password baru"
+              rules="required"
+            >
+              <b-input-group
+                class="input-group-merge"
+                :class="errors.length > 0 ? 'is-invalid':null"
+              >
+                <b-form-input
+                  id="change-confirm-new-password"
+                  v-model="confirmPassword"
+                  :state="errors.length > 0 ? false:null"
+                  class="form-control-merge"
+                  :type="passwordFieldType"
+                  name="change-confirm-new-password"
                   placeholder="············"
                 />
                 <b-input-group-append is-text>
@@ -95,15 +112,15 @@
             block
             @click="validationForm"
           >
-            Masuk
+            Submit
           </b-button>
         </b-form>
       </validation-observer>
 
       <b-card-text class="text-center mt-2">
-        <span>Belum punya akun? </span>
-        <b-link :to="{name:'register'}">
-          <span>&nbsp;Daftar disini</span>
+        <span>Tidak jadi Reset password? </span>
+        <b-link :to="{name:'login'}">
+          <span>&nbsp;Silahkan Login disini</span>
         </b-link>
       </b-card-text>
     </div>
@@ -117,18 +134,18 @@ import {
   BLink,
   BFormGroup,
   BFormInput,
-  BInputGroupAppend,
-  BInputGroup,
   BCardText,
-  BCardTitle,
   BForm,
   BButton,
+  BInputGroupAppend,
+  BInputGroup,
   BImg,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
-import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import BaseNavigation from '@/components/Base/BaseNavigation.vue'
+import DividerNavigation from '@/components/Base/DividerNavigation.vue'
 import apis from '@/api'
 
 export default {
@@ -136,25 +153,25 @@ export default {
     BLink,
     BFormGroup,
     BFormInput,
-    BInputGroupAppend,
-    BInputGroup,
     BCardText,
-    BCardTitle,
     BForm,
     BButton,
     ValidationProvider,
     ValidationObserver,
+    BaseNavigation,
+    DividerNavigation,
+    BInputGroupAppend,
+    BInputGroup,
     BImg,
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
       simfoniLogo: require('@/assets/images/logo/simfoni.png'),
-      status: '',
-      password: 'home258',
       userEmail: 'dzakkiaz7@gmail.com',
+      password: '',
+      confirmPassword: '',
       passwordFieldType: 'password',
-      sideImg: require('@/assets/images/pages/login-v2.svg'),
       required,
       email,
     }
@@ -163,45 +180,36 @@ export default {
     passwordToggleIcon() {
       return this.passwordFieldType === 'password' ? 'EyeIcon' : 'EyeOffIcon'
     },
-    imgUrl() {
-      if (store.state.appConfig.layout.skin === 'dark') {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require('@/assets/images/pages/login-v2-dark.svg')
-        return this.sideImg
-      }
-      return this.sideImg
-    },
   },
   methods: {
     validationForm() {
       this.$refs.loginValidation.validate().then(success => {
         if (success) {
-          this.login()
+          this.resetPassword()
         }
       })
     },
-    login() {
+    resetPassword() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-      apis.auth.login({
+      apis.auth.resetPassword({
         email: this.userEmail,
         password: this.password,
+        password_confirmation: this.confirmPassword,
+        token: this.$route.params.token,
       })
-        .then(res => {
+        .then(() => {
+          this.$router.push({ path: '/login', replace: true })
           this.$toast({
             component: ToastificationContent,
             props: {
-              title: 'Login berhasil',
+              title: 'berhasil mengganti password, silahkan login kembali.',
               icon: 'CheckIcon',
               variant: 'success',
             },
           })
-          console.log(res.data)
-          const { token, user } = res.data
-          console.log(token, user)
-          this.$router.push({ path: '/', replace: true })
         })
         .catch(error => {
-          this.errorHandler(error, 'Login gagal, silahkan coba lagi nanti')
+          this.errorHandler(error, 'Gagal mengganti password')
         })
         .finally(() => {
           this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
@@ -213,11 +221,4 @@ export default {
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
-
-.login-wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100vh;
-}
 </style>
