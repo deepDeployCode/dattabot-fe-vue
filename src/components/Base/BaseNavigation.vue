@@ -1,17 +1,36 @@
 <template>
-  <div class="navigation-wrapper px-2 py-1">
-    <div
-      class="navigation-back pr-1"
-      @click="$router.go(-1)"
-    >
-      <feather-icon
-        icon="ArrowLeftIcon"
-        size="22"
-        stroke-width="2"
-      />
+  <div class="navigation-wrapper px-2 py-1 bg-danger text-white">
+    <div class="navigation-name">
+      <div
+        v-if="isBack"
+        class="navigation-back pr-1"
+        @click="$router.go(-1)"
+      >
+        <feather-icon
+          icon="ArrowLeftIcon"
+          size="22"
+          stroke-width="2"
+        />
+      </div>
+      <div class="nav-title">
+        {{ title }}
+      </div>
     </div>
-    <div class="nav-title">
-      {{ title }}
+    <div class="navigation-menu">
+      <div class="notif-menu pr-1">
+        <feather-icon
+          icon="BellIcon"
+          size="22"
+          stroke-width="2"
+        />
+      </div>
+      <div class="menu">
+        <feather-icon
+          icon="MenuIcon"
+          size="22"
+          stroke-width="2"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -21,6 +40,9 @@ export default {
     title() {
       return this.$route.meta?.title || 'SIMFONI'
     },
+    isBack() {
+      return this.$route.meta?.isBack === undefined ? true : this.$route.meta?.isBack
+    },
   },
 }
 </script>
@@ -28,15 +50,26 @@ export default {
 <style scoped>
 
 .navigation-wrapper {
-  background-color: #F7F7F8;
-  color: #000000;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  /* background-color: #F7F7F8; */
+  /* color: #000000; */
   z-index: 500;
   position: fixed;
   width: 478px;
   top: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (max-width: 640px) {
+  .navigation-wrapper {
+    width: 100vw !important;
+  }
+}
+
+.navigation-name {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .navigation-back {
@@ -46,6 +79,16 @@ export default {
 .nav-title {
   font-size: 18px;
   font-weight: 600;
+}
+
+.navigation-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.notif-menu, .menu {
+  cursor: pointer;
 }
 
 </style>

@@ -17,6 +17,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
+        isBack: false,
         title: 'Simfoni',
       },
     },

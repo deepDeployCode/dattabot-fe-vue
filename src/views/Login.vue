@@ -151,7 +151,7 @@ export default {
     return {
       simfoniLogo: require('@/assets/images/logo/simfoni.png'),
       status: '',
-      password: 'home258',
+      password: 'Home123456',
       userEmail: 'dzakkiaz7@gmail.com',
       passwordFieldType: 'password',
       sideImg: require('@/assets/images/pages/login-v2.svg'),
