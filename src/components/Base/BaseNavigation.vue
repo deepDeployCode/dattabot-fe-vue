@@ -56,8 +56,6 @@ export default {
 <style scoped>
 
 .navigation-wrapper {
-  background-color: #F7F7F8;
-  color: #000000;
   z-index: 500;
   position: fixed;
   width: 478px;
