@@ -16,7 +16,10 @@
         {{ title }}
       </div>
     </div>
-    <div class="navigation-menu">
+    <div
+      v-if="isNavMenu"
+      class="navigation-menu"
+    >
       <div class="notif-menu pr-1">
         <feather-icon
           icon="BellIcon"
@@ -43,6 +46,9 @@ export default {
     isBack() {
       return this.$route.meta?.isBack === undefined ? true : this.$route.meta?.isBack
     },
+    isNavMenu() {
+      return this.$route.meta?.isNavMenu === undefined ? true : this.$route.meta?.isNavMenu
+    },
   },
 }
 </script>
@@ -50,8 +56,8 @@ export default {
 <style scoped>
 
 .navigation-wrapper {
-  /* background-color: #F7F7F8; */
-  /* color: #000000; */
+  background-color: #F7F7F8;
+  color: #000000;
   z-index: 500;
   position: fixed;
   width: 478px;

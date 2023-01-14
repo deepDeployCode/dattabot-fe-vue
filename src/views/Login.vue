@@ -91,7 +91,7 @@
           <!-- submit buttons -->
           <b-button
             type="submit"
-            variant="primary"
+            variant="danger"
             block
             @click="validationForm"
           >

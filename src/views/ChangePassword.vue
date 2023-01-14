@@ -108,7 +108,7 @@
           <!-- submit buttons -->
           <b-button
             type="submit"
-            variant="primary"
+            variant="outline-danger"
             block
             @click="validationForm"
           >

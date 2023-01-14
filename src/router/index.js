@@ -59,6 +59,7 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         title: 'Daftar Akun',
+        isNavMenu: false,
       },
     },
     {
@@ -68,6 +69,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
+        isNavMenu: false,
         title: 'Lupa Password',
       },
     },
@@ -79,6 +81,7 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         title: 'Reset Password',
+        isNavMenu: false,
       },
     },
     {
