@@ -6,6 +6,9 @@ const endpoints = {
     forgotPassword: '/auth/forgotPassword',
     resetPassword: '/auth/changePassword/noAuth',
   },
+  forum: {
+    default: '/forum',
+  },
 }
 
 const apis = {
@@ -18,6 +21,17 @@ const apis = {
     },
     resetPassword(data) {
       return resource.post(endpoints.auth.resetPassword, data)
+    },
+  },
+  forum: {
+    getAll(url) {
+      return resource.get(url || endpoints.forum.default)
+    },
+    getById(id) {
+      return resource.get(`${endpoints.forum.default}/${id}`)
+    },
+    addForum(data) {
+      return resource.post(endpoints.forum.default, data)
     },
   },
 }

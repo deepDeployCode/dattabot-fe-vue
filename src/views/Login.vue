@@ -130,6 +130,7 @@ import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import store from '@/store/index'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import apis from '@/api'
+import { setUserStorage } from '@/helpers/getDataFromStorage'
 
 export default {
   components: {
@@ -195,9 +196,13 @@ export default {
               variant: 'success',
             },
           })
-          console.log(res.data)
           const { token, user } = res.data
-          console.log(token, user)
+          setUserStorage({
+            tokenCurrent: token,
+            userId: user.id,
+            userLevel: user.orang_level,
+            email: user.orang_email,
+          })
           this.$router.push({ path: '/', replace: true })
         })
         .catch(error => {

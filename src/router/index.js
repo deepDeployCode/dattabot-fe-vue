@@ -22,6 +22,37 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/studi-kasus',
+      name: 'studi-kasus',
+      component: () => import('@/views/StudiKasus.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        isBack: false,
+        title: 'Studi Kasus',
+      },
+    },
+    {
+      path: '/studi-kasus/:id',
+      name: 'detail-studi-kasus',
+      component: () => import('@/views/DetailStudiKasus.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Detail Studi Kasus',
+      },
+    },
+    {
+      path: '/tambah/studi-kasus',
+      name: 'tambah-studi-kasus',
+      component: () => import('@/views/TambahStudiKasus.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Tambah Studi Kasus',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),

@@ -1,27 +1,33 @@
 <template>
   <div class="bottom-nav-wrapper px-2 py-1">
-    <div>
+    <div
+      class="pointer"
+      @click="$router.push({ path: '/' })"
+    >
       <feather-icon
         icon="HomeIcon"
         size="22"
         stroke-width="2"
-        class="text-danger"
+        :class="$route.name === 'beranda' ? 'text-danger' : ''"
       />
     </div>
-    <div>
+    <div
+      class="pointer"
+      @click="$router.push({ path: '/studi-kasus' })"
+    >
       <feather-icon
         icon="MessageSquareIcon"
         size="22"
         stroke-width="2"
-        class="text-danger"
+        :class="$route.name === 'studi-kasus' ? 'text-danger' : ''"
       />
     </div>
-    <div>
+    <div class="pointer">
       <feather-icon
         icon="UserIcon"
         size="22"
         stroke-width="2"
-        class="text-danger"
+        :class="$route.name === 'profile' ? 'text-danger' : ''"
       />
     </div>
   </div>

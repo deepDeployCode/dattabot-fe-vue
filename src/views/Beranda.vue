@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
   <div class="app-wrapper">
     <BaseNavigation />
@@ -55,91 +56,28 @@
           </div>
         </div>
       </b-card>
-      <b-card
-        class="shadow-none border p-1 mb-1"
-        no-body
-        style="cursor: pointer;"
+      <ButtonCreateNewPost />
+      <div
+        v-if="forums.isLoading"
+        class="d-flex justify-content-center mb-1"
       >
-        <div class="d-flex flex-row align-items-center">
-          <b-img
-            :src="avatar"
-            height="50"
-            width="50"
-            rounded="circle"
-            class="mr-1"
-          />
-          <b-form-textarea
-            placeholder="Tulis studi kasus"
-            rows="1"
-            no-resize
-            disabled
-            class="bg-white border"
-            style="cursor:pointer;"
-          />
-        </div>
-      </b-card>
-      <b-card
-        class="shadow-none border p-1 mb-1"
-        no-body
+        <b-spinner
+          label="Loading..."
+          variant="danger"
+        />
+      </div>
+      <div
+        v-if="!forums.isLoading && !forums.data.length"
+        class="d-flex justify-content-center mb-1"
       >
-        <div class="d-flex pb-1 border-bottom">
-          <b-img
-            :src="avatar"
-            height="50"
-            width="50"
-            rounded="circle"
-            class="mr-1"
-          />
-          <div>
-            <div class="font-weight-bold">
-              Admin simfoni
-            </div>
-            <span
-              class="font-weight-light"
-              style="font-size: 10px;"
-            >13/01/2023 13:23</span>
-          </div>
-          <div class="ml-auto ">
-            <feather-icon
-              icon="MoreHorizontalIcon"
-              size="22"
-              stroke-width="2"
-              class="text-danger"
-            />
-          </div>
-        </div>
-        <div class="pb-1 border-bottom pt-1">
-          <b-img
-            :src="examplePicStudiKasus"
-            fluid
-            class="mb-25"
-          />
-          <div>
-            Chief Complaint Increasing shortness of breath with cough and wheezing History and Physical Examination A 24-year-old woman comes to emergency department during wintertime with severe shortness of breath for 2 to 3 days. Her family states that she has a hi... <span
-              class="font-weight-bold text-primary"
-              style="cursor:pointer"
-            >Lanjut baca</span>
-          </div>
-        </div>
-        <div class="pt-1 d-flex justify-content-around">
-          <div>
-            <feather-icon
-              badge="3"
-              badge-classes="bg-danger"
-              icon="ThumbsUpIcon"
-              size="20"
-            />
-          </div>
-          <div>
-            <feather-icon
-              badge="3"
-              badge-classes="bg-danger"
-              icon="MessageSquareIcon"
-              size="20"
-            />
-          </div>
-        </div>
-      </b-card>
+        Belum ada forum yang di posting
+      </div>
+      <CardPost
+        v-for="forum in forums.data"
+        :key="forum.id"
+        :forum="forum"
+        is-elipsis="true"
+      />
       <div>
         <div
           class="font-weight-bold mb-1"
@@ -176,11 +114,15 @@
 import {
   BCard,
   BImg,
-  BFormTextarea,
+  BSpinner,
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
 import BaseBottomNavigation from '@/components/Base/BaseBottomNavigation.vue'
+import CardPost from '@/components/Forum/CardPost.vue'
+import ButtonCreateNewPost from '@/components/Forum/ButtonCreateNewPost.vue'
+
+import apis from '@/api'
 
 export default {
   components: {
@@ -188,8 +130,10 @@ export default {
     BaseNavigation,
     DividerNavigation,
     BImg,
-    BFormTextarea,
     BaseBottomNavigation,
+    BSpinner,
+    CardPost,
+    ButtonCreateNewPost,
   },
   data() {
     return {
@@ -198,7 +142,25 @@ export default {
       keanggotaanIcon: require('@/assets/images/icons/icon-idcard.png'),
       avatar: require('@/assets/images/avatars/1.png'),
       examplePicStudiKasus: require('@/assets/images/pages/Studi_Kasus_Contoh.jpeg'),
+      forums: {
+        isLoading: false,
+        data: [],
+      },
     }
+  },
+  created() {
+    this.fetchForums()
+  },
+  methods: {
+    fetchForums() {
+      this.forums.isLoading = true
+      apis.forum.getAll()
+        .then(({ data }) => {
+          this.forums.data = data.data
+          this.forums.isLoading = false
+        })
+        .catch(() => {})
+    },
   },
 }
 </script>
@@ -220,5 +182,4 @@ export default {
       flex-shrink: 0;
     }
   }
-
 </style>
