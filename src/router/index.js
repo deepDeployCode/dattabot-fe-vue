@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import {getUserDataFromStorage} from '@/helpers/getDataFromStorage'
 
 Vue.use(VueRouter)
 
@@ -80,6 +81,7 @@ const router = new VueRouter({
       component: () => import('@/views/Login.vue'),
       meta: {
         layout: 'full',
+        authenticationPage: true,
       },
     },
     {
@@ -91,6 +93,7 @@ const router = new VueRouter({
         navbar: true,
         title: 'Daftar Akun',
         isNavMenu: false,
+        authenticationPage: true,
       },
     },
     {
@@ -102,6 +105,7 @@ const router = new VueRouter({
         navbar: true,
         isNavMenu: false,
         title: 'Lupa Password',
+        authenticationPage: true,
       },
     },
     {
@@ -113,6 +117,7 @@ const router = new VueRouter({
         navbar: true,
         title: 'Reset Password',
         isNavMenu: false,
+        authenticationPage: true,
       },
     },
     {
@@ -128,6 +133,14 @@ const router = new VueRouter({
       redirect: 'error-404',
     },
   ],
+})
+
+router.beforeEach((to, from, next) => {
+  if (!to.meta.authenticationPage && !getUserDataFromStorage()?.tokenCurrent) {
+    return next('/login')
+  }
+
+  return next()
 })
 
 // ? For splash screen

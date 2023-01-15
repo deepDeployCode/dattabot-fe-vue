@@ -6,12 +6,10 @@ function createResource() {
   axios.interceptors.request.use(config => {
     // TODO: intercept request or header request
 
-    const {
-      tokenCurrent: token,
-    } = getDataFromStorage()
+    const storage = getDataFromStorage()
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+    if (storage?.tokenCurrent) {
+      config.headers.Authorization = `Bearer ${storage.tokenCurrent}`
     }
 
     return config
