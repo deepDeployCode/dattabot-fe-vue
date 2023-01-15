@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import {getUserDataFromStorage} from '@/helpers/getDataFromStorage'
+import { getUserDataFromStorage } from '@/helpers/getDataFromStorage'
 
 Vue.use(VueRouter)
 
