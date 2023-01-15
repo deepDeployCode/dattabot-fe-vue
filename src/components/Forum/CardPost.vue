@@ -33,7 +33,8 @@
     </div>
     <div class="pb-1 border-bottom pt-1">
       <b-img
-        :src="examplePicStudiKasus"
+        v-if="imgContent"
+        :src="imgContent"
         fluid
         class="mb-25"
       />
@@ -91,6 +92,16 @@ export default {
     }
   },
   computed: {
+    imgContent() {
+      const img = this.forum?.image?.forumimg_file || ''
+      console.log(img)
+      if (!!img && !img.includes('https')) {
+        const id = this.forum?.image?.id
+        return `https://www.idijakpus.or.id/uploads/forumimg/forumimg_file/${id}/${img}`
+      }
+
+      return img
+    },
   },
 }
 </script>
