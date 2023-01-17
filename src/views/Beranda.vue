@@ -21,7 +21,7 @@
               />
             </div>
             <div class="text-center">
-              Pembekalan KRIP
+              KRIP
             </div>
           </div>
           <div

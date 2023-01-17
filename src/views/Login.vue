@@ -20,7 +20,7 @@
         Selamat datang!
       </b-card-title>
       <b-card-text class="mb-2">
-        Silahkan login untuk menggunakan aplikasi layanan terintegrasi <b>IDI Cabang Jakarta</b>
+        Silahkan login untuk menggunakan aplikasi layanan terintegrasi <b>IDI Cabang Jakarta Pusat</b>
       </b-card-text>
 
       <!-- form -->
