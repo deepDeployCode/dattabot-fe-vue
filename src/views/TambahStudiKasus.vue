@@ -108,7 +108,7 @@ export default {
           ],
         },
         theme: 'snow',
-        placeholder: 'Silahkan tulis konten studi kasus disini ...',
+        placeholder: 'Silahkan tulis konten forum disini ...',
       },
       gambar: null,
       fileGambar: null,
@@ -122,7 +122,7 @@ export default {
         this.$toast({
           component: ToastificationContent,
           props: {
-            title: 'Konten studi kasus wajib diisi',
+            title: 'Konten forum wajib diisi',
             icon: 'AlertCircleIcon',
             variant: 'danger',
             setTimeout: '5000',
@@ -141,7 +141,7 @@ export default {
           this.$toast({
             component: ToastificationContent,
             props: {
-              title: 'Berhasil menambahkan studi kasus',
+              title: 'Berhasil menambahkan forum',
               icon: 'CheckIcon',
               variant: 'success',
             },
@@ -149,7 +149,7 @@ export default {
           this.$router.push({ path: '/', replace: true })
         })
         .catch(error => {
-          this.errorHandler(error, 'menambahkan studi kasus gagal, silahkan coba lagi nanti')
+          this.errorHandler(error, 'menambahkan forum gagal, silahkan coba lagi nanti')
         })
         .finally(() => {
           this.$store.commit('app/UPDATE_LOADING_BLOCK', false)

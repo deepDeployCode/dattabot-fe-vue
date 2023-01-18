@@ -30,7 +30,7 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         isBack: false,
-        title: 'Studi Kasus',
+        title: 'Forum',
       },
     },
     {
@@ -40,7 +40,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Detail Studi Kasus',
+        title: 'Detail Forum',
       },
     },
     {
@@ -50,7 +50,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Tambah Studi Kasus',
+        title: 'Tambah Forum',
       },
     },
     {

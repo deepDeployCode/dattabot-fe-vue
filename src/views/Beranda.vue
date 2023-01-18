@@ -137,9 +137,9 @@ export default {
   },
   data() {
     return {
-      kripIcon: require('@/assets/images/icons/icon-stethoscope.png'),
-      rekomendasiIcon: require('@/assets/images/icons/icon-documents.png'),
-      keanggotaanIcon: require('@/assets/images/icons/icon-idcard.png'),
+      kripIcon: require('@/assets/images/icons/A3.png'),
+      rekomendasiIcon: require('@/assets/images/icons/A1.png'),
+      keanggotaanIcon: require('@/assets/images/icons/A2.png'),
       avatar: require('@/assets/images/avatars/1.png'),
       examplePicStudiKasus: require('@/assets/images/pages/Studi_Kasus_Contoh.jpeg'),
       forums: {

@@ -16,7 +16,7 @@
         class="mr-1"
       />
       <b-form-textarea
-        placeholder="Tulis studi kasus"
+        placeholder="Tulis forum"
         rows="1"
         no-resize
         disabled

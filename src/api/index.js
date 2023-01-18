@@ -8,6 +8,7 @@ const endpoints = {
   },
   forum: {
     default: '/forum',
+    comment: '/forum/comment',
   },
 }
 
@@ -32,6 +33,9 @@ const apis = {
     },
     addForum(data) {
       return resource.post(endpoints.forum.default, data)
+    },
+    addComment(id, data) {
+      return resource.post(`${endpoints.forum.comment}/${id}`, data)
     },
   },
 }
