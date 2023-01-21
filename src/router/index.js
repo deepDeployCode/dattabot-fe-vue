@@ -55,12 +55,22 @@ const router = new VueRouter({
     },
     {
       path: '/forum/edit/:id',
-      name: 'tambah-forum',
+      name: 'edit-forum',
       component: () => import('@/views/EditForum.vue'),
       meta: {
         layout: 'full',
         navbar: true,
         title: 'Edit Forum',
+      },
+    },
+    {
+      path: '/forum/report/:id',
+      name: 'report-forum',
+      component: () => import('@/views/ReportForum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Laportkan Forum',
       },
     },
     {

@@ -38,11 +38,17 @@
               class="align-middle"
             />
           </template>
-          <b-dropdown-item @click="$router.push(`/forum/edit/${forum.id}`)">
+          <b-dropdown-item
+            v-if="isOwnerForum"
+            @click="$router.push(`/forum/edit/${forum.id}`)"
+          >
             Edit
           </b-dropdown-item>
-          <b-dropdown-item>
-            Hapus
+          <b-dropdown-item
+            v-if="!isOwnerForum"
+            @click="$router.push(`/forum/report/${forum.id}`)"
+          >
+            Laporkan
           </b-dropdown-item>
         </b-dropdown>
         <!-- <feather-icon
@@ -102,6 +108,7 @@ import {
   BDropdownItem,
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
+import { getUserDataFromStorage } from '@/helpers/getDataFromStorage'
 
 export default {
   components: {
@@ -130,6 +137,9 @@ export default {
       }
 
       return img
+    },
+    isOwnerForum() {
+      return getUserDataFromStorage()?.userId === this.forum?.orang?.id
     },
   },
 }

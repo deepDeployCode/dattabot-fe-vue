@@ -9,6 +9,7 @@ const endpoints = {
   forum: {
     default: '/forum',
     comment: '/forum/comment',
+    report: '/forum/report',
   },
 }
 
@@ -39,6 +40,9 @@ const apis = {
     },
     editForum(data) {
       return resource.put(endpoints.forum.default, data)
+    },
+    reportForum(id, data) {
+      return resource.post(`${endpoints.forum.report}/${id}`, data)
     },
   },
 }
