@@ -77,6 +77,7 @@
         :key="forum.id"
         :forum="forum"
         is-elipsis="true"
+        @refreshFetch="fetchForums"
       />
       <div>
         <div

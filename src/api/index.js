@@ -10,6 +10,7 @@ const endpoints = {
     default: '/forum',
     comment: '/forum/comment',
     report: '/forum/report',
+    like: '/forum/like',
   },
 }
 
@@ -43,6 +44,9 @@ const apis = {
     },
     reportForum(id, data) {
       return resource.post(`${endpoints.forum.report}/${id}`, data)
+    },
+    likeForum(id) {
+      return resource.post(`${endpoints.forum.like}/${id}`)
     },
   },
 }

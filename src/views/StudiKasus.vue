@@ -11,6 +11,7 @@
         :key="forum.id"
         :forum="forum"
         is-elipsis="true"
+        @refreshFetch="fetchForums"
       />
       <div
         v-if="forums.isLoading"
@@ -82,6 +83,10 @@ export default {
     this.fetchForums()
   },
   methods: {
+    refreshFetch() {
+      this.forums.nextPageUrl = null
+      this.fetchForums()
+    },
     fetchForums(url) {
       // TODO: set pagination scrollable
       this.forums.isLoading = true

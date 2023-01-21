@@ -79,7 +79,10 @@
       </div>
     </div>
     <div class="pt-1 d-flex justify-content-around">
-      <div>
+      <div
+        class="pointer"
+        @click="likeForum"
+      >
         <feather-icon
           :badge="forum.likes_count"
           badge-classes="bg-danger"
@@ -87,7 +90,10 @@
           size="20"
         />
       </div>
-      <div>
+      <div
+        class="pointer"
+        @click="comment"
+      >
         <feather-icon
           :badge="forum.comments_count"
           badge-classes="bg-danger"
@@ -109,6 +115,8 @@ import {
 } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import { getUserDataFromStorage } from '@/helpers/getDataFromStorage'
+import apis from '@/api'
+import ToastificationContent from '@/@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
@@ -140,6 +148,32 @@ export default {
     },
     isOwnerForum() {
       return getUserDataFromStorage()?.userId === this.forum?.orang?.id
+    },
+  },
+  methods: {
+    comment() {
+      if (this.isElipsis) {
+        this.$router.push(`/studi-kasus/${this.forum.id}`)
+      }
+    },
+    likeForum() {
+      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
+      apis.forum.likeForum(this.forum.id)
+        .then(() => {
+          this.$toast({
+            component: ToastificationContent,
+            props: {
+              title: 'Berhasil update like',
+              icon: 'CheckIcon',
+              variant: 'success',
+            },
+          })
+          this.$emit('refreshFetch')
+        })
+        .catch(() => {})
+        .finally(() => {
+          this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+        })
     },
   },
 }
