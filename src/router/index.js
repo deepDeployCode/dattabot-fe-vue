@@ -70,7 +70,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Laportkan Forum',
+        title: 'Laporkan Forum',
       },
     },
     {
