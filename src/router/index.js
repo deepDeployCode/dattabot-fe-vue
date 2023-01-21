@@ -54,6 +54,16 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/forum/edit/:id',
+      name: 'tambah-forum',
+      component: () => import('@/views/EditForum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Edit Forum',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),

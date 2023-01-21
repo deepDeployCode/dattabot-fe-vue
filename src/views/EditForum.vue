@@ -23,7 +23,7 @@
             @change="onFileChange($event)"
           />
           <div
-            v-if="fileGambar"
+            v-if="gambar"
             class="mt-1"
           >
             <b-img
@@ -50,9 +50,9 @@
           type="submit"
           variant="outline-danger"
           block
-          @click="tambahStudiKasus"
+          @click="editStudiKasus"
         >
-          Tambah
+          Simpan
         </b-button>
       </b-form>
     </div>
@@ -115,9 +115,20 @@ export default {
     }
   },
   created() {
+    this.fetchForum()
   },
   methods: {
-    tambahStudiKasus() {
+    fetchForum() {
+      // this.forum.isLoading = true
+      apis.forum.getById(this.$route.params.id)
+        .then(({ data }) => {
+          this.content = data.forum_content
+          this.gambar = data.image.forumimg_file
+          this.fileGambar = data.image.forumimg_file
+        })
+        .catch(() => {})
+    },
+    async editStudiKasus() {
       if (!this.content) {
         this.$toast({
           component: ToastificationContent,
@@ -131,16 +142,20 @@ export default {
         return
       }
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-
-      apis.forum.addForum({
+      const form = {
         forum_content: this.content,
-        forum_image: this.gambar,
-      })
+        id: this.$route.params.id,
+        forum_image: null,
+      }
+      if (this.gambar) {
+        form.forum_image = await this.generateBase64(this.gambar)
+      }
+      apis.forum.editForum(form)
         .then(() => {
           this.$toast({
             component: ToastificationContent,
             props: {
-              title: 'Berhasil menambahkan forum',
+              title: 'Berhasil edit forum',
               icon: 'CheckIcon',
               variant: 'success',
             },
@@ -148,7 +163,7 @@ export default {
           this.$router.push({ path: '/', replace: true })
         })
         .catch(error => {
-          this.errorHandler(error, 'menambahkan forum gagal, silahkan coba lagi nanti')
+          this.errorHandler(error, 'edit forum gagal, silahkan coba lagi nanti')
         })
         .finally(() => {
           this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
@@ -169,6 +184,23 @@ export default {
         cb(e.target.result)
       }
       reader.readAsDataURL(file)
+    },
+    generateBase64(url) {
+      return new Promise(res => {
+        let canvas = document.createElement('CANVAS')
+        const img = document.createElement('img')
+        img.src = url
+        img.onload = () => {
+          canvas.height = img.height
+          canvas.width = img.width
+          res(canvas.toDataURL('image/png'))
+          canvas = null
+        }
+
+        img.onerror = () => {
+          res(null)
+        }
+      })
     },
   },
 }

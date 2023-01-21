@@ -37,6 +37,9 @@ const apis = {
     addComment(id, data) {
       return resource.post(`${endpoints.forum.comment}/${id}`, data)
     },
+    editForum(data) {
+      return resource.put(endpoints.forum.default, data)
+    },
   },
 }
 

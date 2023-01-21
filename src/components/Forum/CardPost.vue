@@ -23,12 +23,34 @@
           {{ new Date(forum.updated_at).toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' }) }} WIB</span>
       </div>
       <div class="ml-auto ">
-        <feather-icon
+        <b-dropdown
+          id="dropdown-grouped"
+          v-ripple.400="'rgba(255, 255, 255, 0.15)'"
+          variant="flat-danger"
+          right
+          class="dropdown-icon-wrapper"
+          size="sm"
+        >
+          <template #button-content>
+            <feather-icon
+              icon="MoreHorizontalIcon"
+              size="16"
+              class="align-middle"
+            />
+          </template>
+          <b-dropdown-item @click="$router.push(`/forum/edit/${forum.id}`)">
+            Edit
+          </b-dropdown-item>
+          <b-dropdown-item>
+            Hapus
+          </b-dropdown-item>
+        </b-dropdown>
+        <!-- <feather-icon
           icon="MoreHorizontalIcon"
           size="22"
           stroke-width="2"
           class="text-danger"
-        />
+        /> -->
       </div>
     </div>
     <div class="pb-1 border-bottom pt-1">
@@ -76,12 +98,20 @@
 import {
   BCard,
   BImg,
+  BDropdown,
+  BDropdownItem,
 } from 'bootstrap-vue'
+import Ripple from 'vue-ripple-directive'
 
 export default {
   components: {
     BCard,
     BImg,
+    BDropdown,
+    BDropdownItem,
+  },
+  directives: {
+    Ripple,
   },
   // eslint-disable-next-line vue/require-prop-types
   props: ['forum', 'isElipsis'],
@@ -94,7 +124,6 @@ export default {
   computed: {
     imgContent() {
       const img = this.forum?.image?.forumimg_file || ''
-      console.log(img)
       if (!!img && !img.includes('https')) {
         const id = this.forum?.image?.id
         return `https://www.idijakpus.or.id/uploads/forumimg/forumimg_file/${id}/${img}`
