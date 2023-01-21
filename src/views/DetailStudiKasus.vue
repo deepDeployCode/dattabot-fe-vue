@@ -44,7 +44,7 @@
               >
                 <div>
                   <div class="font-weight-bold">
-                    Louise Kartika Indah
+                    {{ comment.orang.orang_nama_lengkap }}
                   </div>
                   <div
                     class="mt-25"
