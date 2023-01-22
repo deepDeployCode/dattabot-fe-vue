@@ -4,6 +4,15 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <!-- form -->
+      <div class="d-flex justify-content-center mb-2">
+        <b-img
+          fluid
+          width="150"
+          height="150"
+          :src="simfoniLogo"
+          alt="simfoniLogo"
+        />
+      </div>
       <validation-observer ref="registerValidation">
         <b-form
           class="auth-login-form mt-2"
@@ -292,6 +301,7 @@ import {
   BButton,
   BFormSelect,
   BFormInput,
+  BImg,
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
@@ -314,10 +324,12 @@ export default {
     BaseNavigation,
     DividerNavigation,
     BFormInput,
+    BImg,
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      simfoniLogo: require('@/assets/images/logo/simfoni.png'),
       status: '',
       password: 'home258',
       userEmail: 'forumkita.idijakpus@gmail.com',
