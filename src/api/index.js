@@ -5,6 +5,7 @@ const endpoints = {
     login: '/auth/login',
     forgotPassword: '/auth/forgotPassword',
     resetPassword: '/auth/changePassword/noAuth',
+    register: '/auth/register',
   },
   forum: {
     default: '/forum',
@@ -24,6 +25,9 @@ const apis = {
     },
     resetPassword(data) {
       return resource.post(endpoints.auth.resetPassword, data)
+    },
+    register(data) {
+      return resource.post(endpoints.auth.register, data)
     },
   },
   forum: {
