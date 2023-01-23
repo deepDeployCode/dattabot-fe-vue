@@ -87,6 +87,7 @@
             <div
               class="d-flex flex-column justify-content-center pointer"
               style="width: 25%;"
+              @click="$router.push({ path: '/profile/str' })"
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
@@ -102,6 +103,7 @@
             <div
               class="d-flex flex-column justify-content-center  pointer"
               style="width: 25%;"
+              @click="$router.push({ path: '/profile/pendidikan' })"
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
@@ -459,6 +461,7 @@
                     id="photo-resmi"
                     :state="errors.length > 0 ? false:null"
                     name="photo-resmi"
+                    accept="image/*"
                     @change="onPhotoResmiChange($event)"
                   />
                   <small class="text-danger">{{ errors[0] }}</small>

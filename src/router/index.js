@@ -55,6 +55,26 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/profile/str',
+      name: '/str',
+      component: () => import('@/views/Str.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'STR',
+      },
+    },
+    {
+      path: '/profile/pendidikan',
+      name: '/pendidikan',
+      component: () => import('@/views/Pendidikan.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Pendidikan',
+      },
+    },
+    {
       path: '/studi-kasus/:id',
       name: 'detail-studi-kasus',
       component: () => import('@/views/DetailStudiKasus.vue'),
