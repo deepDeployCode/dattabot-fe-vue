@@ -101,15 +101,28 @@
         class="shadow-none border p-1 mb-1"
         no-body
       >
-        <div>
-          ID STR : <span class="font-weight-bold">#STR989</span>
-        </div>
-        <div>
-          Nomor STR : <span class="font-weight-bold">123</span>
-        </div>
-        <div class="mt-25">
-          Masa Berlaku : <span class="font-weight-bold">2027-08-07</span>
-        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>ID STR</td>
+              <td class="font-weight-bold">
+                : #STR989
+              </td>
+            </tr>
+            <tr>
+              <td>Nomor STR</td>
+              <td class="font-weight-bold">
+                : 123
+              </td>
+            </tr>
+            <tr>
+              <td>Masa Berlaku</td>
+              <td class="font-weight-bold">
+                : 2027-08-07
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <b-img
           src="https://www.idijakpus.or.id/uploads/kompetensi/kompetensi_file/2038/SAVE_20220806_205520.jpg"
           fluid

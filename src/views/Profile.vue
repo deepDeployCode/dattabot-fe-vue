@@ -495,12 +495,22 @@
           title="KTA"
           hide-footer
         >
-          <div>
-            Nomor Pokok Anggota : <span class="font-weight-bold">{{ user.data.orang_npa_idi }}</span>
-          </div>
-          <div class="mt-25">
-            Masa Berlaku : <span class="font-weight-bold">{{ masaBerlaku }}</span>
-          </div>
+          <table>
+            <tbody>
+              <tr>
+                <td>Nomor Pokok Anggota</td>
+                <td class="font-weight-bold">
+                  : {{ user.data.orang_npa_idi }}
+                </td>
+              </tr>
+              <tr>
+                <td>Masa Berlaku</td>
+                <td class="font-weight-bold">
+                  : {{ masaBerlaku }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
           <b-img
             fluid
             center

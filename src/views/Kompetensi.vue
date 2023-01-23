@@ -100,12 +100,22 @@
         class="shadow-none border p-1 mb-1"
         no-body
       >
-        <div>
-          Jenis Kompetensi : <span class="font-weight-bold">DUUUUU</span>
-        </div>
-        <div class="mt-25">
-          Masa Berlaku : <span class="font-weight-bold">1234343</span>
-        </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>Jenis Kompetensi</td>
+              <td class="font-weight-bold">
+                : DUUUUU
+              </td>
+            </tr>
+            <tr>
+              <td>Nomor Sertifikat</td>
+              <td class="font-weight-bold">
+                : 1234343
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <b-img
           src="https://www.idijakpus.or.id/uploads/kompetensi/kompetensi_file/2038/SAVE_20220806_205520.jpg"
           fluid
