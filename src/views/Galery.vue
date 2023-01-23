@@ -3,6 +3,15 @@
     <BaseNavigation />
     <DividerNavigation />
     <div class="p-2 mx-auto">
+      <div
+        v-if="galery.isLoading"
+        class="d-flex justify-content-center mb-1"
+      >
+        <b-spinner
+          label="Loading..."
+          variant="danger"
+        />
+      </div>
       <b-card
         v-for="item in galery.data"
         :key="item.id"
@@ -39,6 +48,7 @@ import {
   BCard,
   BImg,
   BEmbed,
+  BSpinner,
 } from 'bootstrap-vue'
 import apis from '@/api'
 
@@ -49,6 +59,7 @@ export default {
     BCard,
     BImg,
     BEmbed,
+    BSpinner,
   },
   data() {
     return {
