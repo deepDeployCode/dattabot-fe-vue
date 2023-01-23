@@ -148,7 +148,11 @@ export default {
         forum_image: null,
       }
       if (this.gambar) {
-        form.forum_image = await this.generateBase64(this.gambar)
+        if (this.gambar.includes('base64')) {
+          form.forum_image = this.gambar
+        } else {
+          form.forum_image = await this.generateBase64(this.gambar)
+        }
       }
       apis.forum.editForum(form)
         .then(() => {
