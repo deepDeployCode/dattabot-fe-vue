@@ -146,6 +146,26 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/berkas',
+      name: 'berkas',
+      component: () => import('@/views/Berkas.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Berkas',
+      },
+    },
+    {
+      path: '/pdfview',
+      name: 'pdfview',
+      component: () => import('@/views/ViewPdf.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'PDF View',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),

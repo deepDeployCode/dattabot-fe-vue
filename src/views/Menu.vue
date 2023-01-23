@@ -30,10 +30,17 @@
           >
             Galeri
           </div>
-
         </app-collapse-item>
       </app-collapse>
       <hr v-show="!isVisibleCollapseTentang">
+      <div
+        style="font-weight: 500; font-size: 1.1rem;"
+        class="mb-1 pointer"
+        @click="$router.push({ path: '/berkas' })"
+      >
+        Berkas
+      </div>
+      <hr>
       <div
         style="font-weight: 500; font-size: 1.1rem;"
         class="mb-1 pointer"

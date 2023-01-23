@@ -16,6 +16,7 @@ const endpoints = {
   },
   tentang: {
     galeri: '/galeri?page=1&filter_rules=[]',
+    berkas: '/document?page=1&filter_rules=[]',
   },
 }
 
@@ -63,6 +64,9 @@ const apis = {
   tentang: {
     getGalery() {
       return resource.get(endpoints.tentang.galeri)
+    },
+    getBerkas() {
+      return resource.get(endpoints.tentang.berkas)
     },
   },
 }

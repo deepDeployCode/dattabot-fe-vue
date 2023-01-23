@@ -34,7 +34,7 @@
           style="max-height: 250px;"
         />
         <div class="text-center font-weight-bold mt-1">
-          Struktur Organisasi IDI Cabang Jakarta Pusat Masa Bakti 2019 - 2022
+          {{ item.gallery_title }}
         </div>
       </b-card>
     </div>
