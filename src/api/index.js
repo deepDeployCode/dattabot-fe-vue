@@ -6,12 +6,16 @@ const endpoints = {
     forgotPassword: '/auth/forgotPassword',
     resetPassword: '/auth/changePassword/noAuth',
     register: '/auth/register',
+    user: '/auth/user',
   },
   forum: {
     default: '/forum',
     comment: '/forum/comment',
     report: '/forum/report',
     like: '/forum/like',
+  },
+  tentang: {
+    galeri: '/galeri?page=1&filter_rules=[]',
   },
 }
 
@@ -28,6 +32,9 @@ const apis = {
     },
     register(data) {
       return resource.post(endpoints.auth.register, data)
+    },
+    getUser() {
+      return resource.post(endpoints.auth.user)
     },
   },
   forum: {
@@ -51,6 +58,11 @@ const apis = {
     },
     likeForum(id) {
       return resource.post(`${endpoints.forum.like}/${id}`)
+    },
+  },
+  tentang: {
+    getGalery() {
+      return resource.get(endpoints.tentang.galeri)
     },
   },
 }

@@ -27,7 +27,10 @@
           stroke-width="2"
         />
       </div>
-      <div class="menu">
+      <div
+        class="menu"
+        @click="$router.push({ path: '/menu' })"
+      >
         <feather-icon
           icon="MenuIcon"
           size="22"

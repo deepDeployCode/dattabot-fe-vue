@@ -1,4 +1,3 @@
-
 import storage from './storage'
 
 const USER_STORAGE = 'USER_STORAGE'

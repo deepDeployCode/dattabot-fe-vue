@@ -22,7 +22,10 @@
         :class="$route.name === 'studi-kasus' ? 'text-danger' : ''"
       />
     </div>
-    <div class="pointer">
+    <div
+      class="pointer"
+      @click="$router.push({ path: '/profile' })"
+    >
       <feather-icon
         icon="UserIcon"
         size="22"

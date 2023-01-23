@@ -34,6 +34,27 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('@/views/Profile.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        isBack: false,
+        title: 'Profil',
+      },
+    },
+    {
+      path: '/profile/kompetensi',
+      name: '/profile',
+      component: () => import('@/views/Kompetensi.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Kompetensi',
+      },
+    },
+    {
       path: '/studi-kasus/:id',
       name: 'detail-studi-kasus',
       component: () => import('@/views/DetailStudiKasus.vue'),
@@ -71,6 +92,37 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         title: 'Laporkan Forum',
+      },
+    },
+    {
+      path: '/menu',
+      name: 'menu',
+      component: () => import('@/views/Menu.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Menu',
+        isNavMenu: false,
+      },
+    },
+    {
+      path: '/tentang/susunan-pengurus',
+      name: 'susunan-pengurus',
+      component: () => import('@/views/SusunanPengurus.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Susunan Pengurus',
+      },
+    },
+    {
+      path: '/tentang/galery',
+      name: 'galery',
+      component: () => import('@/views/Galery.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Galeri',
       },
     },
     {
