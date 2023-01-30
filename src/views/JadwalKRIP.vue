@@ -71,7 +71,7 @@
                 </tr>
                 <template v-if="item.kripjadwal_link && item.kripjadwal_status === 'pendaftaran-dibuka' && item.is_regis">
                   <tr>
-                    <td>Link</td>
+                    <td><b>Link</b></td>
                     <td class="font-weight-bold">
                       : <a
                         :href="item.kripjadwal_link"
@@ -82,13 +82,13 @@
                     </td>
                   </tr>
                   <tr>
-                    <td>Zoom ID</td>
+                    <td><b>Zoom ID</b></td>
                     <td class="font-weight-bold">
                       : {{ item.kripjadwal_zoom_id }}
                     </td>
                   </tr>
                   <tr>
-                    <td>Password</td>
+                    <td><b>Password</b></td>
                     <td class="font-weight-bold">
                       : {{ item.kripjadwal_pass }}
                     </td>
