@@ -5,13 +5,41 @@
     <DividerNavigation />
     <BaseBottomNavigation />
     <div class="p-2 mx-auto">
+      <div>
+        <!-- TODO: ketika di klik, menuju maintenance page -->
+        <div
+          class="font-weight-bold mb-1"
+          style="font-size: 16px;"
+        >
+          Webinar
+        </div>
+        <div
+          class="webinar-list"
+        >
+          <b-card
+            class="shadow-none border mb-1 pointer mr-1 webinar-card"
+            img-src="https://picsum.photos/600/300/?image=25"
+          >
+            <div class="mb-25 font-weight-bold">
+              Temu SIMFONI IDI JakPus
+            </div>
+            <div
+              class="font-weight-light"
+              style="font-size: 12px;"
+            >
+              08/12/2022
+            </div>
+          </b-card>
+        </div>
+      </div>
       <b-card
         class="shadow-none border mb-1"
       >
         <div class="d-flex flex-row justify-content-between align-items-start">
           <div
-            class="d-flex flex-column justify-content-center"
+            class="d-flex flex-column justify-content-center pointer"
             style="width: 33%;"
+            @click="$router.push('/krip')"
           >
             <div class="d-flex justify-content-center mb-25">
               <b-img
@@ -56,6 +84,7 @@
           </div>
         </div>
       </b-card>
+
       <ButtonCreateNewPost />
       <div
         v-if="forums.isLoading"
@@ -79,32 +108,6 @@
         is-elipsis="true"
         @refreshFetch="fetchForums"
       />
-      <div>
-        <div
-          class="font-weight-bold mb-1"
-          style="font-size: 16px;"
-        >
-          Webinar
-        </div>
-        <div
-          class="webinar-list"
-        >
-          <b-card
-            class="shadow-none border mb-1 pointer mr-1 webinar-card"
-            img-src="https://picsum.photos/600/300/?image=25"
-          >
-            <div class="mb-25 font-weight-bold">
-              Temu SIMFONI IDI JakPus
-            </div>
-            <div
-              class="font-weight-light"
-              style="font-size: 12px;"
-            >
-              08/12/2022
-            </div>
-          </b-card>
-        </div>
-      </div>
     </div>
     <DividerNavigation />
   </div>

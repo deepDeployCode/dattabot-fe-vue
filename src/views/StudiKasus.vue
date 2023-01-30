@@ -70,19 +70,23 @@ export default {
     }
   },
   mounted() {
-    const { scrollTop } = document.documentElement
-    const { scrollHeight } = document.documentElement
-    const { clientHeight } = document.documentElement
-    if (scrollTop + clientHeight >= scrollHeight) {
-      if (!this.forums.isLoading && this.forums.nextPageUrl) {
-        this.fetchForums(this.forums.nextPageUrl)
-      }
-    }
+    document.getElementsByClassName('app-wrapper')[0].addEventListener('scroll', this.scrollCallback)
   },
   created() {
     this.fetchForums()
   },
   methods: {
+    scrollCallback() {
+      const element = document.getElementsByClassName('app-wrapper')[0]
+      const { scrollTop } = element
+      const { scrollHeight } = element
+      const { clientHeight } = element
+      if (scrollTop + clientHeight + 100 >= scrollHeight) {
+        if (!this.forums.isLoading && this.forums.nextPageUrl) {
+          this.fetchForums(this.forums.nextPageUrl)
+        }
+      }
+    },
     refreshFetch() {
       this.forums.nextPageUrl = null
       this.fetchForums()

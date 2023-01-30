@@ -166,6 +166,26 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/krip',
+      name: 'krip',
+      component: () => import('@/views/KRIP.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'KRIP',
+      },
+    },
+    {
+      path: '/krip/jadwal',
+      name: 'jadwal-krip',
+      component: () => import('@/views/JadwalKRIP.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Jadwal KRIP',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),

@@ -18,6 +18,13 @@ const endpoints = {
     galeri: '/galeri?page=1&filter_rules=[]',
     berkas: '/document?page=1&filter_rules=[]',
   },
+  krip: {
+    default: '/krip',
+    upload: '/krip/upload',
+    schedule: '/krip/schedule',
+    daftar: '/krip/register',
+    cancel: '/krip/cancel',
+  },
 }
 
 const apis = {
@@ -67,6 +74,28 @@ const apis = {
     },
     getBerkas() {
       return resource.get(endpoints.tentang.berkas)
+    },
+  },
+  krip: {
+    getKrip(url = endpoints.krip.default) {
+      return resource.get(url)
+    },
+    upload(data) {
+      return resource.post(endpoints.krip.upload, data)
+    },
+    getSchedule(url = endpoints.krip.schedule) {
+      return resource.get(url)
+    },
+    daftar(data) {
+      return resource.post(endpoints.krip.daftar, data)
+    },
+    batal(id) {
+      return resource.post(endpoints.krip.cancel, {
+        kripjadwal_id: id,
+      })
+    },
+    deleteBerkas(id) {
+      return resource.delete(`/${endpoints.krip.default}/${id}`)
     },
   },
 }
