@@ -186,6 +186,56 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/mutasi',
+      name: 'mutasi',
+      component: () => import('@/views/Mutasi.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Mutasi',
+      },
+    },
+    {
+      path: '/mutasi/pengajuan-mutasi-masuk',
+      name: 'pengajuan-mutasi-masuk',
+      component: () => import('@/views/PengajuanMutasiMasuk.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Pengajuan Mutasi Masuk',
+      },
+    },
+    {
+      path: '/mutasi/pengajuan-mutasi-keluar',
+      name: 'pengajuan-mutasi-keluar',
+      component: () => import('@/views/PengajuanMutasiKeluar.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Pengajuan Mutasi Keluar',
+      },
+    },
+    {
+      path: '/mutasi/edit-pengajuan-mutasi-masuk',
+      name: 'edit-pengajuan-mutasi-masuk',
+      component: () => import('@/views/EditPengajuanMutasiMasuk.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Edit Mutasi Masuk',
+      },
+    },
+    {
+      path: '/mutasi/edit-pengajuan-mutasi-keluar',
+      name: 'edit-pengajuan-mutasi-keluar',
+      component: () => import('@/views/EditPengajuanMutasiKeluar.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Edit Mutasi Keluar',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),

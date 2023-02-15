@@ -1,5 +1,16 @@
 import resource from './resource'
 
+function clean(obj) {
+  // eslint-disable-next-line no-restricted-syntax
+  for (const propName in obj) {
+    if (obj[propName] === null || obj[propName] === undefined) {
+      // eslint-disable-next-line no-param-reassign
+      delete obj[propName]
+    }
+  }
+  return obj
+}
+
 const endpoints = {
   auth: {
     login: '/auth/login',
@@ -24,6 +35,16 @@ const endpoints = {
     schedule: '/krip/schedule',
     daftar: '/krip/register',
     cancel: '/krip/cancel',
+  },
+  mutasiMasuk: {
+    pengajuan: '/entry-mutation',
+    buatPengajuan: '/entry-mutation/create',
+    updatePengajuan: '/entry-mutation/update',
+  },
+  mutasiKeluar: {
+    pengajuan: '/out-mutation',
+    buatPengajuan: '/out-mutation/create',
+    updatePengajuan: '/out-mutation/update',
   },
 }
 
@@ -96,6 +117,28 @@ const apis = {
     },
     deleteBerkas(id) {
       return resource.delete(`/${endpoints.krip.default}/${id}`)
+    },
+  },
+  mutasiMasuk: {
+    getPengajuan() {
+      return resource.get(endpoints.mutasiMasuk.pengajuan)
+    },
+    buatPengajuan(data) {
+      return resource.post(endpoints.mutasiMasuk.buatPengajuan, data)
+    },
+    updatePengajuan(data) {
+      return resource.post(endpoints.mutasiMasuk.updatePengajuan, data)
+    },
+  },
+  mutasiKeluar: {
+    getPengajuan() {
+      return resource.get(endpoints.mutasiKeluar.pengajuan)
+    },
+    buatPengajuan(data) {
+      return resource.post(endpoints.mutasiKeluar.buatPengajuan, data)
+    },
+    updatePengajuan(data) {
+      return resource.post(endpoints.mutasiKeluar.updatePengajuan, clean({ ...data }))
     },
   },
 }

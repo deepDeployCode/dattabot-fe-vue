@@ -70,6 +70,7 @@
           <div
             class="d-flex flex-column justify-content-center"
             style="width: 33%;"
+            @click="$router.push('/mutasi')"
           >
             <div class="d-flex justify-content-center mb-25">
               <b-img
