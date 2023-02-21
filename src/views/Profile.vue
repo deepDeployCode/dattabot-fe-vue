@@ -59,9 +59,9 @@
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
-                  :src="kripIcon"
-                  height="50"
-                  width="50"
+                  :src="ktaIcon"
+                  height="70"
+                  width="70"
                 />
               </div>
               <div class="text-center">
@@ -75,9 +75,9 @@
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
-                  :src="keanggotaanIcon"
-                  height="50"
-                  width="50"
+                  :src="kompetensiIcon"
+                  height="70"
+                  width="70"
                 />
               </div>
               <div class="text-center">
@@ -91,9 +91,9 @@
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
-                  :src="rekomendasiIcon"
-                  height="50"
-                  width="50"
+                  :src="strIcon"
+                  height="70"
+                  width="70"
                 />
               </div>
               <div class="text-center">
@@ -107,9 +107,9 @@
             >
               <div class="d-flex justify-content-center mb-25">
                 <b-img
-                  :src="kripIcon"
-                  height="50"
-                  width="50"
+                  :src="pendidikanIcon"
+                  height="70"
+                  width="70"
                 />
               </div>
               <div class="text-center">
@@ -571,6 +571,11 @@ export default {
       required,
       email,
       noAvatar: require('@/assets/images/avatars/no-avatar.png'),
+      ktaIcon: require('@/assets/images/icons/kta.png'),
+      kompetensiIcon: require('@/assets/images/icons/kompetensi.png'),
+      strIcon: require('@/assets/images/icons/str.png'),
+      pendidikanIcon: require('@/assets/images/icons/pendidikan.png'),
+
       kripIcon: require('@/assets/images/icons/A3.png'),
       rekomendasiIcon: require('@/assets/images/icons/A1.png'),
       keanggotaanIcon: require('@/assets/images/icons/A2.png'),

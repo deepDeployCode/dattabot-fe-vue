@@ -14,6 +14,11 @@
       </div>
       <div class="nav-title">
         {{ title }}
+        <!-- <b-img
+          :src="logo"
+          alt="logo"
+          height="22"
+        /> -->
       </div>
     </div>
     <div
@@ -41,7 +46,18 @@
   </div>
 </template>
 <script>
+import { BImg } from 'bootstrap-vue'
+
 export default {
+  components: {
+    BImg,
+  },
+  data() {
+    return {
+      // eslint-disable-next-line global-require
+      logo: require('@/assets/images/logo/navbar-simfoni.png'),
+    }
+  },
   computed: {
     title() {
       return this.$route.meta?.title || 'SIMFONI'

@@ -26,7 +26,7 @@
         <b-dropdown
           id="dropdown-grouped"
           v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-          variant="flat-danger"
+          variant="flat-warning"
           right
           class="dropdown-icon-wrapper"
           size="sm"
@@ -85,7 +85,7 @@
       >
         <feather-icon
           :badge="forum.likes_count"
-          badge-classes="bg-danger"
+          badge-classes="bg-warning"
           icon="ThumbsUpIcon"
           size="20"
         />
@@ -96,7 +96,7 @@
       >
         <feather-icon
           :badge="forum.comments_count"
-          badge-classes="bg-danger"
+          badge-classes="bg-warning"
           icon="MessageSquareIcon"
           size="20"
         />

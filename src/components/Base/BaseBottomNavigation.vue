@@ -8,7 +8,7 @@
         icon="HomeIcon"
         size="22"
         stroke-width="2"
-        :class="$route.name === 'beranda' ? 'text-danger' : ''"
+        :class="$route.name === 'beranda' ? 'text-warning' : ''"
       />
     </div>
     <div
@@ -19,7 +19,7 @@
         icon="MessageSquareIcon"
         size="22"
         stroke-width="2"
-        :class="$route.name === 'studi-kasus' ? 'text-danger' : ''"
+        :class="$route.name === 'studi-kasus' ? 'text-warning' : ''"
       />
     </div>
     <div
@@ -30,7 +30,7 @@
         icon="UserIcon"
         size="22"
         stroke-width="2"
-        :class="$route.name === 'profile' ? 'text-danger' : ''"
+        :class="$route.name === 'profile' ? 'text-warning' : ''"
       />
     </div>
   </div>
