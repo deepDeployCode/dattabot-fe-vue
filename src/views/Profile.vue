@@ -495,31 +495,43 @@
           title="KTA"
           hide-footer
         >
-          <table>
-            <tbody>
-              <tr>
-                <td>Nomor Pokok Anggota</td>
-                <td class="font-weight-bold">
-                  : {{ user.data.orang_npa_idi }}
-                </td>
-              </tr>
-              <tr>
-                <td>Masa Berlaku</td>
-                <td class="font-weight-bold">
-                  : {{ masaBerlaku }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <b-img
-            fluid
-            center
-            :src="npaFile"
-            alt="photoResmi"
-            class="mb-1 mt-1"
-            style="max-height: 250px;"
-            thumbnail
-          />
+          <div v-if="user.data.orang_level === 'non-jakpus'">
+            <p><b>Maaf, anda tidak memiliki KTA. karena belum menjadi anggota IDI Jakpus.</b></p>
+            <b-button
+              size="sm"
+              class="bg-danger mr-25"
+              @click="$router.push({ path: '/mutasi' })"
+            >
+              Daftar menjadi anggota
+            </b-button>
+          </div>
+          <div v-else>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Nomor Pokok Anggota</td>
+                  <td class="font-weight-bold">
+                    : {{ user.data.orang_npa_idi }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Masa Berlaku</td>
+                  <td class="font-weight-bold">
+                    : {{ masaBerlaku }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <b-img
+              fluid
+              center
+              :src="npaFile"
+              alt="photoResmi"
+              class="mb-1 mt-1"
+              style="max-height: 250px;"
+              thumbnail
+            />
+          </div>
         </b-modal>
       </div>
     </div>
@@ -602,7 +614,7 @@ export default {
       if (this.user.data && this.user.data?.orang_file_photo_resmi) {
         const img = this.user.data?.orang_file_photo_resmi
         if (!img.includes('https://') && !img.includes('base64')) {
-          return `https://www.idijakpus.or.id/uploads/orang/orang_file_photo_resmi/${this.user.data?.id}/${img}`
+          return `https://www.staging.idijakpus.or.id/uploads/orang/orang_file_photo_resmi/${this.user.data?.id}/${img}`
         }
         return img
       }
@@ -612,7 +624,7 @@ export default {
       if (this.user.data && this.user.data?.orang_kartu_id_file) {
         const img = this.user.data?.orang_kartu_id_file
         if (!img.includes('https')) {
-          return `https://www.idijakpus.or.id/uploads/orang/orang_kartu_id_file/${this.user.data?.id}/${img}`
+          return `https://www.staging.idijakpus.or.id/uploads/orang/orang_kartu_id_file/${this.user.data?.id}/${img}`
         }
         return img
       }
@@ -620,11 +632,11 @@ export default {
       return null
     },
     npaFile() {
-      // "https://www.idijakpus.or.id/uploads/orang/orang_npa_file/99/KRIP-Online.jpg"
+      // "https://www.staging.idijakpus.or.id/uploads/orang/orang_npa_file/99/KRIP-Online.jpg"
       if (this.user.data && this.user.data?.orang_npa_file) {
         const img = this.user.data?.orang_npa_file
         if (!img.includes('https')) {
-          return `https://www.idijakpus.or.id/uploads/orang/orang_npa_file/${this.user.data?.id}/${img}`
+          return `https://www.staging.idijakpus.or.id/uploads/orang/orang_npa_file/${this.user.data?.id}/${img}`
         }
         return img
       }

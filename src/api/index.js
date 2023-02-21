@@ -46,6 +46,12 @@ const endpoints = {
     buatPengajuan: '/out-mutation/create',
     updatePengajuan: '/out-mutation/update',
   },
+  profile: {
+    str: '/profile/str',
+    createStr: '/profile/str/create',
+    pendidikan: '/profile/pendidikan',
+    createPendidikan: '/profile/pendidikan/create',
+  },
 }
 
 const apis = {
@@ -139,6 +145,20 @@ const apis = {
     },
     updatePengajuan(data) {
       return resource.post(endpoints.mutasiKeluar.updatePengajuan, clean({ ...data }))
+    },
+  },
+  profile: {
+    getStr() {
+      return resource.get(endpoints.profile.str)
+    },
+    createStr(data) {
+      return resource.post(endpoints.profile.createStr, data)
+    },
+    getPendidikan() {
+      return resource.get(endpoints.profile.pendidikan)
+    },
+    createPendidikan(data) {
+      return resource.post(endpoints.profile.createPendidikan, data)
     },
   },
 }

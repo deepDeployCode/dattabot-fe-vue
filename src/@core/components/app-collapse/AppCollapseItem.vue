@@ -68,6 +68,11 @@ export default {
       return this.$parent.accordion ? `accordion-${this.$parent.collapseID}` : null
     },
   },
+  watch: {
+    isVisible(newVal) {
+      this.visible = newVal
+    },
+  },
   created() {
     this.collapseItemID = uuidv4()
     this.visible = this.isVisible
@@ -76,6 +81,7 @@ export default {
     updateVisible(val = true) {
       this.visible = val
       this.$emit('visible', val)
+      console.log('called')
     },
     collapseOpen() {
       if (this.openOnHover) this.updateVisible(true)
