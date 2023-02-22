@@ -8,6 +8,8 @@
         <app-collapse-item
           title="Tambah Pendidikan"
           class="shadow-none p-0"
+          :is-visible="isTambahPendidikan"
+          @visible="changeVisible"
         >
           <validation-observer ref="formPendidikan">
             <b-form
@@ -25,6 +27,7 @@
                 >
                   <b-form-input
                     id="negara-asal-univ"
+                    v-model="form.pend_negara"
                     :state="errors.length > 0 ? false:null"
                     name="negara-asal-univ"
                     type="text"
@@ -43,6 +46,7 @@
                 >
                   <b-form-input
                     id="nama-univ"
+                    v-model="form.pend_nama_univ"
                     :state="errors.length > 0 ? false:null"
                     name="nama-univ"
                     type="text"
@@ -59,6 +63,7 @@
                   name="Jenjang Pendidikan"
                 >
                   <b-form-select
+                    v-model="form.pendlevel_id"
                     :state="errors.length > 0 ? false:null"
                     :options="optionJenjangPendidikan"
                   />
@@ -76,6 +81,7 @@
                 >
                   <b-form-input
                     id="nama-studi"
+                    v-model="form.pend_nama_studi"
                     :state="errors.length > 0 ? false:null"
                     name="nama-studi"
                     type="text"
@@ -94,6 +100,7 @@
                 >
                   <b-form-input
                     id="tahun-masuk"
+                    v-model="form.pend_thn_masuk"
                     :state="errors.length > 0 ? false:null"
                     name="tahun-masuk"
                     type="number"
@@ -112,6 +119,7 @@
                 >
                   <b-form-input
                     id="tahun-selesai"
+                    v-model="form.pend_thn_keluar"
                     :state="errors.length > 0 ? false:null"
                     name="tahun-selesai"
                     type="number"
@@ -130,6 +138,7 @@
                 >
                   <b-form-input
                     id="nomor-ijazah"
+                    v-model="form.pend_nomor_ijazah"
                     :state="errors.length > 0 ? false:null"
                     name="nomor-ijazah"
                     type="number"
@@ -156,10 +165,10 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
                 <b-img
-                  v-if="fileKompetensi"
+                  v-if="form.pend_ijazah_file"
                   fluid
                   center
-                  :src="fileKompetensi"
+                  :src="form.pend_ijazah_file"
                   alt="fileKompetensi"
                   class="mt-1"
                   style="max-height: 250px;"
@@ -169,7 +178,7 @@
                 type="submit"
                 variant="outline-danger"
                 block
-                disabled
+                @click="submit"
               >
                 Simpan
               </b-button>
@@ -185,6 +194,8 @@
         Daftar Pendidikan
       </div>
       <b-card
+        v-for="item in pendidikan.data"
+        :key="item.id"
         class="shadow-none border p-1 mb-1"
         no-body
       >
@@ -194,37 +205,37 @@
             <tr>
               <td>Negara</td>
               <td class="font-weight-bold">
-                : Indonesia
+                : {{ item.pend_negara }}
               </td>
             </tr>
             <tr>
               <td>Nama Universitas</td>
               <td class="font-weight-bold">
-                : FK
+                : {{ item.pend_nama_univ }}
               </td>
             </tr>
             <tr>
               <td>Studi</td>
               <td class="font-weight-bold">
-                : Umum
+                : {{ item.pend_nama_studi }}
               </td>
             </tr>
             <tr>
               <td>Nomor Ijazah</td>
               <td class="font-weight-bold">
-                : 215364164
+                : {{ item.pend_nomor_ijazah }}
               </td>
             </tr>
             <tr>
               <td>Tahun</td>
               <td class="font-weight-bold">
-                : 1999 - 2005
+                : {{ item.pend_thn_masuk }} - {{ item.pend_thn_keluar }}
               </td>
             </tr>
           </tbody>
         </table>
         <b-img
-          src="https://www.idijakpus.or.id/uploads/kompetensi/kompetensi_file/2038/SAVE_20220806_205520.jpg"
+          :src="photoIjazah(item)"
           fluid
           center
           class="mt-1"
@@ -252,6 +263,8 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import AppCollapse from '@core/components/app-collapse/AppCollapse.vue'
 import AppCollapseItem from '@core/components/app-collapse/AppCollapseItem.vue'
 import { required, email } from '@validations'
+import apis from '@/api'
+import ToastificationContentVue from '@/@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
@@ -284,15 +297,61 @@ export default {
         { value: 5, text: 'Doktoral / S3' },
         { value: 6, text: 'Dokter Sub Spesialis' },
       ],
+      pendidikan: {
+        isLoading: false,
+        data: [],
+      },
+      form: {
+        pend_negara: '',
+        pend_nama_univ: '',
+        pendlevel_id: '',
+        pend_nama_studi: '',
+        pend_thn_masuk: '',
+        pend_thn_keluar: '',
+        pend_nomor_ijazah: '',
+        pend_ijazah_file: '',
+      },
+      isTambahPendidikan: false,
     }
   },
+  computed: {
+    photoIjazah() {
+      return item => {
+        if (item.pend_ijazah_file) {
+          if (!item.pend_ijazah_file.includes('https')) {
+            return `https://www.staging.idijakpus.or.id/uploads/pend/pend_ijazah_file/${item.id}/${item.pend_ijazah_file}`
+          }
+          return item.pend_ijazah_file
+        }
+        return null
+      }
+    },
+  },
+  created() {
+    this.fetchPendidikan()
+  },
   methods: {
+    changeVisible(payload) {
+      this.isTambahPendidikan = payload
+    },
+    fetchPendidikan() {
+      this.pendidikan.isLoading = true
+      apis.profile
+        .getPendidikan()
+        .then(({ data }) => {
+          if (data.data.length) {
+            this.pendidikan.data = data.data
+          }
+        })
+        .finally(() => {
+          this.pendidikan.isLoading = false
+        })
+    },
     onChangeFileKompetensi(e) {
       const { files } = e.target
       if (files.length) {
         this.createImage(files[0], result => {
-          console.log(result)
-          this.fileKompetensi = result
+          this.form.pend_ijazah_file = result
         })
       }
     },
@@ -303,6 +362,42 @@ export default {
         cb(e.target.result)
       }
       reader.readAsDataURL(file)
+    },
+    submit() {
+      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
+      apis.profile
+        .createPendidikan({
+          ...this.form,
+        })
+        .then(() => {
+          this.$toast({
+            component: ToastificationContentVue,
+            props: {
+              title: 'Berhasil menambahkan Pendidikan',
+              icon: 'CheckIcon',
+              variant: 'success',
+            },
+          })
+          this.fetchPendidikan()
+          this.form = {
+            pend_negara: '',
+            pend_nama_univ: '',
+            pendlevel_id: '',
+            pend_nama_studi: '',
+            pend_thn_masuk: '',
+            pend_thn_keluar: '',
+            pend_nomor_ijazah: '',
+            pend_ijazah_file: '',
+          }
+          this.tempFileKompetensi = ''
+          this.isTambahPendidikan = false
+        })
+        .catch(error => {
+          this.errorHandler(error, 'Gagal menambahkan Pendidikan, silahkan coba lagi nanti')
+        })
+        .finally(() => {
+          this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+        })
     },
   },
 }

@@ -211,7 +211,6 @@ export default {
   },
   methods: {
     changeVisible(payload) {
-      console.log(payload)
       this.isTambahStr = payload
     },
     fetchStr() {
