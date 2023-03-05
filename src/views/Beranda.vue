@@ -55,6 +55,7 @@
           <div
             class="d-flex flex-column justify-content-center"
             style="width: 33%;"
+            @click="isShowRekomendasi = true"
           >
             <div class="d-flex justify-content-center mb-25">
               <b-img
@@ -110,6 +111,37 @@
         @refreshFetch="fetchForums"
       />
     </div>
+
+    <b-modal
+      id="modal-rekomendasi"
+      v-model="isShowRekomendasi"
+      cancel-variant="secondary"
+      centered
+      size="xs"
+      hide-footer
+    >
+      <div slot="modal-title">
+        <div>Rekomendasi</div>
+        <small>Surat Izin Praktik Dokter</small>
+      </div>
+
+      <div>
+        <b-button
+          variant="outline-danger"
+          block
+          @click="$router.push('/rekomendasi/umum')"
+        >
+          Umum
+        </b-button>
+        <b-button
+          variant="outline-danger"
+          block
+        >
+          Spesialis
+        </b-button>
+      </div>
+    </b-modal>
+
     <DividerNavigation />
   </div>
 </template>
@@ -120,6 +152,8 @@ import {
   BCard,
   BImg,
   BSpinner,
+  BModal,
+  BButton,
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
@@ -139,6 +173,8 @@ export default {
     BSpinner,
     CardPost,
     ButtonCreateNewPost,
+    BModal,
+    BButton,
   },
   data() {
     return {
@@ -151,6 +187,7 @@ export default {
         isLoading: false,
         data: [],
       },
+      isShowRekomendasi: false,
     }
   },
   created() {

@@ -13,15 +13,6 @@
           alt="simfoniLogo"
         />
       </div>
-      <b-card-title
-        title-tag="h2"
-        class="font-weight-bold mb-1"
-      >
-        Selamat datang!
-      </b-card-title>
-      <b-card-text class="mb-2">
-        Silahkan login untuk menggunakan aplikasi layanan terintegrasi <b>IDI Cabang Jakarta Pusat</b>
-      </b-card-text>
 
       <!-- form -->
       <validation-observer ref="loginValidation">

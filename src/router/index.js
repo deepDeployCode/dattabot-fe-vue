@@ -236,6 +236,36 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/rekomendasi/umum',
+      name: 'rekomendasi-umum',
+      component: () => import('@/views/RekomendasiUmum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Rekomendasi SIP Umum',
+      },
+    },
+    {
+      path: '/rekomendasi/umum/create',
+      name: 'create-rekomendasi-umum',
+      component: () => import('@/views/CreateRekomendasiUmum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Rekomendasi SIP Umum',
+      },
+    },
+    {
+      path: '/rekomendasi/umum/pembayaran',
+      name: 'pembayaran-rekomendasi-umum',
+      component: () => import('@/views/PembayaranRekomendasiUmum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Pembayaran',
+      },
+    },
+    {
       path: '/second-page',
       name: 'second-page',
       component: () => import('@/views/SecondPage.vue'),
