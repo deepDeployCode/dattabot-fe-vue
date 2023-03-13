@@ -52,6 +52,9 @@ const endpoints = {
     pendidikan: '/profile/pendidikan',
     createPendidikan: '/profile/pendidikan/create',
   },
+  rekomendasi: {
+    default: '/recommendation',
+  },
 }
 
 const apis = {
@@ -159,6 +162,14 @@ const apis = {
     },
     createPendidikan(data) {
       return resource.post(endpoints.profile.createPendidikan, data)
+    },
+  },
+  rekomendasi: {
+    getRekomendasi() {
+      return resource.get(endpoints.rekomendasi.default)
+    },
+    getById(id) {
+      return resource.get(`${endpoints.rekomendasi.default}/${id}`)
     },
   },
 }

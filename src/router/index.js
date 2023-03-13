@@ -246,7 +246,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/rekomendasi/umum/create',
+      path: '/rekomendasi/umum/create/:id',
       name: 'create-rekomendasi-umum',
       component: () => import('@/views/CreateRekomendasiUmum.vue'),
       meta: {

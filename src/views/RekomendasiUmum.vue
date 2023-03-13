@@ -16,26 +16,40 @@
       <div class="mt-1">
 
         <b-card
+          v-for="item in rekomendasi.data"
+          :key="item.id"
           class="shadow-none border p-1 mb-1"
           no-body
         >
           <div class="d-flex pb-1 border-bottom">
             <div>
               <div class="font-weight-bold">
-                #234324 - UMUM
+                #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
               </b-badge> -->
             </div>
             <div
-              class="ml-auto pointer text-danger"
+              class="ml-auto d-flex text-danger"
             >
-              <feather-icon
-                icon="TrashIcon"
-                size="16"
-                class="align-middle"
-              />
+              <div
+                class="pointer mr-2"
+                @click="$router.push(`/rekomendasi/umum/create/${item.id}`)"
+              >
+                <feather-icon
+                  icon="EditIcon"
+                  size="20"
+                  class="align-middle"
+                />
+              </div>
+              <div class="pointer">
+                <feather-icon
+                  icon="XIcon"
+                  size="20"
+                  class="align-middle"
+                />
+              </div>
             </div>
           </div>
           <div class="pt-1">
@@ -66,7 +80,8 @@ import {
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
 
-// import apis from '@/api'
+import apis from '@/api'
+
 export default {
   components: {
     BaseNavigation,
@@ -76,6 +91,10 @@ export default {
   },
   data() {
     return {
+      rekomendasi: {
+        data: null,
+        isLoading: false,
+      },
     }
   },
   computed: {
@@ -83,8 +102,19 @@ export default {
   mounted() {
   },
   created() {
+    this.fetchRekomandasi()
   },
   methods: {
+    fetchRekomandasi() {
+      this.rekomendasi.isLoading = true
+      apis.rekomendasi.getRekomendasi()
+        .then(({ data }) => {
+          this.rekomendasi.data = data.data
+        })
+        .finally(() => {
+          this.rekomendasi.isLoading = false
+        })
+    },
   },
 }
 </script>
