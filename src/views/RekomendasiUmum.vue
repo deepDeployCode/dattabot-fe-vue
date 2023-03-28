@@ -4,23 +4,14 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <div class="d-flex flex-row">
-        <b-button
-          variant="outline-danger"
-          block
-          @click="$router.push('/rekomendasi/umum/create')"
-        >
+        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum/create')">
           Permintaan Baru
         </b-button>
       </div>
 
       <div class="mt-1">
 
-        <b-card
-          v-for="item in rekomendasi.data"
-          :key="item.id"
-          class="shadow-none border p-1 mb-1"
-          no-body
-        >
+        <b-card v-for="item in rekomendasi.data" :key="item.id" class="shadow-none border p-1 mb-1" no-body>
           <div class="d-flex pb-1 border-bottom">
             <div>
               <div class="font-weight-bold">
@@ -30,33 +21,17 @@
                 Belum terverifikasi
               </b-badge> -->
             </div>
-            <div
-              class="ml-auto d-flex text-danger"
-            >
-              <div
-                class="pointer mr-2"
-                @click="$router.push(`/rekomendasi/umum/create/${item.id}`)"
-              >
-                <feather-icon
-                  icon="EditIcon"
-                  size="20"
-                  class="align-middle"
-                />
+            <div class="ml-auto d-flex text-danger">
+              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+                <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">
-                <feather-icon
-                  icon="XIcon"
-                  size="20"
-                  class="align-middle"
-                />
+                <feather-icon icon="XIcon" size="20" class="align-middle" />
               </div>
             </div>
           </div>
           <div class="pt-1">
-            <div
-              class="card-content card-content-padding"
-              style="text-align: justify;"
-            >
+            <div class="card-content card-content-padding" style="text-align: justify;">
               <p class="">
                 Proses pada pelayanan ini belum selesai.
               </p>
@@ -119,6 +94,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
