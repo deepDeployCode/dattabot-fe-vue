@@ -1,42 +1,19 @@
 <template>
   <div class="app-wrapper">
-    <div
-      class="login-wrapper p-2"
-    >
+    <div class="login-wrapper p-2">
 
       <div class="d-flex justify-content-center mb-3">
-        <b-img
-          fluid
-          width="150"
-          height="150"
-          :src="simfoniLogo"
-          alt="simfoniLogo"
-        />
+        <b-img fluid width="100" height="100" :src="logoSimfoniNew" alt="logoSimfoniNew" />
       </div>
 
       <!-- form -->
       <validation-observer ref="loginValidation">
-        <b-form
-          class="auth-login-form mt-2"
-          @submit.prevent
-        >
+        <b-form class="auth-login-form mt-2" @submit.prevent>
           <!-- email -->
-          <b-form-group
-            label="Email"
-            label-for="login-email"
-          >
-            <validation-provider
-              #default="{ errors }"
-              name="Email"
-              rules="required|email"
-            >
-              <b-form-input
-                id="login-email"
-                v-model="userEmail"
-                :state="errors.length > 0 ? false:null"
-                name="login-email"
-                placeholder="john@example.com"
-              />
+          <b-form-group label="Email" label-for="login-email">
+            <validation-provider #default="{ errors }" name="Email" rules="required|email">
+              <b-form-input id="login-email" v-model="userEmail" :state="errors.length > 0 ? false : null"
+                name="login-email" placeholder="john@example.com" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -45,34 +22,16 @@
           <b-form-group>
             <div class="d-flex justify-content-between">
               <label for="login-password">Password</label>
-              <b-link :to="{name:'forget-password'}">
+              <b-link :to="{ name: 'forget-password' }">
                 <small>Lupa Password?</small>
               </b-link>
             </div>
-            <validation-provider
-              #default="{ errors }"
-              name="Password"
-              rules="required"
-            >
-              <b-input-group
-                class="input-group-merge"
-                :class="errors.length > 0 ? 'is-invalid':null"
-              >
-                <b-form-input
-                  id="login-password"
-                  v-model="password"
-                  :state="errors.length > 0 ? false:null"
-                  class="form-control-merge"
-                  :type="passwordFieldType"
-                  name="login-password"
-                  placeholder="············"
-                />
+            <validation-provider #default="{ errors }" name="Password" rules="required">
+              <b-input-group class="input-group-merge" :class="errors.length > 0 ? 'is-invalid' : null">
+                <b-form-input id="login-password" v-model="password" :state="errors.length > 0 ? false : null"
+                  class="form-control-merge" :type="passwordFieldType" name="login-password" placeholder="············" />
                 <b-input-group-append is-text>
-                  <feather-icon
-                    class="cursor-pointer"
-                    :icon="passwordToggleIcon"
-                    @click="togglePasswordVisibility"
-                  />
+                  <feather-icon class="cursor-pointer" :icon="passwordToggleIcon" @click="togglePasswordVisibility" />
                 </b-input-group-append>
               </b-input-group>
               <small class="text-danger">{{ errors[0] }}</small>
@@ -80,12 +39,7 @@
           </b-form-group>
 
           <!-- submit buttons -->
-          <b-button
-            type="submit"
-            variant="danger"
-            block
-            @click="validationForm"
-          >
+          <b-button type="submit" variant="danger" block @click="validationForm">
             Masuk
           </b-button>
         </b-form>
@@ -93,7 +47,7 @@
 
       <b-card-text class="text-center mt-2">
         <span>Belum punya akun? </span>
-        <b-link :to="{name:'register'}">
+        <b-link :to="{ name: 'register' }">
           <span>&nbsp;Daftar disini</span>
         </b-link>
       </b-card-text>
@@ -142,6 +96,7 @@ export default {
   data() {
     return {
       simfoniLogo: require('@/assets/images/logo/simfoni.png'),
+      logoSimfoniNew: require('@/assets/images/logo/logo-new-idi.png'),
       status: '',
       password: 'Home123456',
       userEmail: 'dzakkiaz7@gmail.com',
