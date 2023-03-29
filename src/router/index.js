@@ -19,7 +19,7 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         isBack: false,
-        title: 'Simfoni',
+        title: 'Simfoni'
       },
     },
     {
