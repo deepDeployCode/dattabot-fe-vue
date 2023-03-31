@@ -11,10 +11,10 @@
 
       <div class="mt-1" v-for="item in rekomendasi.data" :key="item.id">
 
-        <b-card v-if="item.reksip_kategori != 'spesialis'" class="shadow-none border p-1 mb-1" no-body>
+        <b-card v-if="item.reksip_kategori != 'umum'" class="shadow-none border p-1 mb-1" no-body>
           <div class="d-flex pb-1 border-bottom">
             <div>
-              <div class="font-weight-bold" v-if="item.reksip_kategori != 'spesialis'">
+              <div class="font-weight-bold" v-if="item.reksip_kategori != 'umum'">
                 #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
@@ -22,7 +22,7 @@
               </b-badge> -->
             </div>
             <div class="ml-auto d-flex text-danger">
-              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">

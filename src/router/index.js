@@ -246,9 +246,29 @@ const router = new VueRouter({
       },
     },
     {
+      path: '/rekomendasi/spesialis',
+      name: 'rekomendasi-spesialis',
+      component: () => import('@/views/RekomendasiSpesialis.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Rekomendasi SIP Spesialis',
+      },
+    },
+    {
       path: '/rekomendasi/umum/create/:id',
       name: 'create-rekomendasi-umum',
       component: () => import('@/views/CreateRekomendasiUmum.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Rekomendasi SIP Umum',
+      },
+    },
+    {
+      path: '/rekomendasi/spesialis/create/:id',
+      name: 'create-rekomendasi-umum',
+      component: () => import('@/views/CreateRekomendasiSpesialis.vue'),
       meta: {
         layout: 'full',
         navbar: true,

@@ -31,7 +31,7 @@
             </div>
           </b-card>
         </div>
-        </div> -->
+          </div> -->
       <b-card class="shadow-none border mb-1">
         <div class="d-flex flex-row justify-content-between align-items-start">
           <div class="d-flex flex-column justify-content-center pointer" style="width: 33%;"
@@ -83,7 +83,7 @@
         <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum')">
           Umum
         </b-button>
-        <b-button variant="outline-danger" block>
+        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/spesialis')">
           Spesialis
         </b-button>
       </div>
