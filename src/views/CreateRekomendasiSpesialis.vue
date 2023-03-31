@@ -9,7 +9,7 @@
           <b-form-group label="Permintaan Rekomendasi *" label-for="permintaan-rekomendasi">
             <validation-provider #default="{ errors }" name="Permintaan Rekomendasi" rules="required">
               <b-form-input id="permintaan-rekomendasi" :state="errors.length > 0 ? false : null"
-                name="permintaan-rekomendasi" type="text" readonly :value="rekomendasi.data.reksip_kategori_detail" />
+                name="permintaan-rekomendasi" type="text" readonly :value="rekomendasi.data.reksip_kategori" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>

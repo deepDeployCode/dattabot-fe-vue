@@ -4,7 +4,7 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <div class="d-flex flex-row">
-        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum/create')">
+        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/spesialis/create')">
           Permintaan Baru
         </b-button>
       </div>
