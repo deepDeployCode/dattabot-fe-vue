@@ -36,12 +36,20 @@
             </div>
           </div>
           <div class="pt-1">
-            <div class="card-content card-content-padding" style="text-align: justify;">
+            <div v-if="item.reksip_terbit != true" class="card-content card-content-padding" style="text-align: justify;">
               <p class="">
                 Proses pada pelayanan ini belum selesai.
               </p>
               <p class="p-0 mb-0">
                 Silahkan pilih tombol dibawah ini untuk melanjutkan proses atau membatalkannya.
+              </p>
+            </div>
+            <div v-else class="card-content card-content-padding" style="text-align: justify;">
+              <p class="">
+                Rekomendasi Izin Praktik Anda Sudah Terbit.
+              </p>
+              <p class="p-0 mb-0">
+                Silahkan lakukan Proses Selanjutnya.
               </p>
             </div>
           </div>

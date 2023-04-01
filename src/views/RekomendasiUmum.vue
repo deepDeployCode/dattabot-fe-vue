@@ -28,7 +28,8 @@
               </b-badge>
             </div>
             <div class="ml-auto d-flex text-danger">
-              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+              <div v-if="item.reksip_terbit != true" class="pointer mr-2"
+                @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">
@@ -37,13 +38,26 @@
             </div>
           </div>
           <div class="pt-1">
-            <div class="card-content card-content-padding" style="text-align: justify;">
+            <div v-if="item.reksip_terbit != true" class="card-content card-content-padding" style="text-align: justify;">
               <p class="">
                 Proses pada pelayanan ini belum selesai.
               </p>
               <p class="p-0 mb-0">
                 Silahkan pilih tombol dibawah ini untuk melanjutkan proses atau membatalkannya.
               </p>
+            </div>
+            <div v-else class="card-content card-content-padding" style="text-align: justify;">
+              <p class="">
+                Selamat Rekomendasi Izin Praktik Anda Sudah Terbit.
+                <br>
+                <br>
+                Faskes: {{ item.reksip_nama_instansi }}
+                <br>
+                Alamat: {{ item.reksip_alamat_instansi }}
+              </p>
+              <!-- <p class="p-0 mb-0">
+                Silahkan lakukan Proses Selanjutnya.
+              </p> -->
             </div>
           </div>
         </b-card>
