@@ -11,10 +11,11 @@
 
       <div class="mt-1" v-for="item in rekomendasi.data" :key="item.id">
 
-        <b-card v-if="item.reksip_kategori != 'umum'" class="shadow-none border p-1 mb-1" no-body>
+        <b-card v-if="item.reksip_kategori != 'umum' && item.reksip_kategori != 'Umum'"
+          class="shadow-none border p-1 mb-1" no-body>
           <div class="d-flex pb-1 border-bottom">
             <div>
-              <div class="font-weight-bold" v-if="item.reksip_kategori != 'umum'">
+              <div class="font-weight-bold" v-if="item.reksip_kategori != 'umum' && item.reksip_kategori != 'Umum'">
                 #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
