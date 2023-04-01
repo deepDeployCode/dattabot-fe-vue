@@ -103,14 +103,6 @@ export default {
   },
   methods: {
 
-    refreshPage() {
-      if (this.currentPage == 1) {
-        this.cancelRecomendation()
-      } else {
-        this.currentPage = 1
-      }
-    },
-
     async cancelRecomendation(ids) {
       try {
         this.rekomendasi.isLoading = true
