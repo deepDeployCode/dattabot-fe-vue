@@ -4,7 +4,7 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <div class="d-flex flex-row">
-        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/spesialis/create')">
+        <b-button variant="outline-danger" block @click="inputRekomendasi(kategori = 'spesialis')">
           Permintaan Baru
         </b-button>
       </div>
@@ -31,7 +31,7 @@
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">
-                <feather-icon icon="XIcon" size="20" class="align-middle" />
+                <feather-icon icon="XIcon" size="20" class="align-middle" @click="cancelRecomendation(item.id)" />
               </div>
             </div>
           </div>
@@ -94,6 +94,32 @@ export default {
     this.fetchRekomandasi()
   },
   methods: {
+    async cancelRecomendation(ids) {
+      try {
+        this.rekomendasi.isLoading = true
+        await apis.rekomendasi.cancelRecomendation({ reksip_id: ids })
+        this.successHandler('berhasil di cancel')
+        location.reload()
+      } catch (error) {
+        this.errorHandler(error, 'gagal di cancel')
+      } finally {
+        this.rekomendasi.isLoading = false
+      }
+    },
+
+    async inputRekomendasi(kategori) {
+      try {
+        this.rekomendasi.isLoading = true
+        await apis.rekomendasi.rekomendasiInput({ reksip_kategori: kategori })
+        this.successHandler('berhasil create rekomendasi spesialis')
+        location.reload()
+      } catch (error) {
+        this.errorHandler(error, 'gagal di input')
+      } finally {
+        this.rekomendasi.isLoading = false
+      }
+    },
+
     fetchRekomandasi() {
       this.rekomendasi.isLoading = true
       apis.rekomendasi.getRekomendasi()

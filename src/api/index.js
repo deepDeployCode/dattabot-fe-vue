@@ -54,7 +54,8 @@ const endpoints = {
   },
   rekomendasi: {
     default: '/recommendation',
-    cancel: 'cancel'
+    cancel: 'cancel',
+    input: 'input'
   },
 }
 
@@ -174,6 +175,9 @@ const apis = {
     },
     cancelRecomendation(body){
       return resource.post(`${endpoints.rekomendasi.default}/${endpoints.rekomendasi.cancel}`, body)
+    },
+    rekomendasiInput(body){
+      return resource.post(`${endpoints.rekomendasi.default}/${endpoints.rekomendasi.input}`, body)
     }
   },
 }

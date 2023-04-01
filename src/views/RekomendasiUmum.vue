@@ -4,7 +4,7 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <div class="d-flex flex-row">
-        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum/create')">
+        <b-button variant="outline-danger" block @click="inputRekomendasi(kategori = 'umum')">
           Permintaan Baru
         </b-button>
       </div>
@@ -111,6 +111,19 @@ export default {
         location.reload()
       } catch (error) {
         this.errorHandler(error, 'gagal di cancel')
+      } finally {
+        this.rekomendasi.isLoading = false
+      }
+    },
+
+    async inputRekomendasi(kategori) {
+      try {
+        this.rekomendasi.isLoading = true
+        await apis.rekomendasi.rekomendasiInput({ reksip_kategori: kategori })
+        this.successHandler('berhasil create rekomendasi umum')
+        location.reload()
+      } catch (error) {
+        this.errorHandler(error, 'gagal di input')
       } finally {
         this.rekomendasi.isLoading = false
       }
