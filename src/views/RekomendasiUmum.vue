@@ -19,9 +19,13 @@
                 v-if="item.reksip_kategori != 'spesialis' && item.reksip_kategori != 'Spesialis'">
                 #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
-              <!-- <b-badge variant="light-danger font-weight–light mt-25">
+              <!-- label status verif rekom izin praktek-->
+              <b-badge v-if="item.reksip_terbit != false" variant="success font-weight–light mt-25">
+                Sudah Terbit
+              </b-badge>
+              <b-badge v-else variant="danger font-weight–light mt-25">
                 Belum terverifikasi
-              </b-badge> -->
+              </b-badge>
             </div>
             <div class="ml-auto d-flex text-danger">
               <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
@@ -52,7 +56,7 @@
 /* eslint-disable global-require */
 
 import {
-  BButton, BCard,
+  BButton, BCard, BBadge
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
@@ -65,6 +69,7 @@ export default {
     DividerNavigation,
     BButton,
     BCard,
+    BBadge
   },
   data() {
     return {
