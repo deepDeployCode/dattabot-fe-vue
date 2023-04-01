@@ -31,5 +31,15 @@ vue.mixin({
         })
       }
     },
+    successHandler(title = 'data berhasil') {
+      this.$toast({
+        component: ToastificationContent,
+        props:{
+          title,
+          icon: 'CheckIcon',
+          variant: 'success',
+        }
+      })
+    }
   },
 })

@@ -33,7 +33,7 @@
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">
-                <feather-icon icon="XIcon" size="20" class="align-middle" />
+                <feather-icon icon="XIcon" size="20" class="align-middle" @click="cancelRecomendation(item.id)" />
               </div>
             </div>
           </div>
@@ -87,6 +87,7 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       rekomendasi: {
         data: null,
         isLoading: false,
@@ -101,6 +102,28 @@ export default {
     this.fetchRekomandasi()
   },
   methods: {
+
+    refreshPage() {
+      if (this.currentPage == 1) {
+        this.cancelRecomendation()
+      } else {
+        this.currentPage = 1
+      }
+    },
+
+    async cancelRecomendation(ids) {
+      try {
+        this.rekomendasi.isLoading = true
+        await apis.rekomendasi.cancelRecomendation({ reksip_id: ids })
+        this.successHandler('berhasil di cancel')
+        location.reload()
+      } catch (error) {
+        this.errorHandler(error, 'gagal di cancel')
+      } finally {
+        this.rekomendasi.isLoading = false
+      }
+    },
+
     fetchRekomandasi() {
       this.rekomendasi.isLoading = true
       apis.rekomendasi.getRekomendasi()
