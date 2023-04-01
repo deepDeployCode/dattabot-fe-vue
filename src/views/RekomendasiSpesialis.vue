@@ -19,21 +19,27 @@
                 #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
               <!-- label status verif rekom izin praktek-->
-              <b-badge v-if="item.reksip_terbit != false" variant="success font-weight–light mt-25">
+              <b-badge v-if="item.reksip_terbit != false && item.invoice_id != 0"
+                variant="success font-weight–light mt-25">
                 Sudah Terbit
               </b-badge>
+              <b-badge v-else-if="item.reksip_terbit == false && item.invoice_id != 0"
+                variant="warning font-weight–light mt-25">
+                Belum Terbit
+              </b-badge>
               <b-badge v-else variant="danger font-weight–light mt-25">
-                Belum terverifikasi
+                Belum Terverifikasi
               </b-badge>
             </div>
-            <div class="ml-auto d-flex text-danger">
+            <!-- gak di pake yang menu bagian sudut kanan -->
+            <!-- <div class="ml-auto d-flex text-danger">
               <div class="pointer mr-2" @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <div class="pointer">
                 <feather-icon icon="XIcon" size="20" class="align-middle" @click="cancelRecomendation(item.id)" />
               </div>
-            </div>
+            </div> -->
           </div>
           <div class="pt-1">
             <div v-if="item.reksip_terbit != true" class="card-content card-content-padding" style="text-align: justify;">
@@ -43,6 +49,7 @@
               <p class="p-0 mb-0">
                 Silahkan pilih tombol dibawah ini untuk melanjutkan proses atau membatalkannya.
               </p>
+              <br>
             </div>
             <div v-else class="card-content card-content-padding" style="text-align: justify;">
               <p class="">
@@ -53,6 +60,15 @@
               </p>
             </div>
           </div>
+          <b-button v-if="item.invoice_id == 0" type="submit" variant="outline-danger" block
+            @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+            <feather-icon icon="ArrowRightIcon" class="mr-26" />
+            <span>Lanjutkan</span>
+          </b-button>
+          <b-button type="submit" variant="outline-danger" block @click="cancelRecomendation(item.id)">
+            <feather-icon icon="XIcon" class="mr-26" />
+            <span>Cancel</span>
+          </b-button>
         </b-card>
       </div>
     </div>
