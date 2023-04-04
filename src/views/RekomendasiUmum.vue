@@ -78,22 +78,16 @@
               </p> -->
             </div>
           </div>
-          <p v-if="item.invoice_id == 0 && item.reksip_terbit == false">
+          <p v-if="item.invoice_id == 0 || item.reksip_terbit == false">
             <b-button type="submit" variant="outline-danger" block
-              @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
+              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
               <feather-icon icon="ArrowRightIcon" class="mr-26" />
-              <span>Lanjutkan</span>
-            </b-button>
+              <span>Lanjutkan</span></b-button>
             <b-button type="submit" variant="outline-danger" block @click="cancelRecomendation(item.id)">
               <feather-icon icon="XIcon" class="mr-26" />
               <span>Cancel</span>
             </b-button>
           </p>
-          <b-button v-else-if="item.reksip_terbit != true" type="submit" variant="outline-danger" block
-            @click="cancelRecomendation(item.id)">
-            <feather-icon icon="XIcon" class="mr-26" />
-            <span>Cancel</span>
-          </b-button>
         </b-card>
       </div>
     </div>

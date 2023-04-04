@@ -267,7 +267,7 @@ const router = new VueRouter({
     },
     {
       path: '/rekomendasi/spesialis/create/:id',
-      name: 'create-rekomendasi-umum',
+      name: 'create-rekomendasi-spesialis',
       component: () => import('@/views/CreateRekomendasiSpesialis.vue'),
       meta: {
         layout: 'full',

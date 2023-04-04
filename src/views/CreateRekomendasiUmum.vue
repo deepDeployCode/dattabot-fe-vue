@@ -2,8 +2,8 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div class="p-2 mx-auto">
-      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="rekomendasiUmum">
+    <div v-if="rekomendasi.data.invoice_id == 0" class="p-2 mx-auto">
+      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="rekomendasiValidation">
         <!-- form data submit rekomendasi-->
         <b-form class="mt-1" @submit.prevent>
           <b-form-group label="Permintaan Rekomendasi *" label-for="permintaan-rekomendasi">
@@ -133,8 +133,8 @@
               Pilih
             </b-button>
           </b-form-group>
-          <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-keterangan-kerja" rules="required"
+          <!-- <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
+            <validation-provider #default="{ errors }" name="surat-keterangan-kerja"
               v-model="rekomendasi.data.surat_keterangan_kerja">
               <b-form-file id="surat-keterangan-kerja" :state="errors.length > 0 ? false : null"
                 name="surat-keterangan-kerja" accept="image/*" />
@@ -143,7 +143,7 @@
           </b-form-group>
 
           <b-form-group label="Surat Rekomendasi Cabang *" label-for="surat-rekomendasi-cabang" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-rekomendasi-cabang" rules="required"
+            <validation-provider #default="{ errors }" name="surat-rekomendasi-cabang"
               v-model="rekomendasi.data.surat_rekomendasi_cabang">
               <b-form-file id="surat-rekomendasi-cabang" :state="errors.length > 0 ? false : null"
                 name="surat-rekomendasi-cabang" accept="image/*" />
@@ -155,73 +155,154 @@
                 dan unggah kembali.
               </p>
             </validation-provider>
-          </b-form-group>
-          <b-button type="submit" variant="outline-danger" block :disabled="invalid" @click="rekomendasiSubmit()">
+          </b-form-group> -->
+          <b-button type="submit" variant="outline-danger" block @click="validationForm">
             Lanjutkan
           </b-button>
         </b-form>
+      </validation-observer>
 
-        <!-- fetch file -->
-        <b-modal id="modal-kompetensi" title="Pilih Kompetensi" hide-footer>
-          <b-card v-for="item in rekomendasi.data.kompetensi" :key="item.id" footer="Pilih Kompetensi Ini"
-            footer-tag="footer" class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-            footer-class="font-weight-bold pointer text-center" @click="changeKompetensi(item)">
-            <b-card-text class="font-weight-bold">
-              {{ item.kompetensi_jenis }}
-            </b-card-text>
-            <b-card-text>
-              Nomor Kompetensi{{ " : " }}{{ item.kompetensi_no }}
-            </b-card-text>
+
+      <!-- fetch file -->
+      <b-modal id="modal-kompetensi" title="Pilih Kompetensi" hide-footer>
+        <b-card v-for="item in rekomendasi.data.kompetensi" :key="item.id" footer="Pilih Kompetensi Ini"
+          footer-tag="footer" class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center" @click="changeKompetensi(item)">
+          <b-card-text class="font-weight-bold">
+            {{ item.kompetensi_jenis }}
+          </b-card-text>
+          <b-card-text>
+            Nomor Kompetensi{{ " : " }}{{ item.kompetensi_no }}
+          </b-card-text>
+        </b-card>
+      </b-modal>
+
+      <b-modal id="modal-ijazah" title="Pilih Ijazah" hide-footer>
+        <b-card v-for="item in rekomendasi.data.pendidikan" :key="item.id" footer="Pilih Ijazah Ini" footer-tag="footer"
+          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center" @click="changeIjazah(item)">
+          <b-card-text class="font-weight-bold">
+            Nama Studi : {{ item.pend_nama_studi }}
+          </b-card-text>
+          <b-img v-if="item.pend_ijazah_file" fluid center :src="photoIjazah(item)" alt="ijazah" class="mt-1"
+            style="max-height: 250px;" />
+        </b-card>
+      </b-modal>
+
+      <b-modal id="modal-str" title="Pilih Surat Tanda Registrasi" hide-footer>
+        <b-card v-for="item in rekomendasi.data.str" :key="item.id" footer="Pilih STR Ini" footer-tag="footer"
+          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center" @click="changeSTR(item)">
+          <table>
+            <tr>
+              <td>Nomor STR</td>
+              <td><span class="ml-1 mr-1">:</span>
+                <span v-if="item.str_no != ''">{{ item.str_no }}</span>
+                <span v-else>{{ 'nomor tidak di temukan' }}</span>
+              </td>
+            </tr>
+            <tr>
+              <td>Berlaku Sampai</td>
+              <td><span class="ml-1 mr-1">:</span>
+                <span v-if="item.str_tgl_berakhir != ''">{{ item.str_tgl_berakhir }}</span>
+                <span v-else>{{ 'tanggal berakhir tidak di temukan' }}</span>
+              </td>
+            </tr>
+          </table>
+
+          <b-img v-if="item.str_file" fluid center :src="photoStr(item)" alt="str" class="mt-1"
+            style="max-height: 250px;" />
+
+        </b-card>
+      </b-modal>
+
+      <b-modal id="modal-krip" title="Pilih KRIP" hide-footer>
+        <b-card v-for="item in rekomendasi.data.krip" :key="item.id" footer="Pilih KRIP Ini" footer-tag="footer"
+          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center" @click="changeKRIP(item)">
+          <b-img v-if="item.krip_file" fluid center :src="photoKRIP(item)" alt="krip" class="mt-1"
+            style="max-height: 250px;" />
+        </b-card>
+      </b-modal>
+    </div>
+    <div v-else class="p-2 mx-auto">
+      <validation-observer ref="invoiceRekomendasiUmum">
+        <b-form class="mt-1" @submit.prevent>
+
+          <b-card class="shadow-none border p-1 mb-1" no-body>
+            <div class="d-flex pb-1 border-bottom">
+              <div>
+                <div class="font-weight-bold">
+                  Invoice # 2738
+                </div>
+                <small>
+                  2023-02-26T05:57:28.083Z
+                </small>
+                <!-- <b-badge variant="light-danger font-weight–light mt-25">
+                Belum terverifikasi
+              </b-badge> -->
+              </div>
+            </div>
+
+            <div class="text-center pt-1">
+              <div style="font-size: 24px">
+                <b>Rp 200.000</b>
+              </div>
+              <div class="border-1">
+                <span>belum-dibayar</span>
+              </div>
+            </div>
           </b-card>
-        </b-modal>
-
-        <b-modal id="modal-ijazah" title="Pilih Ijazah" hide-footer>
-          <b-card v-for="item in rekomendasi.data.pendidikan" :key="item.id" footer="Pilih Ijazah Ini" footer-tag="footer"
-            class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-            footer-class="font-weight-bold pointer text-center" @click="changeIjazah(item)">
-            <b-card-text class="font-weight-bold">
-              Nama Studi : {{ item.pend_nama_studi }}
-            </b-card-text>
-            <b-img v-if="item.pend_ijazah_file" fluid center :src="photoIjazah(item)" alt="ijazah" class="mt-1"
-              style="max-height: 250px;" />
-          </b-card>
-        </b-modal>
-
-        <b-modal id="modal-str" title="Pilih Surat Tanda Registrasi" hide-footer>
-          <b-card v-for="item in rekomendasi.data.str" :key="item.id" footer="Pilih STR Ini" footer-tag="footer"
-            class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-            footer-class="font-weight-bold pointer text-center" @click="changeSTR(item)">
-            <table>
-              <tr>
-                <td>Nomor STR</td>
-                <td><span class="ml-1 mr-1">:</span>
-                  <span v-if="item.str_no != ''">{{ item.str_no }}</span>
-                  <span v-else>{{ 'nomor tidak di temukan' }}</span>
-                </td>
-              </tr>
-              <tr>
-                <td>Berlaku Sampai</td>
-                <td><span class="ml-1 mr-1">:</span>
-                  <span v-if="item.str_tgl_berakhir != ''">{{ item.str_tgl_berakhir }}</span>
-                  <span v-else>{{ 'tanggal berakhir tidak di temukan' }}</span>
-                </td>
-              </tr>
+          <b-card class="shadow-none border p-1 mb-1" no-body>
+            <div class="d-flex pb-1 border-bottom">
+              <div>
+                <div class="font-weight-bold">
+                  Informasi Pembayaran
+                </div>
+              </div>
+            </div>
+            <table class="mt-1">
+              <tbody>
+                <tr>
+                  <td>Bank</td>
+                  <td class="font-weight-bold">
+                    : Bank Syariah Indonesia
+                  </td>
+                </tr>
+                <tr>
+                  <td>Akun</td>
+                  <td class="font-weight-bold">
+                    : IDI JAKPUS
+                  </td>
+                </tr>
+                <tr>
+                  <td>Rekening</td>
+                  <td class="font-weight-bold">
+                    : 7132822063
+                  </td>
+                </tr>
+                <tr>
+                  <td>Keterangan</td>
+                  <td class="font-weight-bold">
+                    : Surat Rekomendasi Izin Praktik UMUM
+                  </td>
+                </tr>
+              </tbody>
             </table>
-
-            <b-img v-if="item.str_file" fluid center :src="photoStr(item)" alt="str" class="mt-1"
-              style="max-height: 250px;" />
-
           </b-card>
-        </b-modal>
 
-        <b-modal id="modal-krip" title="Pilih KRIP" hide-footer>
-          <b-card v-for="item in rekomendasi.data.krip" :key="item.id" footer="Pilih KRIP Ini" footer-tag="footer"
-            class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-            footer-class="font-weight-bold pointer text-center" @click="changeKRIP(item)">
-            <b-img v-if="item.krip_file" fluid center :src="photoKRIP(item)" alt="krip" class="mt-1"
-              style="max-height: 250px;" />
-          </b-card>
-        </b-modal>
+          <b-form-group label="Upload Bukti Bayar *" label-for="upload-bukti-bayar" class="mt-1">
+            <validation-provider #default="{ errors }" name="upload-bukti-bayar" rules="required">
+              <b-form-file id="upload-bukti-bayar" :state="errors.length > 0 ? false : null" name="upload-bukti-bayar"
+                accept="image/*" />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+
+          <b-button type="submit" variant="outline-danger" block>
+            Simpan
+          </b-button>
+        </b-form>
       </validation-observer>
     </div>
   </div>
@@ -281,6 +362,16 @@ export default {
         data: null,
         isLoading: true,
       },
+      form: {
+        reksip_kategori: '',
+        reksip_id: '',
+        reksip_nama_instansi: '',
+        reksip_pend_file: '',
+        reksip_str_file: '',
+        reksip_tidak_kena_sanksi: '',
+        reksip_npa_file: '',
+        reksip_alamat_instansi: '',
+      }
     }
   },
   computed: {
@@ -403,30 +494,28 @@ export default {
       this.$bvModal.hide('modal-krip')
     },
 
-    async rekomendasiSubmit() {
-      this.rekomendasi.isLoading = true
-      try {
-        let dataRekomendasi = {
-          reksip_kategori: rekomendasi.data.reksip_kategori_detail,
-          reksip_id: this.$router.params.id,
-          reksip_nama_instansi: rekomendasi.data.reksip_nama_instansi,
-          reksip_alamat_instansi: rekomendasi.data.reksip_alamat_instansi,
-          reksip_pend_file: rekomendasi.data.reksip_pend_file,
-          reksip_str_file: rekomendasi.data.reksip_str_file,
-          reksip_tidak_kena_sanksi: rekomendasi.data.reksip_tidak_kena_sanksi,
-          reksip_kompetensi_no: rekomendasi.data.reksip_kompetensi_no,
-          reksip_kompetensi_jenis: rekomendasi.data.reksip_kompetensi_jenis,
-          reksip_file_keterangan_kerja: rekomendasi.data.surat_keterangan_kerja,
-          reksip_file_rekomcabang_untuk_nonjakpus: rekomendasi.data.surat_rekomendasi_cabang,
+    validationForm() {
+      this.$refs.rekomendasiValidation.validate().then(success => {
+        if (success) {
+          this.submitRekomendasi()
         }
+      })
+    },
 
-        await apis.rekomendasi.rekomendasiPublish({ reksip_id: this.$router.params.id })
-        this.successHandler('berhasil create invoice')
-      } catch (error) {
-        this.errorHandler(error, 'gagal di update')
-      } finally {
-        this.rekomendasi.isLoading = false
-      }
+
+    submitRekomendasi() {
+      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
+      const newForm = { ...this.form }
+      apis.rekomendasi.rekomendasiInput(newForm)
+        .then(() => {
+          this.successHandler('berhasil update rekomendasi')
+        })
+        .catch(error => {
+          this.errorHandler(error, 'rekomendasi gagal silahkan coba lagi')
+        })
+        .finally(() => {
+          this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+        })
     },
 
     fetchRekomandasi() {
