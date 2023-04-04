@@ -32,7 +32,7 @@
           <b-form-group label="Pernyataan *" label-for="pernyataan" class="mt-1">
             <validation-provider #default="{ errors }" name="Pernyataan" rules="required">
               <b-form-checkbox id="pernyataan" v-model="rekomendasi.data.reksip_tidak_kena_sanksi"
-                class="custom-control-primary">
+                class="custom-control-primary" :value="true">
                 Bersama ini saya menyatakan bahwa saya tidak dalam sanksi berat Organisasi / Etik / Disiplin / Hukum.
               </b-form-checkbox>
               <small class="text-danger">{{ errors[0] }}</small>
@@ -134,7 +134,8 @@
             </b-button>
           </b-form-group>
           <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-keterangan-kerja" rules="required">
+            <validation-provider #default="{ errors }" name="surat-keterangan-kerja" rules="required"
+              v-model="rekomendasi.data.surat_keterangan_kerja">
               <b-form-file id="surat-keterangan-kerja" :state="errors.length > 0 ? false : null"
                 name="surat-keterangan-kerja" accept="image/*" />
               <small class="text-danger">{{ errors[0] }}</small>
@@ -142,7 +143,8 @@
           </b-form-group>
 
           <b-form-group label="Surat Rekomendasi Cabang *" label-for="surat-rekomendasi-cabang" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-rekomendasi-cabang" rules="required">
+            <validation-provider #default="{ errors }" name="surat-rekomendasi-cabang" rules="required"
+              v-model="rekomendasi.data.surat_rekomendasi_cabang">
               <b-form-file id="surat-rekomendasi-cabang" :state="errors.length > 0 ? false : null"
                 name="surat-rekomendasi-cabang" accept="image/*" />
               <small class="text-danger">{{ errors[0] }}</small>
@@ -154,7 +156,7 @@
               </p>
             </validation-provider>
           </b-form-group>
-          <b-button type="submit" variant="outline-danger" block @click="$router.push('/rekomendasi/umum/pembayaran')">
+          <b-button type="submit" variant="outline-danger" block :disabled="invalid" @click="rekomendasiSubmit()">
             Lanjutkan
           </b-button>
         </b-form>
@@ -370,9 +372,9 @@ export default {
   watch: {
     rekomendasi: {
       deep: true,
-      handler(val) {
-        console.log(val.data)
-      },
+      // handler(val) {
+      //   console.log(val.data)
+      // },
     },
   },
   mounted() { },
@@ -400,6 +402,33 @@ export default {
       this.rekomendasi.data.reksip_krip_file = this.photoKRIP(item)
       this.$bvModal.hide('modal-krip')
     },
+
+    async rekomendasiSubmit() {
+      this.rekomendasi.isLoading = true
+      try {
+        let dataRekomendasi = {
+          reksip_kategori: rekomendasi.data.reksip_kategori_detail,
+          reksip_id: this.$router.params.id,
+          reksip_nama_instansi: rekomendasi.data.reksip_nama_instansi,
+          reksip_alamat_instansi: rekomendasi.data.reksip_alamat_instansi,
+          reksip_pend_file: rekomendasi.data.reksip_pend_file,
+          reksip_str_file: rekomendasi.data.reksip_str_file,
+          reksip_tidak_kena_sanksi: rekomendasi.data.reksip_tidak_kena_sanksi,
+          reksip_kompetensi_no: rekomendasi.data.reksip_kompetensi_no,
+          reksip_kompetensi_jenis: rekomendasi.data.reksip_kompetensi_jenis,
+          reksip_file_keterangan_kerja: rekomendasi.data.surat_keterangan_kerja,
+          reksip_file_rekomcabang_untuk_nonjakpus: rekomendasi.data.surat_rekomendasi_cabang,
+        }
+
+        await apis.rekomendasi.rekomendasiPublish({ reksip_id: this.$router.params.id })
+        this.successHandler('berhasil create invoice')
+      } catch (error) {
+        this.errorHandler(error, 'gagal di update')
+      } finally {
+        this.rekomendasi.isLoading = false
+      }
+    },
+
     fetchRekomandasi() {
       this.rekomendasi.isLoading = true
       apis.rekomendasi.getById(this.$route.params.id)

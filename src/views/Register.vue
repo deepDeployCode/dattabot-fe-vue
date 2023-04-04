@@ -5,33 +5,14 @@
     <div class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
-        <b-img
-          fluid
-          width="150"
-          height="150"
-          :src="simfoniLogo"
-          alt="simfoniLogo"
-        />
+        <b-img fluid width="150" height="150" :src="simfoniLogo" alt="simfoniLogo" />
       </div>
       <validation-observer ref="registerValidation">
-        <b-form
-          class="auth-login-form mt-2"
-          @submit.prevent
-        >
-          <b-form-group
-            label="Opsi Pendaftaran *"
-            label-for="opsi-pendaftaran"
-          >
-            <validation-provider
-              #default="{ errors }"
-              name="Opsi Pendaftaran"
-              rules="required"
-            >
-              <b-form-select
-                v-model="form.jenis_pendaftaran"
-                :state="errors.length > 0 ? false:null"
-                :options="optionRegistration"
-              />
+        <b-form class="auth-login-form mt-2" @submit.prevent>
+          <b-form-group label="Opsi Pendaftaran *" label-for="opsi-pendaftaran">
+            <validation-provider #default="{ errors }" name="Opsi Pendaftaran" rules="required">
+              <b-form-select v-model="form.jenis_pendaftaran" :state="errors.length > 0 ? false : null"
+                :options="optionRegistration" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -39,241 +20,96 @@
           <div v-if="form.jenis_pendaftaran">
             <b-form-group
               v-if="form.jenis_pendaftaran === 'anggota-jakpus' || form.jenis_pendaftaran === 'non-anggota-idi-jakpus'"
-              label="Nomor Pokok Anggota *"
-              label-for="nomor-pokok"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Pokok Anggota"
-                rules="required"
-              >
-                <b-form-input
-                  id="nomor-pokok"
-                  v-model="form.npa_idi"
-                  :state="errors.length > 0 ? false:null"
-                  name="nomor-pokok"
-                  type="number"
-                />
+              label="Nomor Pokok Anggota *" label-for="nomor-pokok">
+              <validation-provider #default="{ errors }" name="Nomor Pokok Anggota" rules="required">
+                <b-form-input id="nomor-pokok" v-model="form.npa_idi" :state="errors.length > 0 ? false : null"
+                  name="nomor-pokok" type="number" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nama Lengkap (Sesuai Ijazah) *"
-              label-for="nama-lengkap"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Lengkap (Sesuai Ijazah)"
-                rules="required"
-              >
-                <b-form-input
-                  id="nama-lengkap"
-                  v-model="form.nama_lengkap"
-                  :state="errors.length > 0 ? false:null"
-                  name="nama-lengkap"
-                  type="text"
-                />
+            <b-form-group label="Nama Lengkap (Sesuai Ijazah) *" label-for="nama-lengkap">
+              <validation-provider #default="{ errors }" name="Nama Lengkap (Sesuai Ijazah)" rules="required">
+                <b-form-input id="nama-lengkap" v-model="form.nama_lengkap" :state="errors.length > 0 ? false : null"
+                  name="nama-lengkap" type="text" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tanggal lahir *"
-              label-for="tanggal-lahir"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tanggal lahir"
-                rules="required"
-              >
-                <b-form-input
-                  id="tanggal-lahir"
-                  v-model="form.tanggal_lahir"
-                  :state="errors.length > 0 ? false:null"
-                  name="tanggal-lahir"
-                  type="date"
-                />
+            <b-form-group label="Tanggal lahir *" label-for="tanggal-lahir">
+              <validation-provider #default="{ errors }" name="Tanggal lahir" rules="required">
+                <b-form-input id="tanggal-lahir" v-model="form.tanggal_lahir" :state="errors.length > 0 ? false : null"
+                  name="tanggal-lahir" type="date" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tempat Lahir *"
-              label-for="tempat-lahir"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tempat Lahir"
-                rules="required"
-              >
-                <b-form-input
-                  id="tempat-lahir"
-                  v-model="form.tempat_lahir"
-                  :state="errors.length > 0 ? false:null"
-                  name="tempat-lahir"
-                  type="text"
-                />
+            <b-form-group label="Tempat Lahir *" label-for="tempat-lahir">
+              <validation-provider #default="{ errors }" name="Tempat Lahir" rules="required">
+                <b-form-input id="tempat-lahir" v-model="form.tempat_lahir" :state="errors.length > 0 ? false : null"
+                  name="tempat-lahir" type="text" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nama Universitas (FK Dokter Umum) *"
-              label-for="nama-univ"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Universitas (FK Dokter Umum)"
-                rules="required"
-              >
-                <b-form-input
-                  id="nama-univ"
-                  v-model="form.du_asal_fak_kedokteran"
-                  :state="errors.length > 0 ? false:null"
-                  name="nama-univ"
-                  type="text"
-                />
+            <b-form-group label="Nama Universitas (FK Dokter Umum) *" label-for="nama-univ">
+              <validation-provider #default="{ errors }" name="Nama Universitas (FK Dokter Umum)" rules="required">
+                <b-form-input id="nama-univ" v-model="form.du_asal_fak_kedokteran"
+                  :state="errors.length > 0 ? false : null" name="nama-univ" type="text" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Negara Asal Universitas *"
-              label-for="negara-asal-univ"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Negara Asal Universitas"
-                rules="required"
-              >
-                <b-form-input
-                  id="negara-asal-univ"
-                  v-model="form.du_asal_negara_univ"
-                  :state="errors.length > 0 ? false:null"
-                  name="negara-asal-univ"
-                  type="text"
-                />
+            <b-form-group label="Negara Asal Universitas *" label-for="negara-asal-univ">
+              <validation-provider #default="{ errors }" name="Negara Asal Universitas" rules="required">
+                <b-form-input id="negara-asal-univ" v-model="form.du_asal_negara_univ"
+                  :state="errors.length > 0 ? false : null" name="negara-asal-univ" type="text" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tahun Masuk Pendidikan Dokter Umum *"
-              label-for="tahun-masuk-dr-umum"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Masuk Pendidikan Dokter Umum"
-                rules="required"
-              >
-                <b-form-input
-                  id="tahun-masuk-dr-umum"
-                  v-model="form.du_tahun_masuk"
-                  :state="errors.length > 0 ? false:null"
-                  name="tahun-masuk-dr-umum"
-                  type="number"
-                />
+            <b-form-group label="Tahun Masuk Pendidikan Dokter Umum *" label-for="tahun-masuk-dr-umum">
+              <validation-provider #default="{ errors }" name="Tahun Masuk Pendidikan Dokter Umum" rules="required">
+                <b-form-input id="tahun-masuk-dr-umum" v-model="form.du_tahun_masuk"
+                  :state="errors.length > 0 ? false : null" name="tahun-masuk-dr-umum" type="number" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tahun Lulus Pendidikan Dokter Umum *"
-              label-for="tahun-lulus-dr-umum"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Lulus Pendidikan Dokter Umum"
-                rules="required"
-              >
-                <b-form-input
-                  id="tahun-lulus-dr-umum"
-                  v-model="form.du_tahun_lulus"
-                  :state="errors.length > 0 ? false:null"
-                  name="tahun-lulus-dr-umum"
-                  type="number"
-                />
+            <b-form-group label="Tahun Lulus Pendidikan Dokter Umum *" label-for="tahun-lulus-dr-umum">
+              <validation-provider #default="{ errors }" name="Tahun Lulus Pendidikan Dokter Umum" rules="required">
+                <b-form-input id="tahun-lulus-dr-umum" v-model="form.du_tahun_lulus"
+                  :state="errors.length > 0 ? false : null" name="tahun-lulus-dr-umum" type="number" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nomor Telpon *"
-              label-for="nomer-telepon"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Telpon"
-                rules="required"
-              >
-                <b-form-input
-                  id="nomer-telepon"
-                  v-model="form.nomor_hp"
-                  :state="errors.length > 0 ? false:null"
-                  name="nomer-telepon"
-                  type="number"
-                />
+            <b-form-group label="Nomor Telpon *" label-for="nomer-telepon">
+              <validation-provider #default="{ errors }" name="Nomor Telpon" rules="required">
+                <b-form-input id="nomer-telepon" v-model="form.nomor_hp" :state="errors.length > 0 ? false : null"
+                  name="nomer-telepon" type="number" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Email *"
-              label-for="email"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
-                rules="required"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="form.email"
-                  :state="errors.length > 0 ? false:null"
-                  name="email"
-                  type="email"
-                />
+            <b-form-group label="Email *" label-for="email">
+              <validation-provider #default="{ errors }" name="Email" rules="required">
+                <b-form-input id="email" v-model="form.email" :state="errors.length > 0 ? false : null" name="email"
+                  type="email" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Password *"
-              label-for="password"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Password"
-                rules="required"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="form.password"
-                  :state="errors.length > 0 ? false:null"
-                  name="password"
-                  type="password"
-                />
+            <b-form-group label="Password *" label-for="password">
+              <validation-provider #default="{ errors }" name="Password" rules="required">
+                <b-form-input id="password" v-model="form.password" :state="errors.length > 0 ? false : null"
+                  name="password" type="password" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Ketik Ulang Password *"
-              label-for="confirm-password"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Konfirmasi Password"
-                rules="required"
-              >
-                <b-form-input
-                  id="confirm-password"
-                  v-model="confirmPassword"
-                  :state="errors.length > 0 || errorConfirmPassword ? false:null"
-                  name="confirm-password"
-                  type="password"
-                />
-                <small class="text-danger">{{ errors[0] ? errors[0] : errorConfirmPassword ? 'Password konfimasi tidak sama' : '' }}</small>
+            <b-form-group label="Ketik Ulang Password *" label-for="confirm-password">
+              <validation-provider #default="{ errors }" name="Konfirmasi Password" rules="required">
+                <b-form-input id="confirm-password" v-model="confirmPassword"
+                  :state="errors.length > 0 || errorConfirmPassword ? false : null" name="confirm-password"
+                  type="password" />
+                <small class="text-danger">
+                  {{ errors[0] ? errors[0] : errorConfirmPassword ? 'Password konfimasi tidak sama' : '' }}
+                </small>
               </validation-provider>
             </b-form-group>
 
             <!-- submit buttons -->
-            <b-button
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="validationForm"
-            >
+            <b-button type="submit" variant="outline-danger" block @click="validationForm">
               Daftar
             </b-button>
           </div>
@@ -282,7 +118,7 @@
 
       <b-card-text class="text-center mt-2">
         <span>Sudah punya akun? </span>
-        <b-link :to="{name:'login'}">
+        <b-link :to="{ name: 'login' }">
           <span>&nbsp;Daftar disini</span>
         </b-link>
       </b-card-text>

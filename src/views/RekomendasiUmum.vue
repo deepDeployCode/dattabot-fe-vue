@@ -44,12 +44,23 @@
             </div> -->
           </div>
           <div class="pt-1">
-            <div v-if="item.reksip_terbit != true" class="card-content card-content-padding" style="text-align: justify;">
+            <div v-if="item.reksip_terbit != true && item.invoice_id == 0" class="card-content card-content-padding"
+              style="text-align: justify;">
               <p class="">
                 Proses pada pelayanan ini belum selesai.
               </p>
               <p class="p-0 mb-0">
                 Silahkan pilih tombol dibawah ini untuk melanjutkan proses atau membatalkannya.
+              </p>
+              <br>
+            </div>
+            <div v-else-if="item.reksip_terbit == false && item.invoice_id != 0" class="card-content card-content-padding"
+              style="text-align: justify;">
+              <p class="">
+                Proses pada pelayanan ini belum selesai silahkan menghubungi pihak admin .
+              </p>
+              <p class="p-0 mb-0">
+                untuk melakukan verifikasi invoice anda serta mengaktifkan rekomendasi izin praktek.
               </p>
               <br>
             </div>
@@ -67,12 +78,19 @@
               </p> -->
             </div>
           </div>
-          <b-button v-if="item.invoice_id == 0" type="submit" variant="outline-danger" block
-            @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
-            <feather-icon icon="ArrowRightIcon" class="mr-26" />
-            <span>Lanjutkan</span>
-          </b-button>
-          <b-button type="submit" variant="outline-danger" block @click="cancelRecomendation(item.id)">
+          <p v-if="item.invoice_id == 0 && item.reksip_terbit == false">
+            <b-button type="submit" variant="outline-danger" block
+              @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
+              <feather-icon icon="ArrowRightIcon" class="mr-26" />
+              <span>Lanjutkan</span>
+            </b-button>
+            <b-button type="submit" variant="outline-danger" block @click="cancelRecomendation(item.id)">
+              <feather-icon icon="XIcon" class="mr-26" />
+              <span>Cancel</span>
+            </b-button>
+          </p>
+          <b-button v-else-if="item.reksip_terbit != true" type="submit" variant="outline-danger" block
+            @click="cancelRecomendation(item.id)">
             <feather-icon icon="XIcon" class="mr-26" />
             <span>Cancel</span>
           </b-button>
