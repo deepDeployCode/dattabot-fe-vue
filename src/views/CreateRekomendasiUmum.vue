@@ -62,7 +62,8 @@
 
           <b-form-group label="Ijazah *" label-for="ijazah" class="mt-1">
             <b-card v-if="rekomendasi.data.reksip_pend_file" footer-tag="footer" class="shadow-none border pointer mt-1"
-              footer-bg-variant="warning" footer-text-variant="dark" footer-class="font-weight-bold pointer text-center">
+              footer-bg-variant="warning" footer-text-variant="dark" footer-class="font-weight-bold pointer text-center"
+              v-model="rekomendasi.data.reksip_pend_file">
               <b-img fluid center :src="reksipIjazah(rekomendasi.data)" alt="file izajah" class="mt-1"
                 style="max-height: 250px;" />
               <template #footer>
@@ -80,7 +81,8 @@
             <b-card
               v-if="rekomendasi.data.reksip_str_tgl_berakhir || rekomendasi.data.reksip_str_no || rekomendasi.data.reksip_str_file"
               footer-tag="footer" class="shadow-none border pointer mt-1" footer-bg-variant="warning"
-              footer-text-variant="dark" footer-class="font-weight-bold pointer text-center">
+              footer-text-variant="dark" footer-class="font-weight-bold pointer text-center"
+              v-model="rekomendasi.data.reksip_str_file">
               <table>
                 <tr>
                   <td>Nomor STR</td>
@@ -133,7 +135,7 @@
               Pilih
             </b-button>
           </b-form-group>
-          <!-- <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
+          <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
             <validation-provider #default="{ errors }" name="surat-keterangan-kerja"
               v-model="rekomendasi.data.surat_keterangan_kerja">
               <b-form-file id="surat-keterangan-kerja" :state="errors.length > 0 ? false : null"
@@ -155,7 +157,7 @@
                 dan unggah kembali.
               </p>
             </validation-provider>
-          </b-form-group> -->
+          </b-form-group>
           <b-button type="submit" variant="outline-danger" block @click="validationForm">
             Lanjutkan
           </b-button>
@@ -226,17 +228,17 @@
       </b-modal>
     </div>
     <div v-else class="p-2 mx-auto">
-      <validation-observer ref="invoiceRekomendasiUmum">
+      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="invoiceRekomendasiUmum">
         <b-form class="mt-1" @submit.prevent>
 
           <b-card class="shadow-none border p-1 mb-1" no-body>
             <div class="d-flex pb-1 border-bottom">
               <div>
                 <div class="font-weight-bold">
-                  Invoice # 2738
+                  Invoice # {{ rekomendasi.data.invoices.id }}
                 </div>
                 <small>
-                  2023-02-26T05:57:28.083Z
+                  {{ rekomendasi.data.invoices.created_at }}
                 </small>
                 <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
@@ -246,10 +248,10 @@
 
             <div class="text-center pt-1">
               <div style="font-size: 24px">
-                <b>Rp 200.000</b>
+                <b>Rp {{ rekomendasi.data.invoices.invoice_jumlah }}</b>
               </div>
               <div class="border-1">
-                <span>belum-dibayar</span>
+                <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
               </div>
             </div>
           </b-card>
@@ -284,7 +286,7 @@
                 <tr>
                   <td>Keterangan</td>
                   <td class="font-weight-bold">
-                    : Surat Rekomendasi Izin Praktik UMUM
+                    : {{ rekomendasi.data.invoices.invoice_name }}
                   </td>
                 </tr>
               </tbody>
@@ -362,16 +364,16 @@ export default {
         data: null,
         isLoading: true,
       },
-      form: {
-        reksip_kategori: '',
-        reksip_id: '',
-        reksip_nama_instansi: '',
-        reksip_pend_file: '',
-        reksip_str_file: '',
-        reksip_tidak_kena_sanksi: '',
-        reksip_npa_file: '',
-        reksip_alamat_instansi: '',
-      }
+      // form: {
+      //   reksip_kategori: '',
+      //   reksip_id: '',
+      //   reksip_nama_instansi: '',
+      //   reksip_pend_file: '',
+      //   reksip_str_file: '',
+      //   reksip_tidak_kena_sanksi: '',
+      //   reksip_npa_file: '',
+      //   reksip_alamat_instansi: '',
+      // }
     }
   },
   computed: {
@@ -502,13 +504,38 @@ export default {
       })
     },
 
+    validateUploadBuktiBayar() {
+      this.$refs.buktiBayarValidation.validate().then(success => {
+        if (success) {
+          this.submitBuktiBayar()
+        }
+      })
+    },
+
 
     submitRekomendasi() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-      const newForm = { ...this.form }
-      apis.rekomendasi.rekomendasiInput(newForm)
+      apis.rekomendasi.rekomendasiInput({
+        reksip_kategori: 'umum',
+        reksip_id: this.rekomendasi.data.id,
+        reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
+        reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
+        reksip_str_file: this.rekomendasi.data.reksip_str_file,
+        reksip_tidak_kena_sanksi: this.rekomendasi.data.reksip_tidak_kena_sanksi,
+        reksip_alamat_instansi: this.rekomendasi.data.reksip_alamat_instansi,
+        reksip_kompetensi_no: this.rekomendasi.data.reksip_kompetensi_no,
+        reksip_kompetensi_jenis: this.rekomendasi.data.reksip_kompetensi_jenis,
+        reksip_krip_file: this.rekomendasi.data.reksip_krip_file
+      })
         .then(() => {
-          this.successHandler('berhasil update rekomendasi')
+          apis.rekomendasi.rekomendasiPublish({ reksip_id: this.rekomendasi.data.id })
+            .then(() => {
+              this.successHandler('berhasil created invoice')
+              location.reload()
+            })
+            .catch(error => {
+              this.errorHandler(error, 'gagal create invoice silahkan coba lagi')
+            })
         })
         .catch(error => {
           this.errorHandler(error, 'rekomendasi gagal silahkan coba lagi')
