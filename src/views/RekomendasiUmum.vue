@@ -107,6 +107,7 @@ import {
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
+import ToastificationContentVue from '@/@core/components/toastification/ToastificationContent.vue'
 
 import apis from '@/api'
 
@@ -139,11 +140,46 @@ export default {
     async cancelRecomendation(ids) {
       try {
         this.rekomendasi.isLoading = true
-        await apis.rekomendasi.cancelRecomendation({ reksip_id: ids })
-        this.successHandler('berhasil di cancel')
-        location.reload()
+        this.$swal({
+          title: 'Apakah kamu yakin?',
+          text: 'Rekomendasi Izin Praktik Umum yang sudah dihapus, tidak bisa dikembalikan',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Ya, hapus!',
+          cancelButtonText: 'Batal',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ml-1',
+          },
+          buttonsStyling: false,
+        })
+          .then(result => {
+            if (result.value) {
+              this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
+              return apis.rekomendasi.cancelRecomendation({ reksip_id: ids })
+            }
+            return false
+
+          })
+          .then(result => {
+            if (result) {
+              this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+              this.$toast({
+                component: ToastificationContentVue,
+                props: {
+                  title: 'Berhasil menghapus rekomendasi izin praktik Umum',
+                  icon: 'CheckIcon',
+                  variant: 'success',
+                },
+              })
+            }
+            location.reload()
+          })
+          .catch(error => {
+            this.errorHandler(error, 'gagal di cancel coba lagi')
+          })
       } catch (error) {
-        this.errorHandler(error, 'gagal di cancel')
+        this.errorHandler(error, 'kesalahan sistem')
       } finally {
         this.rekomendasi.isLoading = false
       }

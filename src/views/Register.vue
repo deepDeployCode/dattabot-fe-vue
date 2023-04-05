@@ -165,7 +165,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      simfoniLogo: require('@/assets/images/logo/simfoni.png'),
+      simfoniLogo: require('@/assets/images/logo/logo-new-idi.png'),
       status: '',
       password: 'home258',
       userEmail: 'forumkita.idijakpus@gmail.com',

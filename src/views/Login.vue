@@ -5,7 +5,15 @@
       <div class="d-flex justify-content-center mb-3">
         <b-img fluid width="100" height="100" :src="logoSimfoniNew" alt="logoSimfoniNew" />
       </div>
-
+      <br>
+      <div class="d-flex justify-content-center">
+        <p><b>
+            <h1>Selamat datang!</h1>
+          </b>
+          <br>
+          Silahkan login untuk menggunakan aplikasi layanan terintegrasi <b>IDI Cabang Jakarta Pusat</b>
+        </p>
+      </div>
       <!-- form -->
       <validation-observer ref="loginValidation">
         <b-form class="auth-login-form mt-2" @submit.prevent>

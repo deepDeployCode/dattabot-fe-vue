@@ -159,7 +159,7 @@
             </validation-provider>
           </b-form-group>
           <b-button type="submit" variant="outline-danger" block @click="validationForm">
-            Lanjutkan
+            Update Data
           </b-button>
         </b-form>
       </validation-observer>
