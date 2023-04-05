@@ -228,14 +228,16 @@
       </b-modal>
     </div>
     <div v-else class="p-2 mx-auto">
-      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="invoiceRekomendasiUmum">
+      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="buktiBayarValidation">
         <b-form class="mt-1" @submit.prevent>
 
           <b-card class="shadow-none border p-1 mb-1" no-body>
             <div class="d-flex pb-1 border-bottom">
               <div>
                 <div class="font-weight-bold">
-                  Invoice # {{ rekomendasi.data.invoices.id }}
+                  Invoice: # {{ rekomendasi.data.invoices.id }}
+                  <br>
+                  IdRekomendasi: # {{ rekomendasi.data.id }}
                 </div>
                 <small>
                   {{ rekomendasi.data.invoices.created_at }}
@@ -294,14 +296,14 @@
           </b-card>
 
           <b-form-group label="Upload Bukti Bayar *" label-for="upload-bukti-bayar" class="mt-1">
-            <validation-provider #default="{ errors }" name="upload-bukti-bayar" rules="required">
+            <validation-provider #default="{ errors }" name="upload-bukti-bayar">
               <b-form-file id="upload-bukti-bayar" :state="errors.length > 0 ? false : null" name="upload-bukti-bayar"
-                accept="image/*" />
+                accept="image/*" @change="buktiBayar" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
 
-          <b-button type="submit" variant="outline-danger" block>
+          <b-button type="submit" variant="outline-danger" block @click="validateUploadBuktiBayar">
             Simpan
           </b-button>
         </b-form>
@@ -364,6 +366,7 @@ export default {
         data: null,
         isLoading: true,
       },
+      buktiBayarBase64: {},
       // form: {
       //   reksip_kategori: '',
       //   reksip_id: '',
@@ -510,6 +513,37 @@ export default {
           this.submitBuktiBayar()
         }
       })
+    },
+
+    async buktiBayar() {
+      const selectImgBuktiBayar = await e.target.files[0]
+      this.handleBuktiBayar(selectImgBuktiBayar)
+    },
+
+    async handleBuktiBayar(getBuktiBayar) {
+      let reader = new FileReader()
+
+      reader.onloadend = async (e) => {
+        this.buktiBayarBase64 = e.target.result
+      }
+
+      reader.readAsDataURL(getBuktiBayar)
+    },
+
+    async submitBuktiBayar() {
+      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
+      try {
+        var buktiBayar = {
+          reksip_id: this.rekomendasi.data.id,
+          invoice_file: this.buktiBayarBase64
+        }
+        await apis.rekomendasi.rekomendasiPublish(buktiBayar)
+        this.successHandler('berhasil upload bukti bayar')
+      } catch (error) {
+        this.errorHandler(error, 'gagal upload bukti bayar')
+      } finally {
+        this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+      }
     },
 
 
