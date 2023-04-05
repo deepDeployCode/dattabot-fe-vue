@@ -255,6 +255,28 @@
               <div class="border-1">
                 <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
               </div>
+              <br>
+              <!-- card 1 -->
+              <b-card
+                v-if="rekomendasi.data.invoices.invoice_status == 'sudah-dibayar' || rekomendasi.data.invoices.invoice_status == 'sudah-bayar'"
+                img-alt="Card image cap" img-top no-body>
+                <b-card-body>
+                  <b-card-text>
+                    selanjutnya lakukan pengaktifan rekomendasi izin praktik anda dengan cara menghubungi pihak admin.
+                  </b-card-text>
+                </b-card-body>
+                <b-card-footer>
+                  <small class="text-muted"><i>Noted: jika rekom sudah terbit maka anda dapat melihat kembali data rekom
+                      yang
+                      sudah anda ajukan</i></small>
+                </b-card-footer>
+              </b-card>
+              <b-card v-else img-alt="Card image cap" img-top no-body>
+                <b-card-footer>
+                  <small class="text-muted"><i>Noted: harap hubungi pihak admin agar mempercepat proses verifikasi invoice
+                      anda</i></small>
+                </b-card-footer>
+              </b-card>
             </div>
           </b-card>
           <b-card class="shadow-none border p-1 mb-1" no-body>
@@ -296,12 +318,34 @@
           </b-card>
 
           <b-form-group label="Upload Bukti Bayar *" label-for="upload-bukti-bayar" class="mt-1">
-            <validation-provider #default="{ errors }" name="upload-bukti-bayar">
-              <b-form-file id="upload-bukti-bayar" :state="errors.length > 0 ? false : null" name="upload-bukti-bayar"
-                accept="image/*" @change="buktiBayar" />
+            <validation-provider #default="{ errors }" name="upload-bukti-bayar" rules="required">
+              <b-form-file id="upload-bukti-bayar" :state="errors.length > 0 ? false : null" v-model="tempBuktiBayar"
+                accept="image/*" @change="buktiBayar($event)" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
+
+          <b-card class="shadow-none border p-1 mb-1" no-body>
+            <div class="d-flex pb-1 border-bottom">
+              <div>
+                <div class="font-weight-bold">
+                  Bukti Pembayaran
+                </div>
+              </div>
+            </div>
+            <table class="mt-1">
+              <tbody>
+                <tr v-if="rekomendasi.data.invoices.invoice_file != null">
+                  <td>
+                    <img :src="rekomendasi.data.invoices.invoice_file" alt="gallery_image" width="320" height="280" />
+                  </td>
+                </tr>
+                <tr v-else>
+                  <p>belum ada bukti screenshoot</p>
+                </tr>
+              </tbody>
+            </table>
+          </b-card>
 
           <b-button type="submit" variant="outline-danger" block @click="validateUploadBuktiBayar">
             Simpan
@@ -321,13 +365,17 @@ import {
   BForm,
   BFormInput,
   BFormSelect,
+  BCardTitle,
   BFormFile,
   BModal,
   BFormGroup,
   BFormTextarea,
   BFormCheckbox,
+  BCardGroup,
   VBModal,
   BCardText,
+  BCardFooter,
+  BCardBody,
   BImg,
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
@@ -342,6 +390,10 @@ export default {
     BaseNavigation,
     DividerNavigation,
     BButton,
+    BCardGroup,
+    BCardBody,
+    BCardFooter,
+    BCardTitle,
     ValidationProvider,
     ValidationObserver,
     BForm,
@@ -367,6 +419,8 @@ export default {
         isLoading: true,
       },
       buktiBayarBase64: {},
+      tempBuktiBayar: null,
+      fileBerkas: null,
       // form: {
       //   reksip_kategori: '',
       //   reksip_id: '',
@@ -380,9 +434,6 @@ export default {
     }
   },
   computed: {
-    imgNotFound() {
-      return `https://upload.wikimedia.org/wikipedia/commons/d/d1/Image_not_available.png`
-    },
     photoIjazah() {
       return item => {
         if (item.pend_ijazah_file) {
@@ -515,29 +566,32 @@ export default {
       })
     },
 
-    async buktiBayar() {
-      const selectImgBuktiBayar = await e.target.files[0]
-      this.handleBuktiBayar(selectImgBuktiBayar)
-    },
-
-    async handleBuktiBayar(getBuktiBayar) {
-      let reader = new FileReader()
-
-      reader.onloadend = async (e) => {
-        this.buktiBayarBase64 = e.target.result
+    buktiBayar(e) {
+      const { files } = e.target
+      if (files.length) {
+        this.createImage(files[0], result => {
+          this.fileBerkas = result
+        })
       }
-
-      reader.readAsDataURL(getBuktiBayar)
     },
+
+    createImage(file, cb) {
+      const reader = new FileReader()
+
+      reader.onload = e => {
+        cb(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    },
+
 
     async submitBuktiBayar() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
       try {
-        var buktiBayar = {
+        await apis.rekomendasi.rekomendasiPublish({
           reksip_id: this.rekomendasi.data.id,
-          invoice_file: this.buktiBayarBase64
-        }
-        await apis.rekomendasi.rekomendasiPublish(buktiBayar)
+          invoice_file: this.fileBerkas
+        })
         this.successHandler('berhasil upload bukti bayar')
       } catch (error) {
         this.errorHandler(error, 'gagal upload bukti bayar')

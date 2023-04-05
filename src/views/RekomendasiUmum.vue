@@ -32,16 +32,15 @@
                 Belum Terverifikasi
               </b-badge>
             </div>
-            <!-- tombol di sudut kanan atas gak di pake-->
-            <!-- <div class="ml-auto d-flex text-danger">
-              <div v-if="item.reksip_terbit != true" class="pointer mr-2"
-                @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+            <!-- gak di pake yang menu bagian sudut kanan -->
+            <div v-if="item.reksip_terbit == true" class="ml-auto d-flex text-danger">
+              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/edit/${item.id}`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
-              <div class="pointer">
+              <!-- <div class="pointer">
                 <feather-icon icon="XIcon" size="20" class="align-middle" @click="cancelRecomendation(item.id)" />
-              </div>
-            </div> -->
+              </div> -->
+            </div>
           </div>
           <div class="pt-1">
             <div v-if="item.reksip_terbit != true && item.invoice_id == 0" class="card-content card-content-padding"
@@ -87,6 +86,12 @@
               <feather-icon icon="XIcon" class="mr-26" />
               <span>Cancel</span>
             </b-button>
+          </p>
+          <p v-else-if="item.reksip_terbit == true">
+            <b-button type="submit" variant="outline-danger" block
+              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+              <feather-icon icon="ArrowRightIcon" class="mr-26" />
+              <span>Lihat Invoice</span></b-button>
           </p>
         </b-card>
       </div>
