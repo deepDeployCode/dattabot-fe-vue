@@ -262,8 +262,8 @@
                 img-alt="Card image cap" img-top no-body>
                 <b-card-body>
                   <b-card-text>
-                      selanjutnya lakukan pengaktifan rekomendasi izin praktik anda dengan cara menghubungi pihak admin.
-                    </b-card-text>
+                    selanjutnya lakukan pengaktifan rekomendasi izin praktik anda dengan cara menghubungi pihak admin.
+                  </b-card-text>
                 </b-card-body>
                 <b-card-footer>
                   <small class="text-muted"><i>Noted: jika rekom sudah terbit maka anda dapat melihat kembali data rekom
@@ -365,13 +365,17 @@ import {
   BForm,
   BFormInput,
   BFormSelect,
+  BCardTitle,
   BFormFile,
   BModal,
   BFormGroup,
   BFormTextarea,
   BFormCheckbox,
+  BCardGroup,
   VBModal,
   BCardText,
+  BCardFooter,
+  BCardBody,
   BImg,
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
@@ -386,6 +390,10 @@ export default {
     BaseNavigation,
     DividerNavigation,
     BButton,
+    BCardGroup,
+    BCardBody,
+    BCardFooter,
+    BCardTitle,
     ValidationProvider,
     ValidationObserver,
     BForm,
@@ -596,7 +604,7 @@ export default {
     submitRekomendasi() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
       apis.rekomendasi.rekomendasiInput({
-        reksip_kategori: 'umum',
+        reksip_kategori: 'spesialis',
         reksip_id: this.rekomendasi.data.id,
         reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
         reksip_pend_file: this.rekomendasi.data.reksip_pend_file,

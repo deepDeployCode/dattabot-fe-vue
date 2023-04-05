@@ -5,47 +5,21 @@
     <div class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
-        <b-img
-          fluid
-          width="150"
-          height="150"
-          :src="simfoniLogo"
-          alt="simfoniLogo"
-        />
+        <b-img fluid width="150" height="150" :src="simfoniLogo" alt="simfoniLogo" />
       </div>
       <validation-observer ref="loginValidation">
-        <b-form
-          class="auth-login-form"
-          @submit.prevent
-        >
+        <b-form class="auth-login-form" @submit.prevent>
 
-          <b-form-group
-            label="Email"
-            label-for="login-email"
-          >
-            <validation-provider
-              #default="{ errors }"
-              name="Email"
-              rules="required|email"
-            >
-              <b-form-input
-                id="login-email"
-                v-model="userEmail"
-                :state="errors.length > 0 ? false:null"
-                name="login-email"
-                placeholder="john@example.com"
-              />
+          <b-form-group label="Email" label-for="login-email">
+            <validation-provider #default="{ errors }" name="Email" rules="required|email">
+              <b-form-input id="login-email" v-model="userEmail" :state="errors.length > 0 ? false : null"
+                name="login-email" placeholder="john@example.com" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
 
           <!-- submit buttons -->
-          <b-button
-            type="submit"
-            variant="outline-danger"
-            block
-            @click="validationForm"
-          >
+          <b-button type="submit" variant="outline-danger" block @click="validationForm">
             Submit
           </b-button>
         </b-form>
@@ -53,7 +27,7 @@
 
       <b-card-text class="text-center mt-2">
         <span>Sudah ingat password atau ingin login? </span>
-        <b-link :to="{name:'login'}">
+        <b-link :to="{ name: 'login' }">
           <span>&nbsp;Login disini</span>
         </b-link>
       </b-card-text>
@@ -61,12 +35,7 @@
     <hr>
     <div class="p-2 mx-auto">
       <div class="d-flex align-self-center">
-        <feather-icon
-          icon="InfoIcon"
-          size="20"
-          stroke-width="2"
-          class="mr-1"
-        />
+        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
         <h4>
           Instruksi lanjutan
         </h4>
@@ -117,7 +86,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      simfoniLogo: require('@/assets/images/logo/simfoni.png'),
+      simfoniLogo: require('@/assets/images/logo/logo-new-idi.png'),
       userEmail: 'dzakkiaz7@gmail.com',
       required,
       email,

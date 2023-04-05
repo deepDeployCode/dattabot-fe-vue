@@ -54,6 +54,9 @@ const endpoints = {
   },
   rekomendasi: {
     default: '/recommendation',
+    cancel: 'cancel',
+    input: 'input',
+    publish: 'publish'
   },
 }
 
@@ -171,6 +174,16 @@ const apis = {
     getById(id) {
       return resource.get(`${endpoints.rekomendasi.default}/${id}`)
     },
+    cancelRecomendation(body){
+      return resource.post(`${endpoints.rekomendasi.default}/${endpoints.rekomendasi.cancel}`, body)
+    },
+    // input can create and update
+    rekomendasiInput(body){
+      return resource.post(`${endpoints.rekomendasi.default}/${endpoints.rekomendasi.input}`, body)
+    },
+    rekomendasiPublish(body) {
+      return resource.post(`${endpoints.rekomendasi.default}/${endpoints.rekomendasi.publish}`, body)
+    }
   },
 }
 

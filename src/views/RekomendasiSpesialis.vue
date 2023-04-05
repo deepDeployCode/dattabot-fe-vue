@@ -4,19 +4,18 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <div class="d-flex flex-row">
-        <b-button variant="outline-danger" block @click="inputRekomendasi(kategori = 'umum')">
+        <b-button variant="outline-danger" block @click="inputRekomendasi(kategori = 'spesialis')">
           Permintaan Baru
         </b-button>
       </div>
 
       <div class="mt-1" v-for="item in rekomendasi.data" :key="item.id">
 
-        <b-card v-if="item.reksip_kategori != 'spesialis' && item.reksip_kategori != 'Spesialis'"
+        <b-card v-if="item.reksip_kategori != 'umum' && item.reksip_kategori != 'Umum'"
           class="shadow-none border p-1 mb-1" no-body>
           <div class="d-flex pb-1 border-bottom">
             <div>
-              <div class="font-weight-bold"
-                v-if="item.reksip_kategori != 'spesialis' && item.reksip_kategori != 'Spesialis'">
+              <div class="font-weight-bold" v-if="item.reksip_kategori != 'umum' && item.reksip_kategori != 'Umum'">
                 #{{ item.id }} - {{ item.reksip_kategori }}
               </div>
               <!-- label status verif rekom izin praktek-->
@@ -34,7 +33,7 @@
             </div>
             <!-- gak di pake yang menu bagian sudut kanan -->
             <div v-if="item.reksip_terbit == true" class="ml-auto d-flex text-danger">
-              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/umum/edit/${item.id}`)">
+              <div class="pointer mr-2" @click="$router.push(`/rekomendasi/spesialis/edit/${item.id}`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
               <!-- <div class="pointer">
@@ -79,7 +78,7 @@
           </div>
           <p v-if="item.invoice_id == 0 || item.reksip_terbit == false">
             <b-button type="submit" variant="outline-danger" block
-              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+              @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
               <feather-icon icon="ArrowRightIcon" class="mr-26" />
               <span>Lanjutkan</span></b-button>
             <b-button type="submit" variant="outline-danger" block @click="cancelRecomendation(item.id)">
@@ -89,7 +88,7 @@
           </p>
           <p v-else-if="item.reksip_terbit == true">
             <b-button type="submit" variant="outline-danger" block
-              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
+              @click="$router.push(`/rekomendasi/spesialis/create/${item.id}`)">
               <feather-icon icon="ArrowRightIcon" class="mr-26" />
               <span>Lihat Invoice</span></b-button>
           </p>
@@ -109,6 +108,7 @@ import BaseNavigation from '@/components/Base/BaseNavigation.vue'
 import DividerNavigation from '@/components/Base/DividerNavigation.vue'
 import ToastificationContentVue from '@/@core/components/toastification/ToastificationContent.vue'
 
+
 import apis from '@/api'
 
 export default {
@@ -121,7 +121,6 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
       rekomendasi: {
         data: null,
         isLoading: false,
@@ -136,13 +135,12 @@ export default {
     this.fetchRekomandasi()
   },
   methods: {
-
     async cancelRecomendation(ids) {
       try {
         this.rekomendasi.isLoading = true
         this.$swal({
           title: 'Apakah kamu yakin?',
-          text: 'Rekomendasi Izin Praktik Umum yang sudah dihapus, tidak bisa dikembalikan',
+          text: 'Rekomendasi Izin Praktik Spesialis yang sudah dihapus, tidak bisa dikembalikan',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonText: 'Ya, hapus!',
@@ -167,7 +165,7 @@ export default {
               this.$toast({
                 component: ToastificationContentVue,
                 props: {
-                  title: 'Berhasil menghapus rekomendasi izin praktik Umum',
+                  title: 'Berhasil menghapus rekomendasi izin praktik Spesialis',
                   icon: 'CheckIcon',
                   variant: 'success',
                 },
@@ -189,7 +187,7 @@ export default {
       try {
         this.rekomendasi.isLoading = true
         await apis.rekomendasi.rekomendasiInput({ reksip_kategori: kategori })
-        this.successHandler('berhasil create rekomendasi umum')
+        this.successHandler('berhasil create rekomendasi spesialis')
         location.reload()
       } catch (error) {
         this.errorHandler(error, 'gagal di input')

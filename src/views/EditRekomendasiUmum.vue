@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="rekomendasi.data.invoice_id == 0" class="p-2 mx-auto">
+    <div v-if="rekomendasi.data.invoice_id != 0 && rekomendasi.data.reksip_terbit == true" class="p-2 mx-auto">
       <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="rekomendasiValidation">
         <!-- form data submit rekomendasi-->
         <b-form class="mt-1" @submit.prevent>
@@ -159,7 +159,7 @@
             </validation-provider>
           </b-form-group>
           <b-button type="submit" variant="outline-danger" block @click="validationForm">
-            Lanjutkan
+            Update Data
           </b-button>
         </b-form>
       </validation-observer>
@@ -227,7 +227,8 @@
         </b-card>
       </b-modal>
     </div>
-    <div v-else class="p-2 mx-auto">
+    <!-- ngak di pake sementara-->
+    <!-- <div v-else class="p-2 mx-auto">
       <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="buktiBayarValidation">
         <b-form class="mt-1" @submit.prevent>
 
@@ -242,9 +243,6 @@
                 <small>
                   {{ rekomendasi.data.invoices.created_at }}
                 </small>
-                <!-- <b-badge variant="light-danger font-weight–light mt-25">
-                Belum terverifikasi
-              </b-badge> -->
               </div>
             </div>
 
@@ -255,15 +253,13 @@
               <div class="border-1">
                 <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
               </div>
-              <br>
-              <!-- card 1 -->
-              <b-card
-                v-if="rekomendasi.data.invoices.invoice_status == 'sudah-dibayar' || rekomendasi.data.invoices.invoice_status == 'sudah-bayar'"
-                img-alt="Card image cap" img-top no-body>
+              <b-card v-if="rekomendasi.data.invoices.invoice_status == 'sudah-dibayar'" img-alt="Card image cap" img-top
+                no-body>
                 <b-card-body>
                   <b-card-text>
-                      selanjutnya lakukan pengaktifan rekomendasi izin praktik anda dengan cara menghubungi pihak admin.
-                    </b-card-text>
+                    selanjutkan lakukan pengaktifkan rekomendasi izin praktik anda dengan cara menghubungi pihak admin
+                    praktik.
+                  </b-card-text>
                 </b-card-body>
                 <b-card-footer>
                   <small class="text-muted"><i>Noted: jika rekom sudah terbit maka anda dapat melihat kembali data rekom
@@ -352,7 +348,7 @@
           </b-button>
         </b-form>
       </validation-observer>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -365,13 +361,17 @@ import {
   BForm,
   BFormInput,
   BFormSelect,
+  BCardTitle,
   BFormFile,
   BModal,
   BFormGroup,
   BFormTextarea,
   BFormCheckbox,
+  BCardGroup,
   VBModal,
   BCardText,
+  BCardFooter,
+  BCardBody,
   BImg,
 } from 'bootstrap-vue'
 import BaseNavigation from '@/components/Base/BaseNavigation.vue'
@@ -386,6 +386,10 @@ export default {
     BaseNavigation,
     DividerNavigation,
     BButton,
+    BCardGroup,
+    BCardBody,
+    BCardFooter,
+    BCardTitle,
     ValidationProvider,
     ValidationObserver,
     BForm,
@@ -413,6 +417,7 @@ export default {
       buktiBayarBase64: {},
       tempBuktiBayar: null,
       fileBerkas: null,
+      // form ini dipake kalo posisinya create kalo update langsung panggil v-modelnya aja
       // form: {
       //   reksip_kategori: '',
       //   reksip_id: '',
@@ -550,6 +555,8 @@ export default {
       })
     },
 
+    /** 
+     * method dibawah adalah handler img untuk upload file
     validateUploadBuktiBayar() {
       this.$refs.buktiBayarValidation.validate().then(success => {
         if (success) {
@@ -577,6 +584,7 @@ export default {
     },
 
 
+    // method dibawah ini untuk submit bukti transfer/bayar
     async submitBuktiBayar() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
       try {
@@ -591,12 +599,13 @@ export default {
         this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
       }
     },
+    **/
 
 
     submitRekomendasi() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
       apis.rekomendasi.rekomendasiInput({
-        reksip_kategori: 'umum',
+        reksip_kategori: 'spesialis',
         reksip_id: this.rekomendasi.data.id,
         reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
         reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
@@ -608,14 +617,19 @@ export default {
         reksip_krip_file: this.rekomendasi.data.reksip_krip_file
       })
         .then(() => {
+          /** 
+           * call apis rekomendasi publish dilakukan ketika mau dibuat invoice untuk rekom ini 
+           * tapi kita gak pake karena ini edit bukan untuk create dengan invoicenya
           apis.rekomendasi.rekomendasiPublish({ reksip_id: this.rekomendasi.data.id })
             .then(() => {
-              this.successHandler('berhasil created invoice')
               location.reload()
             })
             .catch(error => {
               this.errorHandler(error, 'gagal create invoice silahkan coba lagi')
             })
+            **/
+          this.successHandler('berhasil created invoice')
+          location.reload()
         })
         .catch(error => {
           this.errorHandler(error, 'rekomendasi gagal silahkan coba lagi')

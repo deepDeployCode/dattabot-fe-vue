@@ -5,8 +5,8 @@
     <DividerNavigation />
     <BaseBottomNavigation />
     <div class="p-2 mx-auto">
-      <div>
-        <!-- TODO: ketika di klik, menuju maintenance page -->
+      <!-- TODO: ketika di klik, menuju maintenance page -->
+    <!-- <div>
         <div
           class="font-weight-bold mb-1"
           style="font-size: 16px;"
@@ -31,54 +31,29 @@
             </div>
           </b-card>
         </div>
-      </div>
-      <b-card
-        class="shadow-none border mb-1"
-      >
+          </div> -->
+      <b-card class="shadow-none border mb-1">
         <div class="d-flex flex-row justify-content-between align-items-start">
-          <div
-            class="d-flex flex-column justify-content-center pointer"
-            style="width: 33%;"
-            @click="$router.push('/krip')"
-          >
+          <div class="d-flex flex-column justify-content-center pointer" style="width: 33%;"
+            @click="$router.push('/krip')">
             <div class="d-flex justify-content-center mb-25">
-              <b-img
-                :src="kripIcon"
-                height="70"
-                width="70"
-              />
+              <b-img :src="kripIcon" height="70" width="70" />
             </div>
             <div class="text-center">
               KRIP
             </div>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center"
-            style="width: 33%;"
-            @click="isShowRekomendasi = true"
-          >
+          <div class="d-flex flex-column justify-content-center" style="width: 33%;" @click="isShowRekomendasi = true">
             <div class="d-flex justify-content-center mb-25">
-              <b-img
-                :src="rekomendasiIcon"
-                height="70"
-                width="70"
-              />
+              <b-img :src="rekomendasiIcon" height="70" width="70" />
             </div>
             <div class="text-center">
               Rekomendasi
             </div>
           </div>
-          <div
-            class="d-flex flex-column justify-content-center"
-            style="width: 33%;"
-            @click="$router.push('/mutasi')"
-          >
+          <div class="d-flex flex-column justify-content-center" style="width: 33%;" @click="$router.push('/mutasi')">
             <div class="d-flex justify-content-center mb-25">
-              <b-img
-                :src="keanggotaanIcon"
-                height="70"
-                width="70"
-              />
+              <b-img :src="keanggotaanIcon" height="70" width="70" />
             </div>
             <div class="text-center">
               Keanggotaan
@@ -88,55 +63,27 @@
       </b-card>
 
       <ButtonCreateNewPost />
-      <div
-        v-if="forums.isLoading"
-        class="d-flex justify-content-center mb-1"
-      >
-        <b-spinner
-          label="Loading..."
-          variant="danger"
-        />
+      <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
+        <b-spinner label="Loading..." variant="danger" />
       </div>
-      <div
-        v-if="!forums.isLoading && !forums.data.length"
-        class="d-flex justify-content-center mb-1"
-      >
+      <div v-if="!forums.isLoading && !forums.data.length" class="d-flex justify-content-center mb-1">
         Belum ada forum yang di posting
       </div>
-      <CardPost
-        v-for="forum in forums.data"
-        :key="forum.id"
-        :forum="forum"
-        is-elipsis="true"
-        @refreshFetch="fetchForums"
-      />
+      <CardPost v-for="forum in forums.data" :key="forum.id" :forum="forum" is-elipsis="true"
+        @refreshFetch="fetchForums" />
     </div>
 
-    <b-modal
-      id="modal-rekomendasi"
-      v-model="isShowRekomendasi"
-      cancel-variant="secondary"
-      centered
-      size="xs"
-      hide-footer
-    >
+    <b-modal id="modal-rekomendasi" v-model="isShowRekomendasi" cancel-variant="secondary" centered size="xs" hide-footer>
       <div slot="modal-title">
         <div>Rekomendasi</div>
         <small>Surat Izin Praktik Dokter</small>
       </div>
 
       <div>
-        <b-button
-          variant="outline-danger"
-          block
-          @click="$router.push('/rekomendasi/umum')"
-        >
+        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum')">
           Umum
         </b-button>
-        <b-button
-          variant="outline-danger"
-          block
-        >
+        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/spesialis')">
           Spesialis
         </b-button>
       </div>
@@ -201,27 +148,26 @@ export default {
           this.forums.data = data.data
           this.forums.isLoading = false
         })
-        .catch(() => {})
+        .catch(() => { })
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
+.webinar-list {
+  align-items: stretch;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 
-  .webinar-list {
-    align-items: stretch;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
-
-    .webinar-card {
-      max-width: 33.333%;
-      flex-basis: 33.333%;
-      flex-grow: 0;
-      flex-shrink: 0;
-    }
+  .webinar-card {
+    max-width: 33.333%;
+    flex-basis: 33.333%;
+    flex-grow: 0;
+    flex-shrink: 0;
   }
+}
 </style>
