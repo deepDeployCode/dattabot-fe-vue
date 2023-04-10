@@ -126,6 +126,13 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
+            <b-form-group label="File NPA *" label-for="file-npa" class="mt-1">
+              <validation-provider #default="{ errors }" name="file-npa" rules="required">
+                <b-form-file id="file-npa" :state="errors.length > 0 ? false : null" v-model="form.npa_file"
+                  accept="image/*" @change="handlerFileNpa($event)" />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
 
             <!-- submit buttons -->
             <b-button type="submit" variant="outline-danger" block @click="validationForm">
@@ -219,6 +226,7 @@ export default {
         kartu_id_nomor: '',
         pasphoto: '',
         kartu_id_file: '',
+        npa_file: '',
         nama_lengkap: '',
         tanggal_lahir: '',
         tempat_lahir: '',
@@ -297,6 +305,25 @@ export default {
     },
 
 
+    handlerFileNpa(e) {
+      const { files } = e.target
+      if (files.length) {
+        this.createFileNpa(files[0], result => {
+          this.npa_file = result
+        })
+      }
+    },
+
+    createFileNpa(file, cb) {
+      const reader = new FileReader()
+
+      reader.onload = e => {
+        cb(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    },
+
+
     register() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
       // const newForm = { ...this.form }
@@ -306,7 +333,8 @@ export default {
       var insertData = {
         ...this.form,
         kartu_id_file: this.kartu_id_file,
-        pasphoto: this.pasphoto
+        pasphoto: this.pasphoto,
+        npa_file: this.npa_file
       }
       apis.auth.register(insertData)
         .then(() => {
