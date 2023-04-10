@@ -18,12 +18,17 @@
           </b-form-group>
 
           <div v-if="form.jenis_pendaftaran">
-            <b-form-group
-              v-if="form.jenis_pendaftaran === 'anggota-jakpus' || form.jenis_pendaftaran === 'non-anggota-idi-jakpus'"
-              label="Nomor Pokok Anggota *" label-for="nomor-pokok">
+            <b-form-group label="Nomor Pokok Anggota *" label-for="nomor-pokok">
               <validation-provider #default="{ errors }" name="Nomor Pokok Anggota" rules="required">
                 <b-form-input id="nomor-pokok" v-model="form.npa_idi" :state="errors.length > 0 ? false : null"
                   name="nomor-pokok" type="number" />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Nomor Identitas *" label-for="nomor-identitas">
+              <validation-provider #default="{ errors }" name="Nomor Identitas (KTP)" rules="required">
+                <b-form-input id="nomor-identitas" v-model="form.kartu_id_nomor" :state="errors.length > 0 ? false : null"
+                  name="nomor-identitas" type="text" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -107,6 +112,20 @@
                 </small>
               </validation-provider>
             </b-form-group>
+            <b-form-group label="File Kartu (KTP) *" label-for="kartu_id_file" class="mt-1">
+              <validation-provider #default="{ errors }" name="kartu_id_file" rules="required">
+                <b-form-file id="kartu_id_file" :state="errors.length > 0 ? false : null" v-model="form.kartu_id_file"
+                  accept="image/*" @change="handlerKartuFile($event)" />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Pas Foto *" label-for="pas-foto" class="mt-1">
+              <validation-provider #default="{ errors }" name="pas-foto" rules="required">
+                <b-form-file id="pas-foto" :state="errors.length > 0 ? false : null" v-model="form.pasphoto"
+                  accept="image/*" @change="handlerPassFoto($event)" />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
 
             <!-- submit buttons -->
             <b-button type="submit" variant="outline-danger" block @click="validationForm">
@@ -136,6 +155,7 @@ import {
   BForm,
   BButton,
   BFormSelect,
+  BFormFile,
   BFormInput,
   BImg,
 } from 'bootstrap-vue'
@@ -154,6 +174,7 @@ export default {
     BCardText,
     BForm,
     BButton,
+    BFormFile,
     ValidationProvider,
     ValidationObserver,
     BFormSelect,
@@ -195,6 +216,9 @@ export default {
         email: '',
         password: '',
         npa_idi: '', // 0000
+        kartu_id_nomor: '',
+        pasphoto: '',
+        kartu_id_file: '',
         nama_lengkap: '',
         tanggal_lahir: '',
         tempat_lahir: '',
@@ -233,13 +257,58 @@ export default {
         }
       })
     },
+
+
+    // handler img passfoto and file kartu(ktp)
+    handlerPassFoto(e) {
+      const { files } = e.target
+      if (files.length) {
+        this.createPassfoto(files[0], result => {
+          this.pasphoto = result
+        })
+      }
+    },
+
+    createPassfoto(file, cb) {
+      const reader = new FileReader()
+
+      reader.onload = e => {
+        cb(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    },
+
+    handlerKartuFile(e) {
+      const { files } = e.target
+      if (files.length) {
+        this.createKartuFile(files[0], result => {
+          this.kartu_id_file = result
+        })
+      }
+    },
+
+    createKartuFile(file, cb) {
+      const reader = new FileReader()
+
+      reader.onload = e => {
+        cb(e.target.result)
+      }
+      reader.readAsDataURL(file)
+    },
+
+
     register() {
       this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-      const newForm = { ...this.form }
+      // const newForm = { ...this.form }
       if (this.form.jenis_pendaftaran === 'baru') {
         newForm.npa_idi = '0000'
       }
-      apis.auth.register(newForm)
+      var insertData = {
+        ...this.form,
+        kartu_id_file: this.kartu_id_file,
+        pasphoto: this.pasphoto
+      }
+      apis.auth.register(insertData)
         .then(() => {
           this.$toast({
             component: ToastificationContent,
