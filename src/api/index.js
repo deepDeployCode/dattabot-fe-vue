@@ -88,7 +88,7 @@ const apis = {
       return resource.post(`${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.get}/${id}/${endpoints.verifyInvoice.invoice}`)
     },
     uploadBuktiBayar(id, body) {
-      return resource.post(`${endpoints.verifyInvoice}/${id}/${endpoints.verifyInvoice.invoice}`,body)
+      return resource.post(`${endpoints.verifyInvoice.default}/${id}/${endpoints.verifyInvoice.invoice}`,body)
     }
   },
   forum: {
