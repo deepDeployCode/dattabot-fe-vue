@@ -272,7 +272,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Rekomendasi SIP Umum',
+        title: 'Edit Rekomendasi SIP Umum',
       },
     },
     {
@@ -282,7 +282,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Rekomendasi SIP Umum',
+        title: 'Rekomendasi SIP Spesialis',
       },
     },
     {
@@ -292,7 +292,7 @@ const router = new VueRouter({
       meta: {
         layout: 'full',
         navbar: true,
-        title: 'Rekomendasi SIP Umum',
+        title: 'Edit Rekomendasi SIP Spesialis',
       },
     },
     {
@@ -344,6 +344,18 @@ const router = new VueRouter({
         layout: 'full',
         navbar: true,
         title: 'Daftar Akun',
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+    {
+      path: '/uploads/:id/invoice',
+      name: 'upload_struk_pembayaran',
+      component: () => import('@/views/VerifyInvoiceCalonAnggota.vue'),
+      meta: {
+        layout: 'full',
+        navbar: true,
+        title: 'Upload Bukti Bayar',
         isNavMenu: false,
         authenticationPage: true,
       },

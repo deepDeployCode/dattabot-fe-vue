@@ -58,6 +58,11 @@ const endpoints = {
     input: 'input',
     publish: 'publish'
   },
+  verifyInvoice: {
+    default: '/uploads',
+    invoice: 'invoice',
+    get: 'get'
+  }
 }
 
 const apis = {
@@ -77,6 +82,14 @@ const apis = {
     getUser() {
       return resource.post(endpoints.auth.user)
     },
+  },
+  invoice: {
+    getInvoice(id) {
+      return resource.post(`${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.get}/${id}/${endpoints.verifyInvoice.invoice}`)
+    },
+    uploadBuktiBayar(id, body) {
+      return resource.post(`${endpoints.verifyInvoice.default}/${id}/${endpoints.verifyInvoice.invoice}`,body)
+    }
   },
   forum: {
     getAll(url) {
