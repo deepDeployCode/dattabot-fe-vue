@@ -602,6 +602,7 @@ export default {
         .updateProfile(this.user.data.id, bodyUpdate)
         .then(({ data }) => {
           this.successHandler(data.message);
+          location.reload();
         })
         .catch((error) => {
           this.errorHandler(error, "gagal update profile");
