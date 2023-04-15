@@ -417,6 +417,7 @@ import BaseBottomNavigation from "@/components/Base/BaseBottomNavigation.vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import apis from "@/api";
 import { required, email } from "@validations";
+import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
 
 export default {
   components: {
@@ -580,8 +581,8 @@ export default {
       });
     },
 
-    updateProfile() {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+    async updateProfile() {
+      this.user.isLoading = true;
 
       let bodyUpdate = {
         orang_nama_lengkap: this.user.data.orang_nama_lengkap,
@@ -598,18 +599,49 @@ export default {
         orang_file_photo_resmi: this.user.data.orang_file_photo_resmi,
         orang_kartu_id_file: this.user.data.orang_kartu_id_file,
       };
-      apis.profile
-        .updateProfile(this.user.data.id, bodyUpdate)
-        .then(({ data }) => {
-          this.successHandler(data.message);
-          location.reload();
+      try {
+        this.$swal({
+          title: "Apakah kamu yakin?",
+          text: "Mengubah Data Ini, Perubahan data ini mempengaruhi data anda berikutnya",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Ubah!",
+          cancelButtonText: "Batal",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ml-1",
+          },
+          buttonsStyling: false,
         })
-        .catch((error) => {
-          this.errorHandler(error, "gagal update profile");
-        })
-        .finally(() => {
-          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-        });
+          .then((result) => {
+            if (result.value) {
+              this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+              return apis.profile.updateProfile(this.user.data.id, bodyUpdate);
+            }
+            return false;
+          })
+          .then((result) => {
+            if (result) {
+              this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+              this.$toast({
+                component: ToastificationContentVue,
+                props: {
+                  title: "Berhasil mengubah data profile ",
+                  icon: "CheckIcon",
+                  variant: "success",
+                },
+              });
+            }
+            location.reload();
+          })
+          .catch((error) => {
+            this.errorHandler(error, "gagal update profile");
+          });
+      } catch (error) {
+        this.errorHandler(error, "kesalahan sistem silahakn coba lagi");
+      } finally {
+        this.user.isLoading = false;
+      }
     },
   },
 };
