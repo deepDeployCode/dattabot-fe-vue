@@ -218,21 +218,6 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-              <b-form-group label="File Identitas *" label-for="file-identitas">
-                <validation-provider
-                  #default="{ errors }"
-                  name="File Identitas"
-                  rules="required">
-                  <small class="text-danger">{{ errors[0] }}</small>
-                  <b-img
-                    fluid
-                    center
-                    :src="fileIdentitas"
-                    alt="fileIdentitas"
-                    class="mt-1"
-                    style="max-height: 250px" />
-                </validation-provider>
-              </b-form-group>
               <b-form-group label="Status Pasangan" label-for="status-pasangan">
                 <validation-provider
                   #default="{ errors }"
@@ -309,12 +294,16 @@
                 </validation-provider>
               </b-form-group>
               <b-form-group label="Photo Resmi" label-for="photo-resmi">
-                <validation-provider #default="{ errors }" name="Photo Resmi">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Photo Resmi"
+                  rules="required">
                   <b-form-file
                     id="photo-resmi"
                     :state="errors.length > 0 ? false : null"
                     name="photo-resmi"
                     accept="image/*"
+                    v-model="upload.photo"
                     @change="onPhotoResmiChange($event)" />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
@@ -327,7 +316,34 @@
                   class="mt-1"
                   style="max-height: 250px" />
               </b-form-group>
-              <b-button type="submit" variant="outline-danger" block disabled>
+              <b-form-group label="File Identitas" label-for="file-identitas">
+                <validation-provider
+                  #default="{ errors }"
+                  name="File Identitas"
+                  rules="required">
+                  <b-form-file
+                    id="file-identitas"
+                    :state="errors.length > 0 ? false : null"
+                    name="file-identitas"
+                    accept="image/*"
+                    v-model="upload.fileIdentitas"
+                    @change="onPhotoFileIdentitas($event)" />
+                  <small class="text-danger">{{ errors[0] }}</small>
+                </validation-provider>
+                <b-img
+                  v-if="fileIdentitas"
+                  fluid
+                  center
+                  :src="fileIdentitas"
+                  alt="fileIdentitas"
+                  class="mt-1"
+                  style="max-height: 250px" />
+              </b-form-group>
+              <b-button
+                type="submit"
+                variant="outline-danger"
+                block
+                @click="validationForm">
                 Simpan
               </b-button>
             </b-form>
@@ -440,17 +456,21 @@ export default {
       optionJenisKelamin: ["Pria", "Wanita"],
       optionStatusPasangan: [
         {
-          value: "Belum",
+          value: "Belum Menikah",
           text: "Belum Menikah",
         },
         {
-          value: "Sudah",
+          value: "Sudah Menikah",
           text: "Sudah Menikah",
         },
       ],
       user: {
         data: null,
         isLoading: false,
+      },
+      upload: {
+        photo: null,
+        fileIdentitas: null,
       },
       modalKTA: false,
     };
@@ -469,7 +489,7 @@ export default {
     fileIdentitas() {
       if (this.user.data && this.user.data?.orang_kartu_id_file) {
         const img = this.user.data?.orang_kartu_id_file;
-        if (!img.includes("https")) {
+        if (!img.includes("https") && !img.includes("base64")) {
           return `https://www.staging.idijakpus.or.id/uploads/orang/orang_kartu_id_file/${this.user.data?.id}/${img}`;
         }
         return img;
@@ -517,6 +537,8 @@ export default {
         })
         .catch(() => {});
     },
+
+    //encode base64 for upload foto resmi
     onPhotoResmiChange(e) {
       const { files } = e.target;
       if (files.length) {
@@ -535,12 +557,63 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    async updateProfile() {
-      let data = {
-
+    //encode base 64 for up file identitas
+    onPhotoFileIdentitas(e) {
+      const { files } = e.target;
+      if (files.length) {
+        this.createImageIdentitas(files[0], (result) => {
+          console.log(result);
+          this.user.data.orang_kartu_id_file = result;
+        });
       }
+    },
+    createImageIdentitas(file, cb) {
+      const reader = new FileReader();
 
-    }
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+
+    validationForm() {
+      this.$refs.dataDiri.validate().then((success) => {
+        if (success) {
+          this.updateProfile();
+        }
+      });
+    },
+
+    updateProfile() {
+      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+
+      let bodyUpdate = {
+        orang_nama_lengkap: this.user.data.orang_nama_lengkap,
+        orang_gelar_depan: this.user.data.orang_gelar_depan,
+        orang_gelar_belakang: this.user.data.orang_gelar_belakang,
+        orang_tempat_lahir: this.user.data.orang_tempat_lahir,
+        orang_tanggal_lahir: this.user.data.orang_tanggal_lahir,
+        orang_jenis_kelamin: this.user.data.orang_jenis_kelamin,
+        orang_pernikahan_status: this.user.data.orang_pernikahan_status,
+        orang_pernikahan_nama_pasangan:
+          this.user.data.orang_pernikahan_nama_pasangan,
+        orang_alamat_rumah: this.user.data.orang_alamat_rumah,
+        orang_nomor_telpon: this.user.data.orang_nomor_telpon,
+        orang_file_photo_resmi: this.user.data.orang_file_photo_resmi,
+        orang_kartu_id_file: this.user.data.orang_kartu_id_file,
+      };
+      apis.profile
+        .updateProfile(this.user.data.id, bodyUpdate)
+        .then(({ data }) => {
+          this.successHandler(data.message);
+        })
+        .catch((error) => {
+          this.errorHandler(error, "gagal update profile");
+        })
+        .finally(() => {
+          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+        });
+    },
   },
 };
 </script>
