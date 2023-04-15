@@ -294,10 +294,7 @@
                 </validation-provider>
               </b-form-group>
               <b-form-group label="Photo Resmi" label-for="photo-resmi">
-                <validation-provider
-                  #default="{ errors }"
-                  name="Photo Resmi"
-                  rules="required">
+                <validation-provider #default="{ errors }" name="Photo Resmi">
                   <b-form-file
                     id="photo-resmi"
                     :state="errors.length > 0 ? false : null"
@@ -319,8 +316,7 @@
               <b-form-group label="File Identitas" label-for="file-identitas">
                 <validation-provider
                   #default="{ errors }"
-                  name="File Identitas"
-                  rules="required">
+                  name="File Identitas">
                   <b-form-file
                     id="file-identitas"
                     :state="errors.length > 0 ? false : null"
