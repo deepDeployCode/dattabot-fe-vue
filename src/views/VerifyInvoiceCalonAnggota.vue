@@ -2,7 +2,12 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div class="p-2 mx-auto">
+    <div
+      v-if="
+        invoices.data.invoice.reginvoice_status === 'belum-dibayar' ||
+        invoices.data.invoice.reginvoice_status === 'belum-bayar'
+      "
+      class="p-2 mx-auto">
       <validation-observer
         v-if="invoices.data && !invoices.isLoading"
         ref="buktiBayarValidation">
@@ -35,8 +40,8 @@
               <!-- card 1 -->
               <b-card
                 v-if="
-                  invoices.data.invoice.reginvoice_status == 'sudah-dibayar' ||
-                  invoices.data.invoice.reginvoice_status == 'sudah-bayar'
+                  invoices.data.invoice.reginvoice_status === 'sudah-dibayar' ||
+                  invoices.data.invoice.reginvoice_status === 'sudah-bayar'
                 "
                 img-alt="Card image cap"
                 img-top
@@ -150,6 +155,55 @@
         </b-form>
       </validation-observer>
     </div>
+    <div v-else class="p-2 mx-auto">
+      <validation-observer
+        v-if="invoices.data && !invoices.isLoading"
+        ref="lengkapiData">
+        <!-- form data submit rekomendasi-->
+
+        <!-- passfoto-->
+        <b-form-group label="Pass Foto *" label-for="pasphoto" class="mt-1">
+          <validation-provider
+            #default="{ errors }"
+            name="pasphoto"
+            rules="required">
+            <b-form-file
+              id="pasphoto"
+              :state="errors.length > 0 ? false : null"
+              v-model="invoices.data.user.pasphoto"
+              accept="image/*"
+              @change="handlerKartuFile($event)" />
+            <small class="text-danger">{{ errors[0] }}</small>
+          </validation-provider>
+          <table class="mt-1">
+            <tbody>
+              <tr v-if="invoices.data.user.pasphoto != null">
+                <td>
+                  <img
+                    :src="invoices.data.user.pasphoto"
+                    alt="gallery_image"
+                    width="320"
+                    height="280" />
+                </td>
+              </tr>
+              <tr v-else>
+                <p>belum ada foto</p>
+              </tr>
+            </tbody>
+          </table>
+        </b-form-group>
+        <!-- // passfoto-->
+        <b-form class="mt-1" @submit.prevent>
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="validationLengkapiDataForm">
+            Submit Data
+          </b-button>
+        </b-form>
+      </validation-observer>
+    </div>
   </div>
 </template>
 
@@ -204,22 +258,58 @@ export default {
     return {
       required,
       invoices: {
-        data: null,
+        data: {
+          user: {
+            //lengkapi data
+            email: "",
+            npa_idi: "",
+            nama_lengkap: "",
+            tanggal_lahir: "",
+            tempat_lahir: "",
+            nomor_telpon: "",
+            jenis_kelamin: "",
+            kartu_id_jenis: "",
+            kartu_id_nomor: "",
+            alamat_rumah: "",
+            nomor_hp: "",
+            gelar_depan: "",
+            gelar_belakang: "",
+            npa_masa_berlaku: "",
+            // pasphoto: "",
+            // npa_file: "",
+            // kartu_id_file: "",
+
+            //pernikahan
+            pernikahan_status: "",
+            pernikahan_nama_pasangan: "",
+
+            //pendidikan
+            du_asal_negara_univ: "",
+            du_asal_fak_kedokteran: "",
+            du_tahun_masuk: "",
+            du_tahun_lulus: "",
+            du_nomor_ijazah: "",
+            // du_ijazah_file: "",
+
+            //pekerjaan
+            pekerjaan_nama_institusi: "",
+            pekerjaan_alamat_institusi: "",
+            pekerjaan_jenis: "",
+            pekerjaan_telpon: "",
+            pekerjaan_email: "",
+
+            //sertif
+            sertif_kompt_nomor: "",
+            sertisertif_kompt_tgl_terbitf_kompt_nomor: "",
+            sertif_kompt_tgl_berakhir: "",
+            // sertif_kompt_file: "",
+          },
+        },
         isLoading: true,
       },
       buktiBayarBase64: {},
       tempBuktiBayar: null,
       fileBerkas: null,
-      // form: {
-      //   reksip_kategori: '',
-      //   reksip_id: '',
-      //   reksip_nama_instansi: '',
-      //   reksip_pend_file: '',
-      //   reksip_str_file: '',
-      //   reksip_tidak_kena_sanksi: '',
-      //   reksip_npa_file: '',
-      //   reksip_alamat_instansi: '',
-      // }
     };
   },
   /**
@@ -358,6 +448,7 @@ export default {
       });
     },
 
+    //handler bukti bayar dan lengkpai data profile
     buktiBayar(e) {
       const { files } = e.target;
       if (files.length) {
