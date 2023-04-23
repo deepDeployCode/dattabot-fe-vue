@@ -156,6 +156,17 @@
       </validation-observer>
     </div>
     <div v-else class="p-2 mx-auto">
+      <b-col v-for="(data, index) in solidColor" :key="index" md="6" xl="4">
+        <b-card :bg-variant="data.bg" text-variant="white">
+          <b-card-title class="text-white"> Information! </b-card-title>
+          <b-card-text>
+            setelah melengkapi data yang ada dibawah ini selanjutnya admin
+            secara otomatis akan memverifikasi data anda lalu mengapprove data
+            tersebut agar akun anda aktif, dan bisa digunakan login pada
+            aplikasi ini.
+          </b-card-text>
+        </b-card>
+      </b-col>
       <validation-observer
         v-if="invoices.data && !invoices.isLoading"
         ref="lengkapiDataCalonAnggota">
@@ -857,6 +868,7 @@ import {
   BFormTimepicker,
   VBModal,
   BCardText,
+  BCardTitle,
   BImg,
 } from "bootstrap-vue";
 import BaseNavigation from "@/components/Base/BaseNavigation.vue";
@@ -887,6 +899,7 @@ export default {
     BModal,
     BCard,
     BCardText,
+    BCardTitle,
     BFormDatepicker,
     BFormTimepicker,
     BImg,
@@ -966,6 +979,14 @@ export default {
         du_ijazah_file: null,
         sertif_kompt_file: null,
       },
+      solidColor: [
+        { bg: "primary", title: "Primary card title" },
+        // { bg: "secondary", title: "Secondary card title" },
+        // { bg: "success", title: "Success card title" },
+        // { bg: "danger", title: "Danger card title" },
+        // { bg: "warning", title: "Warning card title" },
+        // { bg: "info", title: "Info card title" },
+      ],
     };
   },
   computed: {},
