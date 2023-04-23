@@ -156,17 +156,32 @@
       </validation-observer>
     </div>
     <div v-else class="p-2 mx-auto">
-      <app-collapse class="p-0">
-        <app-collapse-item
-          :is-visible="visible.dataDiri"
-          title="Data Diri"
-          class="shadow-none p-0"
-          @visible="changeVisibleDataDiri">
-          <validation-observer
-            v-if="invoices.data && !invoices.isLoading"
-            ref="lengkapiData">
+      <validation-observer
+        v-if="invoices.data && !invoices.isLoading"
+        ref="lengkapiDataCalonAnggota">
+        <app-collapse class="p-0">
+          <app-collapse-item
+            :is-visible="visible.dataDiri"
+            title="Data Diri"
+            class="shadow-none p-0"
+            @visible="changeVisibleDataDiri">
             <br />
             <!-- form submit data diri-->
+            <b-form-group label="Id" label-for="id">
+              <validation-provider
+                #default="{ errors }"
+                name="Id"
+                rules="required">
+                <b-form-input
+                  id="id"
+                  :state="errors.length > 0 ? false : null"
+                  name="id"
+                  v-model="invoices.data.user.id"
+                  :value="invoices.data.user.id"
+                  readonly />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
             <b-form-group
               label="Jenis Pendaftaran"
               label-for="jenis_pendaftaran">
@@ -194,7 +209,7 @@
                   :state="errors.length > 0 ? false : null"
                   v-model="invoices.data.user.pasphoto"
                   accept="image/*"
-                  @change="handlerKartuFile($event)" />
+                  @change="passphoto($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
@@ -253,7 +268,7 @@
                   :state="errors.length > 0 ? false : null"
                   v-model="invoices.data.user.npa_file"
                   accept="image/*"
-                  @change="handlerKartuFile($event)" />
+                  @change="npaFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
@@ -387,7 +402,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <!-- passfoto-->
+            <!-- kartu identitas(ktp)-->
             <b-form-group
               label="File Identitas *"
               label-for="kartu_id_file"
@@ -401,7 +416,7 @@
                   :state="errors.length > 0 ? false : null"
                   v-model="invoices.data.user.kartu_id_file"
                   accept="image/*"
-                  @change="handlerKartuFile($event)" />
+                  @change="kartuIdentitas($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
@@ -511,19 +526,15 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-          </validation-observer>
-        </app-collapse-item>
-      </app-collapse>
-      <hr />
-      <app-collapse class="p-0">
-        <app-collapse-item
-          :is-visible="visible.pendidikan"
-          title="Data Pendidikan"
-          class="shadow-none p-0"
-          @visible="changeVisibleDataPendidikan">
-          <validation-observer
-            v-if="invoices.data && !invoices.isLoading"
-            ref="lengkapiData">
+          </app-collapse-item>
+        </app-collapse>
+        <hr />
+        <app-collapse class="p-0">
+          <app-collapse-item
+            :is-visible="visible.pendidikan"
+            title="Data Pendidikan"
+            class="shadow-none p-0"
+            @visible="changeVisibleDataPendidikan">
             <br />
             <!-- form submit data pendidikan-->
             <b-form-group
@@ -601,18 +612,21 @@
               </validation-provider>
             </b-form-group>
 
-            <!-- passfoto-->
-            <b-form-group label="Ijazah File *" label-for="ijazah" class="mt-1">
+            <!-- ijazah file-->
+            <b-form-group
+              label="Ijazah File *"
+              label-for="du_ijazah_file"
+              class="mt-1">
               <validation-provider
                 #default="{ errors }"
-                name="ijazah"
+                name="du_ijazah_file"
                 rules="required">
                 <b-form-file
-                  id="ijazah"
+                  id="du_ijazah_file"
                   :state="errors.length > 0 ? false : null"
                   v-model="invoices.data.user.du_ijazah_file"
                   accept="image/*"
-                  @change="handlerKartuFile($event)" />
+                  @change="ijzahFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
@@ -632,19 +646,15 @@
                 </tbody>
               </table>
             </b-form-group>
-          </validation-observer>
-        </app-collapse-item>
-      </app-collapse>
-      <hr />
-      <app-collapse class="p-0">
-        <app-collapse-item
-          :is-visible="visible.pekerjaan"
-          title="Data Pekerjaan"
-          class="shadow-none p-0"
-          @visible="changeVisibleDataPekerjaan">
-          <validation-observer
-            v-if="invoices.data && !invoices.isLoading"
-            ref="lengkapiData">
+          </app-collapse-item>
+        </app-collapse>
+        <hr />
+        <app-collapse class="p-0">
+          <app-collapse-item
+            :is-visible="visible.pekerjaan"
+            title="Data Pekerjaan"
+            class="shadow-none p-0"
+            @visible="changeVisibleDataPekerjaan">
             <br />
             <!-- form submit data pekerjaan -->
             <b-form-group label="Jenis Pekerjaan" label-for="pekerjaan_jenis">
@@ -721,19 +731,15 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-          </validation-observer>
-        </app-collapse-item>
-      </app-collapse>
-      <hr />
-      <app-collapse class="p-0">
-        <app-collapse-item
-          :is-visible="visible.serkom"
-          title="Data Kompetensi"
-          class="shadow-none p-0"
-          @visible="changeVisibleDataSerkom">
-          <validation-observer
-            v-if="invoices.data && !invoices.isLoading"
-            ref="lengkapiData">
+          </app-collapse-item>
+        </app-collapse>
+        <hr />
+        <app-collapse class="p-0">
+          <app-collapse-item
+            :is-visible="visible.serkom"
+            title="Data Kompetensi"
+            class="shadow-none p-0"
+            @visible="changeVisibleDataSerkom">
             <br />
             <!-- form submit data serkom-->
             <b-form-group label="Nomor Dokumen" label-for="sertif_kompt_nomor">
@@ -796,7 +802,7 @@
                   :state="errors.length > 0 ? false : null"
                   v-model="invoices.data.user.sertif_kompt_file"
                   accept="image/*"
-                  @change="handlerKartuFile($event)" />
+                  @change="serkomFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
@@ -816,19 +822,19 @@
                 </tbody>
               </table>
             </b-form-group>
-          </validation-observer>
-        </app-collapse-item>
-      </app-collapse>
-      <br />
-      <b-form class="mt-1" @submit.prevent>
-        <b-button
-          type="submit"
-          variant="outline-danger"
-          block
-          @click="validationLengkapiDataForm">
-          Submit Data
-        </b-button>
-      </b-form>
+          </app-collapse-item>
+        </app-collapse>
+        <br />
+        <b-form class="mt-1" @submit.prevent>
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="validateLengkapiDataCalonAnggota">
+            Lengkapi Data
+          </b-button>
+        </b-form>
+      </validation-observer>
     </div>
   </div>
 </template>
@@ -858,6 +864,7 @@ import DividerNavigation from "@/components/Base/DividerNavigation.vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
+import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
 
 import { required } from "@validations";
 
@@ -896,6 +903,7 @@ export default {
         data: {
           user: {
             //lengkapi data
+            id: "",
             email: "",
             npa_idi: "",
             nama_lengkap: null,
@@ -944,101 +952,23 @@ export default {
       },
       buktiBayarBase64: {},
       tempBuktiBayar: null,
-      fileBerkas: null,
       visible: {
         dataDiri: false,
         pendidikan: false,
         pekerjaan: false,
         serkom: false,
       },
+      upload: {
+        invoices: null,
+        pasphoto: null,
+        npa_file: null,
+        kartu_id_file: null,
+        du_ijazah_file: null,
+        sertif_kompt_file: null,
+      },
     };
   },
-  /**
-   * computer method is not use karena bukan untuk fetch file ini hanya invoice jadi di maitiin
-   */
-  // computed: {
-  //   photoIjazah() {
-  //     return item => {
-  //       if (item.pend_ijazah_file) {
-  //         if (!item.pend_ijazah_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/pend/pend_ijazah_file/${item.id}/${item.pend_ijazah_file}`
-  //         }
-  //         return item.pend_ijazah_file
-  //       }
-  //       return null
-  //     }
-  //   },
-  //   reksipIjazah() {
-  //     return item => {
-  //       if (item.reksip_pend_file) {
-  //         if (!item.reksip_pend_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_pend_file/${item.id}/${item.reksip_pend_file}`
-  //         }
-  //         return item.reksip_pend_file
-  //       }
-
-  //       return null
-  //     }
-  //   },
-  //   photoStr() {
-  //     return item => {
-  //       if (item.str_file) {
-  //         if (!item.str_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/str/str_file/${item.id}/${item.str_file}`
-  //         }
-  //         return item.str_file
-  //       }
-  //       return null
-  //     }
-  //   },
-  //   reksipSTR() {
-  //     return item => {
-  //       if (item.reksip_str_file) {
-  //         if (!item.reksip_str_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_str_file/${item.id}/${item.reksip_str_file}`
-  //         }
-  //         return item.reksip_str_file
-  //       }
-
-  //       return null
-  //     }
-  //   },
-  //   reksipKTA() {
-  //     return item => {
-  //       if (item.reksip_npa_file) {
-  //         if (!item.reksip_npa_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_npa_file/${item.id}/${item.reksip_npa_file}`
-  //         }
-  //         return item.reksip_npa_file
-  //       }
-
-  //       return null
-  //     }
-  //   },
-  //   photoKRIP() {
-  //     return item => {
-  //       if (item.krip_file) {
-  //         if (!item.krip_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/krip/krip_file/${item.id}/${item.krip_file}`
-  //         }
-  //         return item.krip_file
-  //       }
-  //       return null
-  //     }
-  //   },
-  //   reksipKRIP() {
-  //     return item => {
-  //       if (item.reksip_krip_file) {
-  //         if (!item.reksip_krip_file.includes('https')) {
-  //           return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_krip_file/${item.id}/${item.reksip_krip_file}`
-  //         }
-  //         return item.reksip_krip_file
-  //       }
-
-  //       return null
-  //     }
-  //   },
-  // },
+  computed: {},
   watch: {
     invoices: {
       deep: true,
@@ -1064,31 +994,11 @@ export default {
     changeVisibleDataSerkom(payload) {
       this.visible.serkom = payload;
     },
-    // changeKompetensi(item) {
-    //   this.rekomendasi.data.reksip_kompetensi_file = item.kompetensi_file
-    //   this.rekomendasi.data.reksip_kompetensi_jenis = item.kompetensi_jenis
-    //   this.rekomendasi.data.reksip_kompetensi_no = item.kompetensi_no
-    //   this.$bvModal.hide('modal-kompetensi')
-    // },
-    // changeIjazah(item) {
-    //   this.rekomendasi.data.reksip_pend_file = this.photoIjazah(item)
-    //   this.$bvModal.hide('modal-ijazah')
-    // },
-    // changeSTR(item) {
-    //   this.rekomendasi.data.reksip_str_file = this.photoStr(item)
-    //   this.rekomendasi.data.reksip_str_no = item.str_no
-    //   this.rekomendasi.data.reksip_str_tgl_berakhir = item.str_tgl_berakhir
-    //   this.$bvModal.hide('modal-str')
-    // },
-    // changeKRIP(item) {
-    //   this.rekomendasi.data.reksip_krip_file = this.photoKRIP(item)
-    //   this.$bvModal.hide('modal-krip')
-    // },
 
-    validationForm() {
-      this.$refs.rekomendasiValidation.validate().then((success) => {
+    validateLengkapiDataCalonAnggota() {
+      this.$refs.lengkapiDataCalonAnggota.validate().then((success) => {
         if (success) {
-          this.submitRekomendasi();
+          this.sumbitLengkapiDataCalonAnggota();
         }
       });
     },
@@ -1106,7 +1016,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createImage(files[0], (result) => {
-          this.fileBerkas = result;
+          this.upload.invoices = result;
         });
       }
     },
@@ -1124,7 +1034,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createPassPhoto(files[0], (result) => {
-          this.filePhoto = result;
+          this.upload.pasphoto = result;
         });
       }
     },
@@ -1143,7 +1053,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createNpaFile(files[0], (result) => {
-          this.fileNpa = result;
+          this.upload.npa_file = result;
         });
       }
     },
@@ -1162,7 +1072,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createIdentitasFile(files[0], (result) => {
-          this.fileKartuIdentitas = result;
+          this.upload.kartu_id_file = result;
         });
       }
     },
@@ -1181,7 +1091,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createIjazahFile(files[0], (result) => {
-          this.fileIjazah = result;
+          this.upload.du_ijazah_file = result;
         });
       }
     },
@@ -1200,7 +1110,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createSerkomFile(files[0], (result) => {
-          this.fileSerkom = result;
+          this.upload.sertif_kompt_file = result;
         });
       }
     },
@@ -1216,29 +1126,11 @@ export default {
 
     //end bukti bayar dan lengkapi data profile
 
-    // async submitBuktiBayar() {
-    //   this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-    //   try {
-    //     await apis.invoice.uploadBuktiBayar(this.invoices.data.invoice.id, {
-    //       reginvoice_file: this.fileBerkas,
-    //     });
-    //     // console.log({
-    //     //   id: this.invoices.data.invoice.id,
-    //     //   data: this.fileBerkas,
-    //     // });
-    //     this.successHandler("berhasil upload bukti bayar");
-    //   } catch (error) {
-    //     this.errorHandler(error, "gagal upload bukti bayar");
-    //   } finally {
-    //     this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-    //   }
-    // },
-
     submitBuktiBayar() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
       apis.invoice
         .uploadBuktiBayar(this.invoices.data.invoice.id, {
-          reginvoice_file: this.fileBerkas,
+          reginvoice_file: this.upload.invoices,
         })
         .then(() => {
           this.successHandler("berhasil upload bukti invoice");
@@ -1252,39 +1144,60 @@ export default {
         });
     },
 
-    // method ini buat rekomendasi umum dan spesialis jadi maiitn
+    sumbitLengkapiDataCalonAnggota() {
+      var submitDataCalonAnggota = {
+        ...this.invoices.data.user,
+        pasphoto: this.upload.pasphoto,
+        npa_file: this.upload.npa_file,
+        kartu_id_file: this.upload.kartu_id_file,
+        du_ijazah_file: this.upload.du_ijazah_file,
+        sertif_kompt_file: this.upload.sertif_kompt_file,
+      };
 
-    // submitRekomendasi() {
-    //   this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-    //   apis.rekomendasi.rekomendasiInput({
-    //     reksip_kategori: 'umum',
-    //     reksip_id: this.rekomendasi.data.id,
-    //     reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
-    //     reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
-    //     reksip_str_file: this.rekomendasi.data.reksip_str_file,
-    //     reksip_tidak_kena_sanksi: this.rekomendasi.data.reksip_tidak_kena_sanksi,
-    //     reksip_alamat_instansi: this.rekomendasi.data.reksip_alamat_instansi,
-    //     reksip_kompetensi_no: this.rekomendasi.data.reksip_kompetensi_no,
-    //     reksip_kompetensi_jenis: this.rekomendasi.data.reksip_kompetensi_jenis,
-    //     reksip_krip_file: this.rekomendasi.data.reksip_krip_file
-    //   })
-    //     .then(() => {
-    //       apis.rekomendasi.rekomendasiPublish({ reksip_id: this.rekomendasi.data.id })
-    //         .then(() => {
-    //           this.successHandler('berhasil created invoice')
-    //           location.reload()
-    //         })
-    //         .catch(error => {
-    //           this.errorHandler(error, 'gagal create invoice silahkan coba lagi')
-    //         })
-    //     })
-    //     .catch(error => {
-    //       this.errorHandler(error, 'rekomendasi gagal silahkan coba lagi')
-    //     })
-    //     .finally(() => {
-    //       this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
-    //     })
-    // },
+      try {
+        this.$swal({
+          title: "Apakah kamu yakin?",
+          text: "Data yang kamu masukan sesuai dengan data asli kamu ",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Ya, Submit!",
+          cancelButtonText: "Batal",
+          customClass: {
+            confirmButton: "btn btn-primary",
+            cancelButton: "btn btn-outline-danger ml-1",
+          },
+          buttonsStyling: false,
+        })
+          .then((result) => {
+            if (result.value) {
+              this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+              return apis.invoice.lengkapiDataCalonAngota(
+                submitDataCalonAnggota
+              );
+            }
+            return false;
+          })
+          .then((result) => {
+            if (result) {
+              this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+              this.$toast({
+                component: ToastificationContentVue,
+                props: {
+                  title: "Berhasil melengkapi data profile ",
+                  icon: "CheckIcon",
+                  variant: "success",
+                },
+              });
+            }
+            location.reload();
+          })
+          .catch((error) => {
+            this.errorHandler(error, "gagal perbaharui data anda");
+          });
+      } catch (error) {
+        this.errorHandler(error, "kesalahan sistem silahkan coba lagi");
+      }
+    },
 
     fetchInvoiceCalonAnggota() {
       this.invoices.isLoading = true;

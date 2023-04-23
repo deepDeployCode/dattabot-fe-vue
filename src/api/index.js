@@ -64,6 +64,7 @@ const endpoints = {
     default: "/uploads",
     invoice: "invoice",
     get: "get",
+    lengkapi: "lengkapiData",
   },
 };
 
@@ -94,6 +95,12 @@ const apis = {
     uploadBuktiBayar(id, body) {
       return resource.post(
         `${endpoints.verifyInvoice.default}/${id}/${endpoints.verifyInvoice.invoice}`,
+        body
+      );
+    },
+    lengkapiDataCalonAngota(body) {
+      return resource.post(
+        `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.lengkapi}`,
         body
       );
     },
