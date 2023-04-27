@@ -155,7 +155,9 @@
         </b-form>
       </validation-observer>
     </div>
-    <div v-else class="p-2 mx-auto">
+    <div
+      v-else-if="invoices.data.user.reg_status === 'sedang-mengisi'"
+      class="p-2 mx-auto">
       <b-col v-for="(data, index) in solidColor" :key="index" md="6" xl="4">
         <b-card :bg-variant="data.bg" text-variant="white">
           <b-card-title class="text-white"> Information! </b-card-title>
@@ -847,6 +849,31 @@
         </b-form>
       </validation-observer>
     </div>
+    <div v-else>
+      <br />
+      <b-col v-for="(data, index) in colorVerify" :key="index" md="6" xl="4">
+        <b-card :bg-variant="data.bg" text-variant="white">
+          <b-card-title class="text-white">
+            Click Tombol Dibawah Ini!
+          </b-card-title>
+          <b-card-text v-if="verifyAccount.data.status === true">
+            {{ verifyAccount.data.message }}
+            <b>silahkan login dengan click </b>
+            <a class="text-white" href="/login"><b>login</b></a>
+          </b-card-text>
+          <b-card-text v-if="verifyAccount.data.status === false">
+            {{ verifyAccount.data.message }}
+          </b-card-text>
+        </b-card>
+      </b-col>
+      <b-button
+        type="submit"
+        variant="outline-danger"
+        block
+        @click="checkVerifyAccount">
+        Check Status Account
+      </b-button>
+    </div>
   </div>
 </template>
 
@@ -987,6 +1014,11 @@ export default {
         // { bg: "warning", title: "Warning card title" },
         // { bg: "info", title: "Info card title" },
       ],
+      colorVerify: [{ bg: "danger", title: "Danger card title" }],
+
+      verifyAccount: {
+        data: "",
+      },
     };
   },
   computed: {},
@@ -1226,6 +1258,18 @@ export default {
         .getInvoice(this.$route.params.id)
         .then(({ data }) => {
           this.invoices.data = data;
+        })
+        .finally(() => {
+          this.invoices.isLoading = false;
+        });
+    },
+
+    checkVerifyAccount() {
+      this.invoices.isLoading = true;
+      apis.invoice
+        .verifyAccountStatus(this.invoices.data.user.npa_idi)
+        .then(({ data }) => {
+          this.verifyAccount.data = data;
         })
         .finally(() => {
           this.invoices.isLoading = false;

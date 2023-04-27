@@ -65,6 +65,8 @@ const endpoints = {
     invoice: "invoice",
     get: "get",
     lengkapi: "lengkapiData",
+    verifyStatusAccount: "verify",
+    account: "account",
   },
 };
 
@@ -102,6 +104,11 @@ const apis = {
       return resource.post(
         `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.lengkapi}`,
         body
+      );
+    },
+    verifyAccountStatus(id) {
+      return resource.post(
+        `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.verifyStatusAccount}/${id}/${endpoints.verifyInvoice.account}`
       );
     },
   },
