@@ -28,11 +28,16 @@
           </b-form-group>
 
           <div v-if="form.jenis_pendaftaran">
-            <b-form-group label="Nomor Pokok Anggota *" label-for="nomor-pokok">
+            <b-form-group
+              v-if="
+                form.jenis_pendaftaran === 'anggota-jakpus' ||
+                form.jenis_pendaftaran === 'non-anggota-jakpus'
+              "
+              label="Nomor Pokok Anggota *"
+              label-for="nomor-pokok">
               <validation-provider
                 #default="{ errors }"
-                name="Nomor Pokok Anggota"
-                rules="required">
+                name="Nomor Pokok Anggota">
                 <b-form-input
                   id="nomor-pokok"
                   v-model="form.npa_idi"
@@ -42,7 +47,9 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor Identitas *" label-for="nomor-identitas">
+            <b-form-group
+              label="Nomor Identitas (No.KTP) *"
+              label-for="nomor-identitas">
               <validation-provider
                 #default="{ errors }"
                 name="Nomor Identitas (KTP)"
@@ -57,11 +64,11 @@
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="Nama Lengkap (Sesuai Ijazah) *"
+              label="Nama Lengkap Tanpa Gelar *"
               label-for="nama-lengkap">
               <validation-provider
                 #default="{ errors }"
-                name="Nama Lengkap (Sesuai Ijazah)"
+                name="Nama Lengkap Tanpa Gelar"
                 rules="required">
                 <b-form-input
                   id="nama-lengkap"
@@ -164,16 +171,16 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor Telpon *" label-for="nomer-telepon">
+            <b-form-group label="Nomor Handphone *" label-for="nomor-hp">
               <validation-provider
                 #default="{ errors }"
-                name="Nomor Telpon"
+                name="Nomor Handphone"
                 rules="required">
                 <b-form-input
-                  id="nomer-telepon"
+                  id="nomor-hp"
                   v-model="form.nomor_hp"
                   :state="errors.length > 0 ? false : null"
-                  name="nomer-telepon"
+                  name="nomor-hp"
                   type="number" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -263,17 +270,20 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="File NPA *" label-for="file-npa" class="mt-1">
+            <b-form-group
+              label="File KTA (kwitansi iuran) *"
+              label-for="file-kta"
+              class="mt-1">
               <validation-provider
                 #default="{ errors }"
-                name="file-npa"
+                name="file-kta"
                 rules="required">
                 <b-form-file
-                  id="file-npa"
+                  id="file-kta"
                   :state="errors.length > 0 ? false : null"
                   v-model="form.npa_file"
                   accept="image/*"
-                  @change="handlerFileNpa($event)" />
+                  @change="handlerFileKta($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -451,7 +461,7 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    handlerFileNpa(e) {
+    handlerFileKta(e) {
       const { files } = e.target;
       if (files.length) {
         this.createFileNpa(files[0], (result) => {
