@@ -2,8 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div>
-      <br />
+    <div class="p-2 mx-auto">
       <b-col
         v-for="(data, index) in colorVerifyStatusAccount"
         :key="index"

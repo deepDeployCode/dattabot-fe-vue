@@ -13,6 +13,9 @@
             secara otomatis akan memverifikasi data anda lalu mengapprove data
             tersebut agar akun anda aktif, dan bisa digunakan login pada
             aplikasi ini.
+            <br />
+            <br />
+            <b>Note: simbol ( * ) artinya required(harus di isi)</b>
           </b-card-text>
         </b-card>
       </b-col>
@@ -27,23 +30,23 @@
             @visible="changeVisibleDataDiri">
             <br />
             <!-- form submit data diri-->
-            <b-form-group label="Id" label-for="id">
+            <b-form-group label="Reg Token *" label-for="reg_token" hidden>
               <validation-provider
                 #default="{ errors }"
-                name="Id"
+                name="Reg Token"
                 rules="required">
                 <b-form-input
-                  id="id"
+                  id="reg_token"
                   :state="errors.length > 0 ? false : null"
-                  name="id"
-                  v-model="reg.data.user.id"
-                  :value="reg.data.user.id"
+                  name="reg_token"
+                  v-model="reg.data.user.reg_token"
+                  :value="reg.data.user.reg_token"
                   readonly />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="Jenis Pendaftaran"
+              label="Jenis Pendaftaran *"
               label-for="jenis_pendaftaran">
               <validation-provider
                 #default="{ errors }"
@@ -75,12 +78,14 @@
               <table class="mt-1">
                 <tbody>
                   <tr v-if="reg.data.user.pasphoto != null">
+                    <th>PassFoto:</th>
                     <td>
-                      <img
-                        :src="reg.data.user.pasphoto"
-                        alt="gallery_image"
-                        width="320"
-                        height="280" />
+                      <a
+                        :href="reg.data.user.pasphoto"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Tampilkan File</a
+                      >
                     </td>
                   </tr>
                   <tr v-else>
@@ -89,11 +94,8 @@
                 </tbody>
               </table>
             </b-form-group>
-            <b-form-group label="Nomor NPA" label-for="npa_idi">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor NPA"
-                rules="required">
+            <b-form-group label="Nomor Pokok Anggota" label-for="npa_idi">
+              <validation-provider #default="{ errors }" name="Nomor NPA">
                 <b-form-input
                   id="npa_idi"
                   :state="errors.length > 0 ? false : null"
@@ -106,23 +108,23 @@
             <b-form-group label="Masa Berlaku NPA" label-for="npa_masa_berlaku">
               <validation-provider
                 #default="{ errors }"
-                name="Masa Berlaku NPA"
-                rules="required">
-                <b-form-datepicker
+                name="Masa Berlaku NPA">
+                <b-form-input
                   id="npa_masa_berlaku"
+                  v-model="reg.data.user.npa_masa_berlaku"
+                  :value="reg.data.user.npa_masa_berlaku"
                   :state="errors.length > 0 ? false : null"
                   name="npa_masa_berlaku"
-                  v-model="reg.data.user.npa_masa_berlaku"
-                  :value="reg.data.user.npa_masa_berlaku" />
+                  type="date" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <!-- kta-->
-            <b-form-group label="File KTA *" label-for="npa_file" class="mt-1">
-              <validation-provider
-                #default="{ errors }"
-                name="npa_file"
-                rules="required">
+            <b-form-group
+              label="File KTA (kwitansi iuran)"
+              label-for="npa_file"
+              class="mt-1">
+              <validation-provider #default="{ errors }" name="npa_file">
                 <b-form-file
                   id="npa_file"
                   :state="errors.length > 0 ? false : null"
@@ -134,21 +136,26 @@
               <table class="mt-1">
                 <tbody>
                   <tr v-if="reg.data.user.npa_file != null">
+                    <th>File KTA (kwitansi Iuran):</th>
                     <td>
-                      <img
-                        :src="reg.data.user.npa_file"
-                        alt="gallery_image"
-                        width="320"
-                        height="280" />
+                      <a
+                        :href="reg.data.user.npa_file"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Tampilkan File</a
+                      >
                     </td>
                   </tr>
                   <tr v-else>
-                    <p>belum ada foto</p>
+                    <th>File KTA (kwitansi Iuran):</th>
+                    <td>belum ada foto</td>
                   </tr>
                 </tbody>
               </table>
             </b-form-group>
-            <b-form-group label="Nama Lengkap" label-for="nama_lengkap">
+            <b-form-group
+              label="Nama Lengkap Tanpa Gelar *"
+              label-for="nama_lengkap">
               <validation-provider
                 #default="{ errors }"
                 name="Nama Lengkap"
@@ -162,7 +169,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Gelar Depan" label-for="gelar_depan">
+            <b-form-group label="Gelar Depan *" label-for="gelar_depan">
               <validation-provider
                 #default="{ errors }"
                 name="Gelar Depan"
@@ -176,7 +183,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Gelar Belakang" label-for="gelar_belakang">
+            <b-form-group label="Gelar Belakang *" label-for="gelar_belakang">
               <validation-provider
                 #default="{ errors }"
                 name="Gelar Belakang"
@@ -190,7 +197,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tempat Lahir" label-for="tempat_lahir">
+            <b-form-group label="Tempat Lahir *" label-for="tempat_lahir">
               <validation-provider
                 #default="{ errors }"
                 name="Tempat Lahir"
@@ -204,51 +211,52 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tanggal Lahir" label-for="tanggal_lahir">
+            <b-form-group label="Tanggal lahir *" label-for="tanggal-lahir">
               <validation-provider
                 #default="{ errors }"
-                name="Tanggal Lahir"
+                name="Tanggal lahir"
                 rules="required">
-                <b-form-datepicker
-                  id="tanggal_lahir"
-                  :state="errors.length > 0 ? false : null"
-                  name="tanggal_lahir"
+                <b-form-input
+                  id="tanggal-lahir"
                   v-model="reg.data.user.tanggal_lahir"
-                  :value="reg.data.user.tanggal_lahir" />
+                  :value="reg.data.user.tanggal_lahir"
+                  :state="errors.length > 0 ? false : null"
+                  name="tanggal-lahir"
+                  type="date" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Jenis Kelamin" label-for="jenis_kelamin">
+            <b-form-group label="Jenis Kelamin *" label-for="jenis-kelamin">
               <validation-provider
                 #default="{ errors }"
                 name="Jenis Kelamin"
                 rules="required">
-                <b-form-input
-                  id="jenis_kelamin"
-                  :state="errors.length > 0 ? false : null"
-                  name="jenis_kelamin"
+                <b-form-select
                   v-model="reg.data.user.jenis_kelamin"
-                  :value="reg.data.user.jenis_kelamin" />
+                  :value="reg.data.user.jenis_kelamin"
+                  :state="errors.length > 0 ? false : null"
+                  :options="optionJenisKelamin" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="Jenis Kartu Identitas"
-              label-for="kartu_id_jenis">
+              label="Jenis Kartu Identitas *"
+              label-for="jenis-kartu-identitas">
               <validation-provider
                 #default="{ errors }"
                 name="Jenis Kartu Identitas"
                 rules="required">
-                <b-form-input
-                  id="kartu_id_jenis"
-                  :state="errors.length > 0 ? false : null"
-                  name="kartu_id_jenis"
+                <b-form-select
                   v-model="reg.data.user.kartu_id_jenis"
-                  :value="reg.data.user.kartu_id_jenis" />
+                  :value="reg.data.user.kartu_id_jenis"
+                  :state="errors.length > 0 ? false : null"
+                  :options="optionJenisKartuIdentitas" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor Identitas" label-for="kartu_id_nomor">
+            <b-form-group
+              label="Nomor Identitas (No KTP) *"
+              label-for="kartu_id_nomor">
               <validation-provider
                 #default="{ errors }"
                 name="Nomor Identitas"
@@ -264,7 +272,7 @@
             </b-form-group>
             <!-- kartu identitas(ktp)-->
             <b-form-group
-              label="File Identitas *"
+              label="File Identitas (File KTP) *"
               label-for="kartu_id_file"
               class="mt-1">
               <validation-provider
@@ -282,43 +290,41 @@
               <table class="mt-1">
                 <tbody>
                   <tr v-if="reg.data.user.kartu_id_file != null">
+                    <th>File KTP:</th>
                     <td>
-                      <img
-                        :src="reg.data.user.kartu_id_file"
-                        alt="gallery_image"
-                        width="320"
-                        height="280" />
+                      <a
+                        :href="reg.data.user.kartu_id_file"
+                        target="_blank"
+                        rel="noreferrer"
+                        >Tampilkan File</a
+                      >
                     </td>
                   </tr>
                   <tr v-else>
-                    <p>belum ada foto</p>
+                    <th>File KTP:</th>
+                    <td>belum ada foto</td>
                   </tr>
                 </tbody>
               </table>
             </b-form-group>
             <b-form-group
               label="Status Pernikahan"
-              label-for="pernikahan_status">
+              label-for="status-pernikahan">
               <validation-provider
                 #default="{ errors }"
-                name="Status Pernikahan"
-                rules="required">
-                <b-form-input
-                  id="pernikahan_status"
-                  :state="errors.length > 0 ? false : null"
-                  name="pernikahan_status"
+                name="Status Pernikahan">
+                <b-form-select
                   v-model="reg.data.user.pernikahan_status"
-                  :value="reg.data.user.pernikahan_status" />
+                  :value="reg.data.user.pernikahan_status"
+                  :state="errors.length > 0 ? false : null"
+                  :options="optionStatusPernikahan" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <b-form-group
               label="Nama Pasangan"
               label-for="pernikahan_nama_pasangan">
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Pasangan"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Nama Pasangan">
                 <b-form-input
                   id="pernikahan_nama_pasangan"
                   :state="errors.length > 0 ? false : null"
@@ -333,8 +339,7 @@
               label-for="alamat_rumah">
               <validation-provider
                 #default="{ errors }"
-                name="Alamat Tempat Tinggal"
-                rules="required">
+                name="Alamat Tempat Tinggal">
                 <b-form-input
                   id="alamat_rumah"
                   :state="errors.length > 0 ? false : null"
@@ -345,10 +350,7 @@
               </validation-provider>
             </b-form-group>
             <b-form-group label="Telpon" label-for="nomor_telpon">
-              <validation-provider
-                #default="{ errors }"
-                name="Telpon"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Telpon">
                 <b-form-input
                   id="nomor_telpon"
                   :state="errors.length > 0 ? false : null"
@@ -358,7 +360,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="No HP" label-for="nomor_hp">
+            <b-form-group label="No HP *" label-for="nomor_hp">
               <validation-provider
                 #default="{ errors }"
                 name="No HP"
@@ -372,7 +374,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Email" label-for="email">
+            <b-form-group label="Email *" label-for="email">
               <validation-provider
                 #default="{ errors }"
                 name="Email"
@@ -398,7 +400,7 @@
             <br />
             <!-- form submit data pendidikan-->
             <b-form-group
-              label="Asal Negara Universitas"
+              label="Asal Negara Universitas *"
               label-for="du_asal_negara_univ">
               <validation-provider
                 #default="{ errors }"
@@ -414,7 +416,7 @@
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="Asal Fakultas Kedokteran"
+              label="Asal Fakultas Kedokteran *"
               label-for="du_asal_fak_kedokteran">
               <validation-provider
                 #default="{ errors }"
@@ -429,7 +431,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tahun Masuk" label-for="du_tahun_masuk">
+            <b-form-group label="Tahun Masuk *" label-for="du_tahun_masuk">
               <validation-provider
                 #default="{ errors }"
                 name="Tahun Masuk"
@@ -443,7 +445,7 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tahun Lulus" label-for="du_tahun_lulus">
+            <b-form-group label="Tahun Lulus *" label-for="du_tahun_lulus">
               <validation-provider
                 #default="{ errors }"
                 name="Tahun Lulus"
@@ -458,10 +460,7 @@
               </validation-provider>
             </b-form-group>
             <b-form-group label="Nomor Ijazah" label-for="du_nomor_ijazah">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Ijazah"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Nomor Ijazah">
                 <b-form-input
                   id="du_nomor_ijazah"
                   :state="errors.length > 0 ? false : null"
@@ -492,16 +491,19 @@
               <table class="mt-1">
                 <tbody>
                   <tr v-if="reg.data.user.du_ijazah_file != null">
+                    <th>File Ijazah:</th>
                     <td>
-                      <img
-                        :src="reg.data.user.du_ijazah_file"
-                        alt="gallery_image"
-                        width="320"
-                        height="280" />
+                      <a
+                        :href="reg.data.user.du_ijazah_file"
+                        target="_blank"
+                        rel="noreferrer">
+                        tampilkan file
+                      </a>
                     </td>
                   </tr>
                   <tr v-else>
-                    <p>belum ada foto ijzah</p>
+                    <th>File Ijazah:</th>
+                    <td>belum ada file ijzah</td>
                   </tr>
                 </tbody>
               </table>
@@ -518,10 +520,7 @@
             <br />
             <!-- form submit data pekerjaan -->
             <b-form-group label="Jenis Pekerjaan" label-for="pekerjaan_jenis">
-              <validation-provider
-                #default="{ errors }"
-                name="Jenis Pekerjaan"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Jenis Pekerjaan">
                 <b-form-input
                   id="pekerjaan_jenis"
                   :state="errors.length > 0 ? false : null"
@@ -534,10 +533,7 @@
             <b-form-group
               label="Nama Institusi"
               label-for="pekerjaan_nama_institusi">
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Institusi"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Nama Institusi">
                 <b-form-input
                   id="pekerjaan_nama_institusi"
                   :state="errors.length > 0 ? false : null"
@@ -552,8 +548,7 @@
               label-for="pekerjaan_alamat_institusi">
               <validation-provider
                 #default="{ errors }"
-                name="Alamat Institusi"
-                rules="required">
+                name="Alamat Institusi">
                 <b-form-input
                   id="pekerjaan_alamat_institusi"
                   :state="errors.length > 0 ? false : null"
@@ -566,8 +561,7 @@
             <b-form-group label="Telpon Institusi" label-for="pekerjaan_telpon">
               <validation-provider
                 #default="{ errors }"
-                name="Telpon Institusi"
-                rules="required">
+                name="Telpon Institusi">
                 <b-form-input
                   id="pekerjaan_telpon"
                   :state="errors.length > 0 ? false : null"
@@ -578,10 +572,7 @@
               </validation-provider>
             </b-form-group>
             <b-form-group label="Email Institusi" label-for="pekerjaan_email">
-              <validation-provider
-                #default="{ errors }"
-                name="Email Institusi"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Email Institusi">
                 <b-form-input
                   id="pekerjaan_email"
                   :state="errors.length > 0 ? false : null"
@@ -603,10 +594,7 @@
             <br />
             <!-- form submit data serkom-->
             <b-form-group label="Nomor Dokumen" label-for="sertif_kompt_nomor">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Dokumen"
-                rules="required">
+              <validation-provider #default="{ errors }" name="Nomor Dokumen">
                 <b-form-input
                   id="sertif_kompt_nomor"
                   :state="errors.length > 0 ? false : null"
@@ -616,35 +604,29 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tanggal Terbit"
-              label-for="sertif_kompt_tgl_terbit">
-              <validation-provider
-                #default="{ errors }"
-                name="Tanggal Terbit"
-                rules="required">
-                <b-form-datepicker
-                  id="sertif_kompt_tgl_terbit"
-                  :state="errors.length > 0 ? false : null"
-                  name="sertif_kompt_tgl_terbit"
+            <b-form-group label="Tanggal Terbit" label-for="tanggal-terbit">
+              <validation-provider #default="{ errors }" name="Tanggal Terbit">
+                <b-form-input
+                  id="tanggal-terbit"
                   v-model="reg.data.user.sertif_kompt_tgl_terbit"
-                  :value="reg.data.user.sertif_kompt_tgl_terbit" />
+                  :value="reg.data.user.sertif_kompt_tgl_terbit"
+                  :state="errors.length > 0 ? false : null"
+                  name="tanggal-terbit"
+                  type="date" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tanggal Berakhir"
-              label-for="sertif_kompt_tgl_berakhir">
+            <b-form-group label="Tanggal Berakhir" label-for="tanggal-berakhir">
               <validation-provider
                 #default="{ errors }"
-                name="Tanggal Berakhir"
-                rules="required">
-                <b-form-datepicker
-                  id="sertif_kompt_tgl_berakhir"
-                  :state="errors.length > 0 ? false : null"
-                  name="sertif_kompt_tgl_berakhir"
+                name="Tanggal Berakhir">
+                <b-form-input
+                  id="tanggal-berakhir"
                   v-model="reg.data.user.sertif_kompt_tgl_berakhir"
-                  :value="reg.data.user.sertif_kompt_tgl_berakhir" />
+                  :value="reg.data.user.sertif_kompt_tgl_berakhir"
+                  :state="errors.length > 0 ? false : null"
+                  name="tanggal-terbit"
+                  type="date" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -655,8 +637,7 @@
               class="mt-1">
               <validation-provider
                 #default="{ errors }"
-                name="sertif_kompt_file"
-                rules="required">
+                name="sertif_kompt_file">
                 <b-form-file
                   id="sertif_kompt_file"
                   :state="errors.length > 0 ? false : null"
@@ -668,16 +649,19 @@
               <table class="mt-1">
                 <tbody>
                   <tr v-if="reg.data.user.sertif_kompt_file != null">
+                    <th>File Serkom:</th>
                     <td>
-                      <img
-                        :src="reg.data.user.sertif_kompt_file"
-                        alt="gallery_image"
-                        width="320"
-                        height="280" />
+                      <a
+                        :href="reg.data.user.sertif_kompt_file"
+                        target="_blank"
+                        rel="noreferrer">
+                        Tampilkan File
+                      </a>
                     </td>
                   </tr>
                   <tr v-else>
-                    <p>belum ada foto serkom</p>
+                    <th>File Serkom:</th>
+                    <td>Belum ada file serkom</td>
                   </tr>
                 </tbody>
               </table>
@@ -696,7 +680,9 @@
         </b-form>
       </validation-observer>
     </div>
-    <div v-else>
+    <div
+      v-else-if="reg.data.user.reg_status === 'meminta-verifikasi'"
+      class="p-2 mx-auto">
       <br />
       <b-col v-for="(data, index) in colorVerify" :key="index" md="6" xl="4">
         <b-card :bg-variant="data.bg" text-variant="white">
@@ -873,6 +859,52 @@ export default {
         isLoading: true,
         data: "",
       },
+      optionJenisKelamin: [
+        {
+          value: null,
+          text: "Silahkan pilih jenis kelamin",
+        },
+        {
+          value: "laki-laki",
+          text: "Laki Laki",
+        },
+        {
+          value: "perempuan",
+          text: "Perempuan",
+        },
+      ],
+      optionStatusPernikahan: [
+        {
+          value: null,
+          text: "Silahkan pilih status pernikahan",
+        },
+        {
+          value: "sudah-menikah",
+          text: "Sudah Menikah",
+        },
+        {
+          value: "belum-menikah",
+          text: "Belum Menikah",
+        },
+      ],
+      optionJenisKartuIdentitas: [
+        {
+          value: null,
+          text: "Silahkan pilih jenis kartu identitas",
+        },
+        {
+          value: "ktp",
+          text: "ktp",
+        },
+        {
+          value: "sim",
+          text: "sim",
+        },
+        {
+          value: "paspor",
+          text: "paspor",
+        },
+      ],
     };
   },
   computed: {},
@@ -1034,11 +1066,26 @@ export default {
     sumbitLengkapiDataCalonAnggota() {
       var submitDataCalonAnggota = {
         ...this.reg.data.user,
-        pasphoto: this.upload.pasphoto,
-        npa_file: this.upload.npa_file,
-        kartu_id_file: this.upload.kartu_id_file,
-        du_ijazah_file: this.upload.du_ijazah_file,
-        sertif_kompt_file: this.upload.sertif_kompt_file,
+        pasphoto:
+          this.upload.pasphoto != null
+            ? this.upload.pasphoto
+            : this.reg.data.user.pasphoto,
+        npa_file:
+          this.upload.npa_file != null
+            ? this.this.upload.npa_file
+            : this.reg.data.user.npa_file,
+        kartu_id_file:
+          this.upload.kartu_id_file != null
+            ? this.upload.kartu_id_file
+            : this.reg.data.user.kartu_id_file,
+        du_ijazah_file:
+          this.upload.du_ijazah_file != null
+            ? this.upload.du_ijazah_file
+            : this.reg.data.user.du_ijazah_file,
+        sertif_kompt_file:
+          this.upload.sertif_kompt_file != null
+            ? this.upload.sertif_kompt_file
+            : this.reg.data.user.sertif_kompt_file,
       };
 
       try {
@@ -1059,7 +1106,7 @@ export default {
             if (result.value) {
               this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
               return apis.completeRegistration.lengkapiDataCalonAngota(
-                this.reg.data.user.npa_idi,
+                this.reg.data.user.reg_token,
                 submitDataCalonAnggota
               );
             }
