@@ -18,6 +18,7 @@ const endpoints = {
     resetPassword: "/auth/changePassword/noAuth",
     register: "/auth/register",
     user: "/auth/user",
+    verify: "/auth/verify",
   },
   forum: {
     default: "/forum",
@@ -60,13 +61,13 @@ const endpoints = {
     input: "input",
     publish: "publish",
   },
-  verifyInvoice: {
-    default: "/uploads",
-    invoice: "invoice",
+  completeRegistration: {
+    default: "/reg",
+    data: "data",
     get: "get",
-    lengkapi: "lengkapiData",
+    lengkapi: "submitData",
     verifyStatusAccount: "verify",
-    account: "account",
+    account: "accountStatus",
   },
 };
 
@@ -88,27 +89,25 @@ const apis = {
       return resource.post(endpoints.auth.user);
     },
   },
-  invoice: {
-    getInvoice(id) {
+  completeRegistration: {
+    emailVerify(reg_token) {
+      return resource.get(`${endpoints.auth.verify}/${reg_token}`);
+    },
+
+    getDataCalonAnggota(reg_token) {
       return resource.post(
-        `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.get}/${id}/${endpoints.verifyInvoice.invoice}`
+        `${endpoints.completeRegistration.default}/${reg_token}/${endpoints.completeRegistration.data}`
       );
     },
-    uploadBuktiBayar(id, body) {
-      return resource.post(
-        `${endpoints.verifyInvoice.default}/${id}/${endpoints.verifyInvoice.invoice}`,
+    lengkapiDataCalonAngota(reg_token, body) {
+      return resource.put(
+        `${endpoints.completeRegistration.default}/${reg_token}/${endpoints.completeRegistration.lengkapi}`,
         body
       );
     },
-    lengkapiDataCalonAngota(body) {
+    verifyAccountStatus(npa_idi) {
       return resource.post(
-        `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.lengkapi}`,
-        body
-      );
-    },
-    verifyAccountStatus(id) {
-      return resource.post(
-        `${endpoints.verifyInvoice.default}/${endpoints.verifyInvoice.verifyStatusAccount}/${id}/${endpoints.verifyInvoice.account}`
+        `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.verifyStatusAccount}/${npa_idi}/${endpoints.completeRegistration.account}`
       );
     },
   },

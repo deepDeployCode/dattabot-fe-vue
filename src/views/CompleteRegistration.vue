@@ -3,160 +3,7 @@
     <BaseNavigation />
     <DividerNavigation />
     <div
-      v-if="
-        invoices.data.invoice.reginvoice_status === 'belum-dibayar' ||
-        invoices.data.invoice.reginvoice_status === 'belum-bayar'
-      "
-      class="p-2 mx-auto">
-      <validation-observer
-        v-if="invoices.data && !invoices.isLoading"
-        ref="buktiBayarValidation">
-        <b-form class="mt-1" @submit.prevent>
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">
-                  Invoice: # {{ invoices.data.invoice.id }}
-                  <br />
-                  IdRekomendasi: # {{ invoices.data.user.id }}
-                </div>
-                <small>
-                  {{ invoices.data.invoice.created_at }}
-                </small>
-                <!-- <b-badge variant="light-danger font-weight–light mt-25">
-                Belum terverifikasi
-              </b-badge> -->
-              </div>
-            </div>
-
-            <div class="text-center pt-1">
-              <div style="font-size: 24px">
-                <b>Rp {{ invoices.data.invoice.reginvoice_jumlah }}</b>
-              </div>
-              <div class="border-1">
-                <span>{{ invoices.data.invoice.reginvoice_status }}</span>
-              </div>
-              <br />
-              <!-- card 1 -->
-              <b-card
-                v-if="
-                  invoices.data.invoice.reginvoice_status === 'sudah-dibayar' ||
-                  invoices.data.invoice.reginvoice_status === 'sudah-bayar'
-                "
-                img-alt="Card image cap"
-                img-top
-                no-body>
-                <b-card-body>
-                  <b-card-text>
-                    selanjutnya lakukan pengaktifan akun simfoni anda dengan
-                    cara menghubungi pihak admin.
-                  </b-card-text>
-                </b-card-body>
-                <b-card-footer>
-                  <small class="text-muted"
-                    ><i
-                      >Noted: jika akun anda sudah aktif maka anda dapat login
-                      di aplikasi simfoni</i
-                    ></small
-                  >
-                </b-card-footer>
-              </b-card>
-              <b-card v-else img-alt="Card image cap" img-top no-body>
-                <b-card-footer>
-                  <small class="text-muted"
-                    ><i
-                      >Noted: harap hubungi pihak admin agar mempercepat proses
-                      aktivasi akun anda</i
-                    ></small
-                  >
-                </b-card-footer>
-              </b-card>
-            </div>
-          </b-card>
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">Informasi Pembayaran</div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr>
-                  <td>Bank</td>
-                  <td class="font-weight-bold">: Bank Syariah Indonesia</td>
-                </tr>
-                <tr>
-                  <td>Akun</td>
-                  <td class="font-weight-bold">: IDI JAKPUS</td>
-                </tr>
-                <tr>
-                  <td>Rekening</td>
-                  <td class="font-weight-bold">: 7132822063</td>
-                </tr>
-                <tr>
-                  <td>Keterangan</td>
-                  <td class="font-weight-bold">
-                    : {{ invoices.data.invoice.reginvoice_nama }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-form-group
-            label="Upload Bukti Bayar *"
-            label-for="upload-bukti-bayar"
-            class="mt-1">
-            <validation-provider
-              #default="{ errors }"
-              name="upload-bukti-bayar"
-              rules="required">
-              <b-form-file
-                id="upload-bukti-bayar"
-                :state="errors.length > 0 ? false : null"
-                v-model="tempBuktiBayar"
-                accept="image/*"
-                @change="buktiBayar($event)" />
-              <small class="text-danger">{{ errors[0] }}</small>
-            </validation-provider>
-          </b-form-group>
-
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">Bukti Pembayaran</div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr v-if="invoices.data.invoice.reginvoice_file != null">
-                  <td>
-                    <img
-                      :src="invoices.data.invoice.reginvoice_file"
-                      alt="gallery_image"
-                      width="320"
-                      height="280" />
-                  </td>
-                </tr>
-                <tr v-else>
-                  <p>belum ada bukti screenshoot</p>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-button
-            type="submit"
-            variant="outline-danger"
-            block
-            @click="validateUploadBuktiBayar">
-            Simpan
-          </b-button>
-        </b-form>
-      </validation-observer>
-    </div>
-    <div
-      v-else-if="invoices.data.user.reg_status === 'sedang-mengisi'"
+      v-if="reg.data.user.reg_status === 'sedang-mengisi'"
       class="p-2 mx-auto">
       <b-col v-for="(data, index) in solidColor" :key="index" md="6" xl="4">
         <b-card :bg-variant="data.bg" text-variant="white">
@@ -170,7 +17,7 @@
         </b-card>
       </b-col>
       <validation-observer
-        v-if="invoices.data && !invoices.isLoading"
+        v-if="reg.data && !reg.isLoading"
         ref="lengkapiDataCalonAnggota">
         <app-collapse class="p-0">
           <app-collapse-item
@@ -189,8 +36,8 @@
                   id="id"
                   :state="errors.length > 0 ? false : null"
                   name="id"
-                  v-model="invoices.data.user.id"
-                  :value="invoices.data.user.id"
+                  v-model="reg.data.user.id"
+                  :value="reg.data.user.id"
                   readonly />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -206,8 +53,8 @@
                   id="jenis_pendaftaran"
                   :state="errors.length > 0 ? false : null"
                   name="jenis_pendaftaran"
-                  v-model="invoices.data.user.jenis_pendaftaran"
-                  :value="invoices.data.user.jenis_pendaftaran"
+                  v-model="reg.data.user.jenis_pendaftaran"
+                  :value="reg.data.user.jenis_pendaftaran"
                   readonly />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -220,17 +67,17 @@
                 <b-form-file
                   id="pasphoto"
                   :state="errors.length > 0 ? false : null"
-                  v-model="invoices.data.user.pasphoto"
+                  v-model="reg.data.user.pasphoto"
                   accept="image/*"
                   @change="passphoto($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
                 <tbody>
-                  <tr v-if="invoices.data.user.pasphoto != null">
+                  <tr v-if="reg.data.user.pasphoto != null">
                     <td>
                       <img
-                        :src="invoices.data.user.pasphoto"
+                        :src="reg.data.user.pasphoto"
                         alt="gallery_image"
                         width="320"
                         height="280" />
@@ -251,8 +98,8 @@
                   id="npa_idi"
                   :state="errors.length > 0 ? false : null"
                   name="npa_idi"
-                  v-model="invoices.data.user.npa_idi"
-                  :value="invoices.data.user.npa_idi" />
+                  v-model="reg.data.user.npa_idi"
+                  :value="reg.data.user.npa_idi" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -265,8 +112,8 @@
                   id="npa_masa_berlaku"
                   :state="errors.length > 0 ? false : null"
                   name="npa_masa_berlaku"
-                  v-model="invoices.data.user.npa_masa_berlaku"
-                  :value="invoices.data.user.npa_masa_berlaku" />
+                  v-model="reg.data.user.npa_masa_berlaku"
+                  :value="reg.data.user.npa_masa_berlaku" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -279,17 +126,17 @@
                 <b-form-file
                   id="npa_file"
                   :state="errors.length > 0 ? false : null"
-                  v-model="invoices.data.user.npa_file"
+                  v-model="reg.data.user.npa_file"
                   accept="image/*"
                   @change="npaFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
                 <tbody>
-                  <tr v-if="invoices.data.user.npa_file != null">
+                  <tr v-if="reg.data.user.npa_file != null">
                     <td>
                       <img
-                        :src="invoices.data.user.npa_file"
+                        :src="reg.data.user.npa_file"
                         alt="gallery_image"
                         width="320"
                         height="280" />
@@ -310,8 +157,8 @@
                   id="nama_lengkap"
                   :state="errors.length > 0 ? false : null"
                   name="nama_lengkap"
-                  v-model="invoices.data.user.nama_lengkap"
-                  :value="invoices.data.user.nama_lengkap" />
+                  v-model="reg.data.user.nama_lengkap"
+                  :value="reg.data.user.nama_lengkap" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -324,8 +171,8 @@
                   id="gelar_depan"
                   :state="errors.length > 0 ? false : null"
                   name="gelar_depan"
-                  v-model="invoices.data.user.gelar_depan"
-                  :value="invoices.data.user.gelar_depan" />
+                  v-model="reg.data.user.gelar_depan"
+                  :value="reg.data.user.gelar_depan" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -338,8 +185,8 @@
                   id="gelar_belakang"
                   :state="errors.length > 0 ? false : null"
                   name="gelar_belakang"
-                  v-model="invoices.data.user.gelar_belakang"
-                  :value="invoices.data.user.gelar_belakang" />
+                  v-model="reg.data.user.gelar_belakang"
+                  :value="reg.data.user.gelar_belakang" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -352,8 +199,8 @@
                   id="tempat_lahir"
                   :state="errors.length > 0 ? false : null"
                   name="tempat_lahir"
-                  v-model="invoices.data.user.tempat_lahir"
-                  :value="invoices.data.user.tempat_lahir" />
+                  v-model="reg.data.user.tempat_lahir"
+                  :value="reg.data.user.tempat_lahir" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -366,8 +213,8 @@
                   id="tanggal_lahir"
                   :state="errors.length > 0 ? false : null"
                   name="tanggal_lahir"
-                  v-model="invoices.data.user.tanggal_lahir"
-                  :value="invoices.data.user.tanggal_lahir" />
+                  v-model="reg.data.user.tanggal_lahir"
+                  :value="reg.data.user.tanggal_lahir" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -380,8 +227,8 @@
                   id="jenis_kelamin"
                   :state="errors.length > 0 ? false : null"
                   name="jenis_kelamin"
-                  v-model="invoices.data.user.jenis_kelamin"
-                  :value="invoices.data.user.jenis_kelamin" />
+                  v-model="reg.data.user.jenis_kelamin"
+                  :value="reg.data.user.jenis_kelamin" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -396,8 +243,8 @@
                   id="kartu_id_jenis"
                   :state="errors.length > 0 ? false : null"
                   name="kartu_id_jenis"
-                  v-model="invoices.data.user.kartu_id_jenis"
-                  :value="invoices.data.user.kartu_id_jenis" />
+                  v-model="reg.data.user.kartu_id_jenis"
+                  :value="reg.data.user.kartu_id_jenis" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -410,8 +257,8 @@
                   id="kartu_id_nomor"
                   :state="errors.length > 0 ? false : null"
                   name="kartu_id_nomor"
-                  v-model="invoices.data.user.kartu_id_nomor"
-                  :value="invoices.data.user.kartu_id_nomor" />
+                  v-model="reg.data.user.kartu_id_nomor"
+                  :value="reg.data.user.kartu_id_nomor" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -427,17 +274,17 @@
                 <b-form-file
                   id="kartu_id_file"
                   :state="errors.length > 0 ? false : null"
-                  v-model="invoices.data.user.kartu_id_file"
+                  v-model="reg.data.user.kartu_id_file"
                   accept="image/*"
                   @change="kartuIdentitas($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
                 <tbody>
-                  <tr v-if="invoices.data.user.kartu_id_file != null">
+                  <tr v-if="reg.data.user.kartu_id_file != null">
                     <td>
                       <img
-                        :src="invoices.data.user.kartu_id_file"
+                        :src="reg.data.user.kartu_id_file"
                         alt="gallery_image"
                         width="320"
                         height="280" />
@@ -460,8 +307,8 @@
                   id="pernikahan_status"
                   :state="errors.length > 0 ? false : null"
                   name="pernikahan_status"
-                  v-model="invoices.data.user.pernikahan_status"
-                  :value="invoices.data.user.pernikahan_status" />
+                  v-model="reg.data.user.pernikahan_status"
+                  :value="reg.data.user.pernikahan_status" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -476,8 +323,8 @@
                   id="pernikahan_nama_pasangan"
                   :state="errors.length > 0 ? false : null"
                   name="pernikahan_nama_pasangan"
-                  v-model="invoices.data.user.pernikahan_nama_pasangan"
-                  :value="invoices.data.user.pernikahan_nama_pasangan" />
+                  v-model="reg.data.user.pernikahan_nama_pasangan"
+                  :value="reg.data.user.pernikahan_nama_pasangan" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -492,8 +339,8 @@
                   id="alamat_rumah"
                   :state="errors.length > 0 ? false : null"
                   name="alamat_rumah"
-                  v-model="invoices.data.user.alamat_rumah"
-                  :value="invoices.data.user.alamat_rumah" />
+                  v-model="reg.data.user.alamat_rumah"
+                  :value="reg.data.user.alamat_rumah" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -506,8 +353,8 @@
                   id="nomor_telpon"
                   :state="errors.length > 0 ? false : null"
                   name="nomor_telpon"
-                  v-model="invoices.data.user.nomor_telpon"
-                  :value="invoices.data.user.nomor_telpon" />
+                  v-model="reg.data.user.nomor_telpon"
+                  :value="reg.data.user.nomor_telpon" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -520,8 +367,8 @@
                   id="nomor_hp"
                   :state="errors.length > 0 ? false : null"
                   name="nomor_hp"
-                  v-model="invoices.data.user.nomor_hp"
-                  :value="invoices.data.user.nomor_hp" />
+                  v-model="reg.data.user.nomor_hp"
+                  :value="reg.data.user.nomor_hp" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -534,8 +381,8 @@
                   id="email"
                   :state="errors.length > 0 ? false : null"
                   name="email"
-                  v-model="invoices.data.user.email"
-                  :value="invoices.data.user.email" />
+                  v-model="reg.data.user.email"
+                  :value="reg.data.user.email" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -561,8 +408,8 @@
                   id="du_asal_negara_univ"
                   :state="errors.length > 0 ? false : null"
                   name="du_asal_negara_univ"
-                  v-model="invoices.data.user.du_asal_negara_univ"
-                  :value="invoices.data.user.du_asal_negara_univ" />
+                  v-model="reg.data.user.du_asal_negara_univ"
+                  :value="reg.data.user.du_asal_negara_univ" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -577,8 +424,8 @@
                   id="du_asal_fak_kedokteran"
                   :state="errors.length > 0 ? false : null"
                   name="du_asal_fak_kedokteran"
-                  v-model="invoices.data.user.du_asal_fak_kedokteran"
-                  :value="invoices.data.user.du_asal_fak_kedokteran" />
+                  v-model="reg.data.user.du_asal_fak_kedokteran"
+                  :value="reg.data.user.du_asal_fak_kedokteran" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -591,8 +438,8 @@
                   id="du_tahun_masuk"
                   :state="errors.length > 0 ? false : null"
                   name="du_tahun_masuk"
-                  v-model="invoices.data.user.du_tahun_masuk"
-                  :value="invoices.data.user.du_tahun_masuk" />
+                  v-model="reg.data.user.du_tahun_masuk"
+                  :value="reg.data.user.du_tahun_masuk" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -605,8 +452,8 @@
                   id="du_tahun_lulus"
                   :state="errors.length > 0 ? false : null"
                   name="du_tahun_lulus"
-                  v-model="invoices.data.user.du_tahun_lulus"
-                  :value="invoices.data.user.du_tahun_lulus" />
+                  v-model="reg.data.user.du_tahun_lulus"
+                  :value="reg.data.user.du_tahun_lulus" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -619,8 +466,8 @@
                   id="du_nomor_ijazah"
                   :state="errors.length > 0 ? false : null"
                   name="du_nomor_ijazah"
-                  v-model="invoices.data.user.du_nomor_ijazah"
-                  :value="invoices.data.user.du_nomor_ijazah" />
+                  v-model="reg.data.user.du_nomor_ijazah"
+                  :value="reg.data.user.du_nomor_ijazah" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -637,17 +484,17 @@
                 <b-form-file
                   id="du_ijazah_file"
                   :state="errors.length > 0 ? false : null"
-                  v-model="invoices.data.user.du_ijazah_file"
+                  v-model="reg.data.user.du_ijazah_file"
                   accept="image/*"
                   @change="ijzahFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
                 <tbody>
-                  <tr v-if="invoices.data.user.du_ijazah_file != null">
+                  <tr v-if="reg.data.user.du_ijazah_file != null">
                     <td>
                       <img
-                        :src="invoices.data.user.du_ijazah_file"
+                        :src="reg.data.user.du_ijazah_file"
                         alt="gallery_image"
                         width="320"
                         height="280" />
@@ -679,8 +526,8 @@
                   id="pekerjaan_jenis"
                   :state="errors.length > 0 ? false : null"
                   name="pekerjaan_jenis"
-                  v-model="invoices.data.user.pekerjaan_jenis"
-                  :value="invoices.data.user.pekerjaan_jenis" />
+                  v-model="reg.data.user.pekerjaan_jenis"
+                  :value="reg.data.user.pekerjaan_jenis" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -695,8 +542,8 @@
                   id="pekerjaan_nama_institusi"
                   :state="errors.length > 0 ? false : null"
                   name="pekerjaan_nama_institusi"
-                  v-model="invoices.data.user.pekerjaan_nama_institusi"
-                  :value="invoices.data.user.pekerjaan_nama_institusi" />
+                  v-model="reg.data.user.pekerjaan_nama_institusi"
+                  :value="reg.data.user.pekerjaan_nama_institusi" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -711,8 +558,8 @@
                   id="pekerjaan_alamat_institusi"
                   :state="errors.length > 0 ? false : null"
                   name="pekerjaan_alamat_institusi"
-                  v-model="invoices.data.user.pekerjaan_alamat_institusi"
-                  :value="invoices.data.user.pekerjaan_alamat_institusi" />
+                  v-model="reg.data.user.pekerjaan_alamat_institusi"
+                  :value="reg.data.user.pekerjaan_alamat_institusi" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -725,8 +572,8 @@
                   id="pekerjaan_telpon"
                   :state="errors.length > 0 ? false : null"
                   name="pekerjaan_telpon"
-                  v-model="invoices.data.user.pekerjaan_telpon"
-                  :value="invoices.data.user.pekerjaan_telpon" />
+                  v-model="reg.data.user.pekerjaan_telpon"
+                  :value="reg.data.user.pekerjaan_telpon" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -739,8 +586,8 @@
                   id="pekerjaan_email"
                   :state="errors.length > 0 ? false : null"
                   name="pekerjaan_email"
-                  v-model="invoices.data.user.pekerjaan_email"
-                  :value="invoices.data.user.pekerjaan_email" />
+                  v-model="reg.data.user.pekerjaan_email"
+                  :value="reg.data.user.pekerjaan_email" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -764,8 +611,8 @@
                   id="sertif_kompt_nomor"
                   :state="errors.length > 0 ? false : null"
                   name="sertif_kompt_nomor"
-                  v-model="invoices.data.user.sertif_kompt_nomor"
-                  :value="invoices.data.user.sertif_kompt_nomor" />
+                  v-model="reg.data.user.sertif_kompt_nomor"
+                  :value="reg.data.user.sertif_kompt_nomor" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -780,8 +627,8 @@
                   id="sertif_kompt_tgl_terbit"
                   :state="errors.length > 0 ? false : null"
                   name="sertif_kompt_tgl_terbit"
-                  v-model="invoices.data.user.sertif_kompt_tgl_terbit"
-                  :value="invoices.data.user.sertif_kompt_tgl_terbit" />
+                  v-model="reg.data.user.sertif_kompt_tgl_terbit"
+                  :value="reg.data.user.sertif_kompt_tgl_terbit" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -796,8 +643,8 @@
                   id="sertif_kompt_tgl_berakhir"
                   :state="errors.length > 0 ? false : null"
                   name="sertif_kompt_tgl_berakhir"
-                  v-model="invoices.data.user.sertif_kompt_tgl_berakhir"
-                  :value="invoices.data.user.sertif_kompt_tgl_berakhir" />
+                  v-model="reg.data.user.sertif_kompt_tgl_berakhir"
+                  :value="reg.data.user.sertif_kompt_tgl_berakhir" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -813,17 +660,17 @@
                 <b-form-file
                   id="sertif_kompt_file"
                   :state="errors.length > 0 ? false : null"
-                  v-model="invoices.data.user.sertif_kompt_file"
+                  v-model="reg.data.user.sertif_kompt_file"
                   accept="image/*"
                   @change="serkomFile($event)" />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
               <table class="mt-1">
                 <tbody>
-                  <tr v-if="invoices.data.user.sertif_kompt_file != null">
+                  <tr v-if="reg.data.user.sertif_kompt_file != null">
                     <td>
                       <img
-                        :src="invoices.data.user.sertif_kompt_file"
+                        :src="reg.data.user.sertif_kompt_file"
                         alt="gallery_image"
                         width="320"
                         height="280" />
@@ -858,8 +705,6 @@
           </b-card-title>
           <b-card-text v-if="verifyAccount.data.status === true">
             {{ verifyAccount.data.message }}
-            <b>silahkan login dengan click </b>
-            <a class="text-white" href="/login"><b>login</b></a>
           </b-card-text>
           <b-card-text v-if="verifyAccount.data.status === false">
             {{ verifyAccount.data.message }}
@@ -872,6 +717,14 @@
         block
         @click="checkVerifyAccount">
         Check Status Account
+      </b-button>
+      <b-button
+        v-if="verifyAccount.data.status === true"
+        type="submit"
+        variant="outline-danger"
+        block
+        @click="$router.push('/login')">
+        Login
       </b-button>
     </div>
   </div>
@@ -939,7 +792,7 @@ export default {
   data() {
     return {
       required,
-      invoices: {
+      reg: {
         data: {
           user: {
             //lengkapi data
@@ -990,8 +843,8 @@ export default {
         },
         isLoading: true,
       },
-      buktiBayarBase64: {},
-      tempBuktiBayar: null,
+      // buktiBayarBase64: {},
+      // tempBuktiBayar: null,
       visible: {
         dataDiri: false,
         pendidikan: false,
@@ -999,7 +852,7 @@ export default {
         serkom: false,
       },
       upload: {
-        invoices: null,
+        // reg: null,
         pasphoto: null,
         npa_file: null,
         kartu_id_file: null,
@@ -1017,13 +870,14 @@ export default {
       colorVerify: [{ bg: "danger", title: "Danger card title" }],
 
       verifyAccount: {
+        isLoading: true,
         data: "",
       },
     };
   },
   computed: {},
   watch: {
-    invoices: {
+    reg: {
       deep: true,
       // handler(val) {
       //   console.log(val.data)
@@ -1032,7 +886,7 @@ export default {
   },
   mounted() {},
   created() {
-    this.fetchInvoiceCalonAnggota();
+    this.fetchDataCalonAnggota();
   },
   methods: {
     changeVisibleDataDiri(payload) {
@@ -1069,7 +923,7 @@ export default {
       const { files } = e.target;
       if (files.length) {
         this.createImage(files[0], (result) => {
-          this.upload.invoices = result;
+          this.upload.reg = result;
         });
       }
     },
@@ -1177,29 +1031,9 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    //end bukti bayar dan lengkapi data profile
-
-    submitBuktiBayar() {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      apis.invoice
-        .uploadBuktiBayar(this.invoices.data.invoice.id, {
-          reginvoice_file: this.upload.invoices,
-        })
-        .then(() => {
-          this.successHandler("berhasil upload bukti invoice");
-          location.reload();
-        })
-        .catch((error) => {
-          this.errorHandler(error, "gagal up invoice coba lagi");
-        })
-        .finally(() => {
-          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-        });
-    },
-
     sumbitLengkapiDataCalonAnggota() {
       var submitDataCalonAnggota = {
-        ...this.invoices.data.user,
+        ...this.reg.data.user,
         pasphoto: this.upload.pasphoto,
         npa_file: this.upload.npa_file,
         kartu_id_file: this.upload.kartu_id_file,
@@ -1224,7 +1058,8 @@ export default {
           .then((result) => {
             if (result.value) {
               this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-              return apis.invoice.lengkapiDataCalonAngota(
+              return apis.completeRegistration.lengkapiDataCalonAngota(
+                this.reg.data.user.npa_idi,
                 submitDataCalonAnggota
               );
             }
@@ -1252,27 +1087,27 @@ export default {
       }
     },
 
-    fetchInvoiceCalonAnggota() {
-      this.invoices.isLoading = true;
-      apis.invoice
-        .getInvoice(this.$route.params.id)
+    fetchDataCalonAnggota() {
+      this.reg.isLoading = true;
+      apis.completeRegistration
+        .getDataCalonAnggota(this.$route.params.reg_token)
         .then(({ data }) => {
-          this.invoices.data = data;
+          this.reg.data = data;
         })
         .finally(() => {
-          this.invoices.isLoading = false;
+          this.reg.isLoading = false;
         });
     },
 
     checkVerifyAccount() {
-      this.invoices.isLoading = true;
-      apis.invoice
-        .verifyAccountStatus(this.invoices.data.user.npa_idi)
+      this.verifyAccount.isLoading = true;
+      apis.completeRegistration
+        .verifyAccountStatus(this.reg.data.user.npa_idi)
         .then(({ data }) => {
           this.verifyAccount.data = data;
         })
         .finally(() => {
-          this.invoices.isLoading = false;
+          this.verifyAccount.isLoading = false;
         });
     },
   },
