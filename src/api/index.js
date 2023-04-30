@@ -105,9 +105,9 @@ const apis = {
         body
       );
     },
-    verifyAccountStatus(npa_idi) {
+    verifyAccountStatus(email) {
       return resource.post(
-        `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.verifyStatusAccount}/${npa_idi}/${endpoints.completeRegistration.account}`
+        `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.verifyStatusAccount}/${email}/${endpoints.completeRegistration.account}`
       );
     },
   },

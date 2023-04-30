@@ -94,7 +94,13 @@
                 </tbody>
               </table>
             </b-form-group>
-            <b-form-group label="Nomor Pokok Anggota" label-for="npa_idi">
+            <b-form-group
+              v-if="
+                reg.data.user.jenis_pendaftaran === 'anggota-jakpus' &&
+                reg.data.user.jenis_pendaftaran === 'non-anggota-jakpus'
+              "
+              label="Nomor Pokok Anggota"
+              label-for="npa_idi">
               <validation-provider #default="{ errors }" name="Nomor NPA">
                 <b-form-input
                   id="npa_idi"
@@ -384,7 +390,8 @@
                   :state="errors.length > 0 ? false : null"
                   name="email"
                   v-model="reg.data.user.email"
-                  :value="reg.data.user.email" />
+                  :value="reg.data.user.email"
+                  readonly />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
@@ -1149,7 +1156,7 @@ export default {
     checkVerifyAccount() {
       this.verifyAccount.isLoading = true;
       apis.completeRegistration
-        .verifyAccountStatus(this.reg.data.user.npa_idi)
+        .verifyAccountStatus(this.reg.data.user.email)
         .then(({ data }) => {
           this.verifyAccount.data = data;
         })

@@ -481,7 +481,7 @@ export default {
 
     register() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      // const newForm = { ...this.form }
+      const newForm = { ...this.form };
       if (this.form.jenis_pendaftaran === "baru") {
         newForm.npa_idi = "0000";
       }
