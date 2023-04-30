@@ -865,11 +865,11 @@ export default {
           text: "Silahkan pilih jenis kelamin",
         },
         {
-          value: "laki-laki",
+          value: "Pria",
           text: "Laki Laki",
         },
         {
-          value: "perempuan",
+          value: "Wanita",
           text: "Perempuan",
         },
       ],
@@ -879,11 +879,11 @@ export default {
           text: "Silahkan pilih status pernikahan",
         },
         {
-          value: "sudah-menikah",
+          value: "Sudah Menikah",
           text: "Sudah Menikah",
         },
         {
-          value: "belum-menikah",
+          value: "Belum Menikah",
           text: "Belum Menikah",
         },
       ],
