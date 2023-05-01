@@ -6,7 +6,7 @@
     <BaseBottomNavigation />
     <div class="p-2 mx-auto">
       <!-- TODO: ketika di klik, menuju maintenance page -->
-    <!-- <div>
+      <!-- <div>
         <div
           class="font-weight-bold mb-1"
           style="font-size: 16px;"
@@ -34,30 +34,32 @@
           </div> -->
       <b-card class="shadow-none border mb-1">
         <div class="d-flex flex-row justify-content-between align-items-start">
-          <div class="d-flex flex-column justify-content-center pointer" style="width: 33%;"
+          <div
+            class="d-flex flex-column justify-content-center pointer"
+            style="width: 33%"
             @click="$router.push('/krip')">
             <div class="d-flex justify-content-center mb-25">
               <b-img :src="kripIcon" height="70" width="70" />
             </div>
-            <div class="text-center">
-              KRIP
-            </div>
+            <div class="text-center">KRIP</div>
           </div>
-          <div class="d-flex flex-column justify-content-center" style="width: 33%;" @click="isShowRekomendasi = true">
+          <div
+            class="d-flex flex-column justify-content-center"
+            style="width: 33%"
+            @click="isShowRekomendasi = true">
             <div class="d-flex justify-content-center mb-25">
               <b-img :src="rekomendasiIcon" height="70" width="70" />
             </div>
-            <div class="text-center">
-              Rekomendasi
-            </div>
+            <div class="text-center">Rekomendasi SIP</div>
           </div>
-          <div class="d-flex flex-column justify-content-center" style="width: 33%;" @click="$router.push('/mutasi')">
+          <div
+            class="d-flex flex-column justify-content-center"
+            style="width: 33%"
+            @click="$router.push('/mutasi')">
             <div class="d-flex justify-content-center mb-25">
               <b-img :src="keanggotaanIcon" height="70" width="70" />
             </div>
-            <div class="text-center">
-              Keanggotaan
-            </div>
+            <div class="text-center">Keanggotaan</div>
           </div>
         </div>
       </b-card>
@@ -66,24 +68,42 @@
       <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
         <b-spinner label="Loading..." variant="danger" />
       </div>
-      <div v-if="!forums.isLoading && !forums.data.length" class="d-flex justify-content-center mb-1">
+      <div
+        v-if="!forums.isLoading && !forums.data.length"
+        class="d-flex justify-content-center mb-1">
         Belum ada forum yang di posting
       </div>
-      <CardPost v-for="forum in forums.data" :key="forum.id" :forum="forum" is-elipsis="true"
+      <CardPost
+        v-for="forum in forums.data"
+        :key="forum.id"
+        :forum="forum"
+        is-elipsis="true"
         @refreshFetch="fetchForums" />
     </div>
 
-    <b-modal id="modal-rekomendasi" v-model="isShowRekomendasi" cancel-variant="secondary" centered size="xs" hide-footer>
+    <b-modal
+      id="modal-rekomendasi"
+      v-model="isShowRekomendasi"
+      cancel-variant="secondary"
+      centered
+      size="xs"
+      hide-footer>
       <div slot="modal-title">
         <div>Rekomendasi</div>
         <small>Surat Izin Praktik Dokter</small>
       </div>
 
       <div>
-        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/umum')">
+        <b-button
+          variant="outline-danger"
+          block
+          @click="$router.push('/rekomendasi/umum')">
           Umum
         </b-button>
-        <b-button variant="outline-danger" block @click="$router.push('/rekomendasi/spesialis')">
+        <b-button
+          variant="outline-danger"
+          block
+          @click="$router.push('/rekomendasi/spesialis')">
           Spesialis
         </b-button>
       </div>
@@ -95,20 +115,14 @@
 
 <script>
 /* eslint-disable global-require */
-import {
-  BCard,
-  BImg,
-  BSpinner,
-  BModal,
-  BButton,
-} from 'bootstrap-vue'
-import BaseNavigation from '@/components/Base/BaseNavigation.vue'
-import DividerNavigation from '@/components/Base/DividerNavigation.vue'
-import BaseBottomNavigation from '@/components/Base/BaseBottomNavigation.vue'
-import CardPost from '@/components/Forum/CardPost.vue'
-import ButtonCreateNewPost from '@/components/Forum/ButtonCreateNewPost.vue'
+import { BCard, BImg, BSpinner, BModal, BButton } from "bootstrap-vue";
+import BaseNavigation from "@/components/Base/BaseNavigation.vue";
+import DividerNavigation from "@/components/Base/DividerNavigation.vue";
+import BaseBottomNavigation from "@/components/Base/BaseBottomNavigation.vue";
+import CardPost from "@/components/Forum/CardPost.vue";
+import ButtonCreateNewPost from "@/components/Forum/ButtonCreateNewPost.vue";
 
-import apis from '@/api'
+import apis from "@/api";
 
 export default {
   components: {
@@ -125,33 +139,34 @@ export default {
   },
   data() {
     return {
-      kripIcon: require('@/assets/images/icons/krip.png'),
-      rekomendasiIcon: require('@/assets/images/icons/rekomendasi.png'),
-      keanggotaanIcon: require('@/assets/images/icons/anggota.png'),
-      avatar: require('@/assets/images/avatars/1.png'),
-      examplePicStudiKasus: require('@/assets/images/pages/Studi_Kasus_Contoh.jpeg'),
+      kripIcon: require("@/assets/images/icons/krip.png"),
+      rekomendasiIcon: require("@/assets/images/icons/rekomendasi.png"),
+      keanggotaanIcon: require("@/assets/images/icons/anggota.png"),
+      avatar: require("@/assets/images/avatars/1.png"),
+      examplePicStudiKasus: require("@/assets/images/pages/Studi_Kasus_Contoh.jpeg"),
       forums: {
         isLoading: false,
         data: [],
       },
       isShowRekomendasi: false,
-    }
+    };
   },
   created() {
-    this.fetchForums()
+    this.fetchForums();
   },
   methods: {
     fetchForums() {
-      this.forums.isLoading = true
-      apis.forum.getAll()
+      this.forums.isLoading = true;
+      apis.forum
+        .getAll()
         .then(({ data }) => {
-          this.forums.data = data.data
-          this.forums.isLoading = false
+          this.forums.data = data.data;
+          this.forums.isLoading = false;
         })
-        .catch(() => { })
+        .catch(() => {});
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
