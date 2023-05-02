@@ -64,7 +64,6 @@ const endpoints = {
   completeRegistration: {
     default: "/reg",
     data: "data",
-    get: "get",
     lengkapi: "submitData",
     verifyStatusAccount: "verify",
     account: "accountStatus",

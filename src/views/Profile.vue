@@ -266,23 +266,25 @@
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-              <b-form-group
-                label="Handphone *"
-                label-for="handphone"
-                rules="required">
-                <validation-provider #default="{ errors }" name="Handphone">
+              <b-form-group label="Handphone *" label-for="handphone">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Handphone"
+                  rules="required">
                   <b-form-input
                     id="handphone"
                     v-model="user.data.orang_nomor_hp"
                     :state="errors.length > 0 ? false : null"
                     name="handphone"
-                    type="number"
-                    readonly />
+                    type="number" />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
-              <b-form-group label="Email *" label-for="email" rules="required">
-                <validation-provider #default="{ errors }" name="Email">
+              <b-form-group label="Email *" label-for="email">
+                <validation-provider
+                  #default="{ errors }"
+                  name="Email"
+                  rules="required">
                   <b-form-input
                     id="email"
                     v-model="user.data.orang_email"
@@ -631,8 +633,8 @@ export default {
                   variant: "success",
                 },
               });
+              location.reload();
             }
-            location.reload();
           })
           .catch((error) => {
             this.errorHandler(error, "gagal update profile");
