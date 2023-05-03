@@ -306,7 +306,7 @@
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
 
-extend("confirm", {
+extend("password", {
   params: ["target"],
   validate(value, { target }) {
     return value === target;
