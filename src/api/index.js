@@ -16,6 +16,7 @@ const endpoints = {
     login: "/auth/login",
     forgotPassword: "/auth/forgotPassword",
     resetPassword: "/auth/changePassword/noAuth",
+    getChangePassword: "/auth/changePassword",
     register: "/auth/register",
     user: "/auth/user",
     verify: "/auth/verify",
@@ -74,6 +75,9 @@ const apis = {
   auth: {
     login(data) {
       return resource.post(endpoints.auth.login, data);
+    },
+    getChangePassword(token) {
+      return resource.get(`${endpoints.auth.getChangePassword}/${token}`);
     },
     forgotPassword(data) {
       return resource.post(endpoints.auth.forgotPassword, data);

@@ -189,7 +189,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="Email"
-                rules="required">
+                rules="required|email">
                 <b-form-input
                   id="email"
                   v-model="form.email"
