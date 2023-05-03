@@ -202,7 +202,7 @@
             <b-form-group label="Password *" label-for="password">
               <validation-provider
                 #default="{ errors }"
-                name="Password"
+                name="password"
                 rules="required">
                 <b-form-input
                   id="password"
@@ -218,24 +218,16 @@
               label-for="confirm-password">
               <validation-provider
                 #default="{ errors }"
-                name="Konfirmasi Password"
-                rules="required">
+                name="confirm"
+                rules="required|password:@password">
                 <b-form-input
                   id="confirm-password"
                   v-model="confirmPassword"
-                  :state="
-                    errors.length > 0 || errorConfirmPassword ? false : null
-                  "
+                  :state="errors.length > 0 ? false : null"
                   name="confirm-password"
                   type="password" />
                 <small class="text-danger">
-                  {{
-                    errors[0]
-                      ? errors[0]
-                      : errorConfirmPassword
-                      ? "Password konfimasi tidak sama"
-                      : ""
-                  }}
+                  {{ errors[0] }}
                 </small>
               </validation-provider>
             </b-form-group>
@@ -312,7 +304,16 @@
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+
+extend("confirm", {
+  params: ["target"],
+  validate(value, { target }) {
+    return value === target;
+  },
+  message: "Password tidak sama",
+});
+
 import {
   BLink,
   BFormGroup,
@@ -347,6 +348,7 @@ export default {
     DividerNavigation,
     BFormInput,
     BImg,
+    extend,
   },
   mixins: [togglePasswordVisibility],
   data() {
@@ -359,6 +361,7 @@ export default {
       // validation rulesimport store from '@/store/index'
       required,
       email,
+      confirmPassword: "",
       optionRegistration: [
         {
           value: null,
@@ -395,8 +398,6 @@ export default {
         jenis_pendaftaran: null,
         nomor_hp: "",
       },
-      confirmPassword: "",
-      errorConfirmPassword: false,
     };
   },
   computed: {
@@ -414,11 +415,8 @@ export default {
   },
   methods: {
     validationForm() {
-      if (this.confirmPassword !== this.form.password) {
-        this.errorConfirmPassword = true;
-      }
       this.$refs.registerValidation.validate().then((success) => {
-        if (success && !this.errorConfirmPassword) {
+        if (success) {
           this.register();
         }
       });
