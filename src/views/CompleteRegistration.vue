@@ -688,7 +688,10 @@
       </validation-observer>
     </div>
     <div
-      v-else-if="reg.data.user.reg_status === 'meminta-verifikasi'"
+      v-else-if="
+        reg.data.user.reg_status === 'meminta-verifikasi' ||
+        reg.data.user.reg_status === 'selesai'
+      "
       class="p-2 mx-auto">
       <br />
       <b-col v-for="(data, index) in colorVerify" :key="index" md="6" xl="4">

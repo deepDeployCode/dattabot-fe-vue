@@ -68,6 +68,10 @@ const endpoints = {
     lengkapi: "submitData",
     verifyStatusAccount: "verify",
     account: "accountStatus",
+    InvoicesIuran: {
+      bayar: "bayar",
+      invoices: "invoices",
+    },
   },
 };
 
@@ -111,6 +115,17 @@ const apis = {
     verifyAccountStatus(email) {
       return resource.post(
         `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.verifyStatusAccount}/${email}/${endpoints.completeRegistration.account}`
+      );
+    },
+    bayarInvoicesIuran(id_invoices) {
+      return resource.get(
+        `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.InvoicesIuran.bayar}/${id_invoices}/${endpoints.completeRegistration.InvoicesIuran.invoices}`
+      );
+    },
+    submitBayarInvoicesIuran(id_invoices, body) {
+      return resource.post(
+        `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.InvoicesIuran.bayar}/${id_invoices}/${endpoints.completeRegistration.InvoicesIuran.invoices}`,
+        body
       );
     },
   },

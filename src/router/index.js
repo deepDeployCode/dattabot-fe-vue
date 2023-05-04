@@ -374,6 +374,19 @@ const router = new VueRouter({
         authenticationPage: true,
       },
     },
+    //bayar tagihan
+    {
+      path: "/reg/bayar/:id_invoices/invoices",
+      name: "complete_registration",
+      component: () => import("@/views/BayarTagihan.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "bayar tagihan",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
     //end check verify email before lengkapi data calon anggota
     {
       path: "/forget-password",
