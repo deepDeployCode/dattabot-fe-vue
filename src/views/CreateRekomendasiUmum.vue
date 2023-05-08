@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="rekomendasi.data.invoice_id == 0" class="p-2 mx-auto">
+    <div class="p-2 mx-auto">
       <validation-observer
         v-if="rekomendasi.data && !rekomendasi.isLoading"
         ref="rekomendasiValidation">
@@ -21,7 +21,7 @@
                 name="permintaan-rekomendasi"
                 type="text"
                 readonly
-                :value="rekomendasi.data.reksip_kategori_detail" />
+                value="umum" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -237,16 +237,26 @@
             <validation-provider
               #default="{ errors }"
               name="surat-keterangan-kerja"
-              v-model="rekomendasi.data.surat_keterangan_kerja">
+              rules="required">
               <b-form-file
                 id="surat-keterangan-kerja"
                 :state="errors.length > 0 ? false : null"
+                v-model="fileBerkas.keteranganKerja"
                 name="surat-keterangan-kerja"
-                accept="image/*" />
+                accept="image/*"
+                @change="keteranganKerjaEvent($event)" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
 
+          <p class="p-1">
+            Catatan: Untuk anggota IDI Jakarta Pusat, silahkan unduh
+            <a
+              class="link external"
+              href="https://drive.google.com/file/d/1HaxKWdxdu-4ZkWzA9iJG0J6CJG00EhCz/view"
+              >formulir ini</a
+            >, diisi dan unggah kembali.
+          </p>
           <b-form-group
             label="Surat Rekomendasi Cabang *"
             label-for="surat-rekomendasi-cabang"
@@ -254,21 +264,15 @@
             <validation-provider
               #default="{ errors }"
               name="surat-rekomendasi-cabang"
-              v-model="rekomendasi.data.surat_rekomendasi_cabang">
+              rules="required">
               <b-form-file
                 id="surat-rekomendasi-cabang"
                 :state="errors.length > 0 ? false : null"
+                v-model="fileBerkas.rekomendasiCabang"
                 name="surat-rekomendasi-cabang"
-                accept="image/*" />
+                accept="image/*"
+                @change="rekomendasiCabangEvent($event)" />
               <small class="text-danger">{{ errors[0] }}</small>
-              <p class="p-1">
-                Catatan: Untuk anggota IDI Jakarta Pusat, silahkan unduh
-                <a
-                  class="link external"
-                  href="https://drive.google.com/file/d/1HaxKWdxdu-4ZkWzA9iJG0J6CJG00EhCz/view"
-                  >formulir ini</a
-                >, diisi dan unggah kembali.
-              </p>
             </validation-provider>
           </b-form-group>
           <b-button
@@ -314,7 +318,12 @@
           footer-class="font-weight-bold pointer text-center"
           @click="changeIjazah(item)">
           <b-card-text class="font-weight-bold">
-            Nama Studi : {{ item.pend_nama_studi }}
+            Nama Univ :{{ item.pend_nama_univ }}
+            <br />
+            Tahun Masuk :
+            {{ item.pend_thn_masuk }}
+            <br />
+            Tahun Keluar : {{ item.pend_thn_keluar }}
           </b-card-text>
           <b-img
             v-if="item.pend_ijazah_file"
@@ -392,154 +401,6 @@
         </b-card>
       </b-modal>
     </div>
-    <div v-else class="p-2 mx-auto">
-      <validation-observer
-        v-if="rekomendasi.data && !rekomendasi.isLoading"
-        ref="buktiBayarValidation">
-        <b-form class="mt-1" @submit.prevent>
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">
-                  Invoice: # {{ rekomendasi.data.invoices.id }}
-                  <br />
-                  IdRekomendasi: # {{ rekomendasi.data.id }}
-                </div>
-                <small>
-                  {{ rekomendasi.data.invoices.created_at }}
-                </small>
-                <!-- <b-badge variant="light-danger font-weight–light mt-25">
-                Belum terverifikasi
-              </b-badge> -->
-              </div>
-            </div>
-
-            <div class="text-center pt-1">
-              <div style="font-size: 24px">
-                <b>Rp {{ rekomendasi.data.invoices.invoice_jumlah }}</b>
-              </div>
-              <div class="border-1">
-                <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
-              </div>
-              <br />
-              <!-- card 1 -->
-              <b-card
-                v-if="
-                  rekomendasi.data.invoices.invoice_status == 'sudah-dibayar' ||
-                  rekomendasi.data.invoices.invoice_status == 'sudah-bayar'
-                "
-                img-alt="Card image cap"
-                img-top
-                no-body>
-                <b-card-body>
-                  <b-card-text>
-                    selanjutnya lakukan pengaktifan rekomendasi izin praktik
-                    anda dengan cara menghubungi pihak admin.
-                  </b-card-text>
-                </b-card-body>
-                <b-card-footer>
-                  <small class="text-muted"
-                    ><i
-                      >Noted: jika rekom sudah terbit maka anda dapat melihat
-                      kembali data rekom yang sudah anda ajukan</i
-                    ></small
-                  >
-                </b-card-footer>
-              </b-card>
-              <b-card v-else img-alt="Card image cap" img-top no-body>
-                <b-card-footer>
-                  <small class="text-muted"
-                    ><i
-                      >Noted: harap hubungi pihak admin agar mempercepat proses
-                      verifikasi invoice anda</i
-                    ></small
-                  >
-                </b-card-footer>
-              </b-card>
-            </div>
-          </b-card>
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">Informasi Pembayaran</div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr>
-                  <td>Bank</td>
-                  <td class="font-weight-bold">: Bank Syariah Indonesia</td>
-                </tr>
-                <tr>
-                  <td>Akun</td>
-                  <td class="font-weight-bold">: IDI JAKPUS</td>
-                </tr>
-                <tr>
-                  <td>Rekening</td>
-                  <td class="font-weight-bold">: 7132822063</td>
-                </tr>
-                <tr>
-                  <td>Keterangan</td>
-                  <td class="font-weight-bold">
-                    : {{ rekomendasi.data.invoices.invoice_name }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-form-group
-            label="Upload Bukti Bayar *"
-            label-for="upload-bukti-bayar"
-            class="mt-1">
-            <validation-provider
-              #default="{ errors }"
-              name="upload-bukti-bayar"
-              rules="required">
-              <b-form-file
-                id="upload-bukti-bayar"
-                :state="errors.length > 0 ? false : null"
-                v-model="tempBuktiBayar"
-                accept="image/*"
-                @change="buktiBayar($event)" />
-              <small class="text-danger">{{ errors[0] }}</small>
-            </validation-provider>
-          </b-form-group>
-
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">Bukti Pembayaran</div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr v-if="rekomendasi.data.invoices.invoice_file != null">
-                  <td>
-                    <img
-                      :src="rekomendasi.data.invoices.invoice_file"
-                      alt="gallery_image"
-                      width="320"
-                      height="280" />
-                  </td>
-                </tr>
-                <tr v-else>
-                  <p>belum ada bukti screenshoot</p>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-button
-            type="submit"
-            variant="outline-danger"
-            block
-            @click="validateUploadBuktiBayar">
-            Simpan
-          </b-button>
-        </b-form>
-      </validation-observer>
-    </div>
   </div>
 </template>
 
@@ -567,6 +428,7 @@ import BaseNavigation from "@/components/Base/BaseNavigation.vue";
 import DividerNavigation from "@/components/Base/DividerNavigation.vue";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
 import { required } from "@validations";
+import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
 
 import apis from "@/api";
 
@@ -603,17 +465,10 @@ export default {
       },
       buktiBayarBase64: {},
       tempBuktiBayar: null,
-      fileBerkas: null,
-      // form: {
-      //   reksip_kategori: '',
-      //   reksip_id: '',
-      //   reksip_nama_instansi: '',
-      //   reksip_pend_file: '',
-      //   reksip_str_file: '',
-      //   reksip_tidak_kena_sanksi: '',
-      //   reksip_npa_file: '',
-      //   reksip_alamat_instansi: '',
-      // }
+      fileBerkas: {
+        keteranganKerja: null,
+        rekomendasiCabang: null,
+      },
     };
   },
   computed: {
@@ -741,24 +596,16 @@ export default {
       });
     },
 
-    validateUploadBuktiBayar() {
-      this.$refs.buktiBayarValidation.validate().then((success) => {
-        if (success) {
-          this.submitBuktiBayar();
-        }
-      });
-    },
-
-    buktiBayar(e) {
+    keteranganKerjaEvent(e) {
       const { files } = e.target;
       if (files.length) {
-        this.createImage(files[0], (result) => {
-          this.fileBerkas = result;
+        this.createImageKeteranganKerja(files[0], (result) => {
+          this.fileBerkas.keteranganKerja = result;
         });
       }
     },
 
-    createImage(file, cb) {
+    createImageKeteranganKerja(file, cb) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -767,54 +614,77 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    async submitBuktiBayar() {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      try {
-        await apis.rekomendasi.rekomendasiPublish({
-          reksip_id: this.rekomendasi.data.id,
-          invoice_file: this.fileBerkas,
+    rekomendasiCabangEvent(e) {
+      const { files } = e.target;
+      if (files.length) {
+        this.createImageRekomendasiCabang(files[0], (result) => {
+          this.fileBerkas.rekomendasiCabang = result;
         });
-        this.successHandler("berhasil upload bukti bayar");
-      } catch (error) {
-        this.errorHandler(error, "gagal upload bukti bayar");
-      } finally {
-        this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
       }
     },
 
-    submitRekomendasi() {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      apis.rekomendasi
-        .rekomendasiInput({
-          reksip_kategori: "umum",
-          reksip_id: this.rekomendasi.data.id,
-          reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
-          reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
-          reksip_str_file: this.rekomendasi.data.reksip_str_file,
-          reksip_tidak_kena_sanksi:
-            this.rekomendasi.data.reksip_tidak_kena_sanksi,
-          reksip_alamat_instansi: this.rekomendasi.data.reksip_alamat_instansi,
-          reksip_kompetensi_no: this.rekomendasi.data.reksip_kompetensi_no,
-          reksip_kompetensi_jenis:
-            this.rekomendasi.data.reksip_kompetensi_jenis,
-          reksip_krip_file: this.rekomendasi.data.reksip_krip_file,
+    createImageRekomendasiCabang(file, cb) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+
+    async submitRekomendasi() {
+      var submitRekomUmum = {
+        reksip_kategori: "umum",
+        reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
+        reksip_alamat_instansi: this.rekomendasi.data.reksip_alamat_instansi,
+        reksip_tidak_kena_sanksi:
+          this.rekomendasi.data.reksip_tidak_kena_sanksi,
+        reksip_kompetensi_no: this.rekomendasi.data.reksip_kompetensi_no,
+        reksip_kompetensi_jenis: this.rekomendasi.data.reksip_kompetensi_jenis,
+        reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
+        reksip_str_file: this.rekomendasi.data.reksip_str_file,
+        reksip_npa_file: this.rekomendasi.data.reksip_npa_file,
+        reksip_krip_file: this.rekomendasi.data.reksip_krip_file,
+        reksip_file_keterangan_kerja: this.fileBerkas.keteranganKerja,
+        reksip_file_rekomcabang_untuk_nonjakpus:
+          this.fileBerkas.rekomendasiCabang,
+      };
+      this.$swal({
+        title: "Apakah kamu yakin?",
+        text: "Data Rekomendasi Izin Praktik UMUM sudah sesuai dengan yang anda isi ",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Submit Rekomendasi!",
+        cancelButtonText: "Batal",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+      })
+        .then((result) => {
+          if (result.value) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+            return apis.rekomendasi.rekomendasiInput(submitRekomUmum);
+          }
+          return false;
         })
-        .then(() => {
-          apis.rekomendasi
-            .rekomendasiPublish({ reksip_id: this.rekomendasi.data.id })
-            .then(() => {
-              this.successHandler("berhasil created invoice");
-              location.reload();
-            })
-            .catch((error) => {
-              this.errorHandler(
-                error,
-                "gagal create invoice silahkan coba lagi"
-              );
+        .then((result) => {
+          if (result) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+            this.$toast({
+              component: ToastificationContentVue,
+              props: {
+                title: "Berhasil membuat rekomendasi UMUM ",
+                icon: "CheckIcon",
+                variant: "success",
+              },
             });
+            this.$router.push({ path: "/rekomendasi/umum", replace: true });
+          }
         })
         .catch((error) => {
-          this.errorHandler(error, "rekomendasi gagal silahkan coba lagi");
+          this.errorHandler(error, "kesalahan sistem silahkan coba lagi");
         })
         .finally(() => {
           this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
@@ -824,7 +694,7 @@ export default {
     fetchRekomandasi() {
       this.rekomendasi.isLoading = true;
       apis.rekomendasi
-        .getById(this.$route.params.id)
+        .getByForm()
         .then(({ data }) => {
           this.rekomendasi.data = data;
         })

@@ -2,74 +2,131 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="rekomendasi.data.invoice_id != 0 && rekomendasi.data.reksip_terbit == true" class="p-2 mx-auto">
-      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="rekomendasiValidation">
+    <div class="p-2 mx-auto">
+      <validation-observer
+        v-if="rekomendasi.data && !rekomendasi.isLoading"
+        ref="rekomendasiValidation">
         <!-- form data submit rekomendasi-->
         <b-form class="mt-1" @submit.prevent>
-          <b-form-group label="Permintaan Rekomendasi *" label-for="permintaan-rekomendasi">
-            <validation-provider #default="{ errors }" name="Permintaan Rekomendasi" rules="required">
-              <b-form-input id="permintaan-rekomendasi" :state="errors.length > 0 ? false : null"
-                name="permintaan-rekomendasi" type="text" readonly :value="rekomendasi.data.reksip_kategori_detail" />
+          <b-form-group
+            label="Permintaan Rekomendasi *"
+            label-for="permintaan-rekomendasi">
+            <validation-provider
+              #default="{ errors }"
+              name="Permintaan Rekomendasi"
+              rules="required">
+              <b-form-input
+                id="permintaan-rekomendasi"
+                :state="errors.length > 0 ? false : null"
+                name="permintaan-rekomendasi"
+                type="text"
+                readonly
+                value="spesialis" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
-          <b-form-group label="Tuliskan Nama Faskes *" label-for="nama-faskes" class="mt-1">
-            <validation-provider #default="{ errors }" name="Tuliskan Nama Faskes" rules="required">
-              <b-form-input id="nama-faskes" v-model="rekomendasi.data.reksip_nama_instansi"
-                :state="errors.length > 0 ? false : null" name="nama-faskes" type="text" />
+          <b-form-group
+            label="Tuliskan Nama Faskes *"
+            label-for="nama-faskes"
+            class="mt-1">
+            <validation-provider
+              #default="{ errors }"
+              name="Tuliskan Nama Faskes"
+              rules="required">
+              <b-form-input
+                id="nama-faskes"
+                v-model="rekomendasi.data.reksip_nama_instansi"
+                :state="errors.length > 0 ? false : null"
+                name="nama-faskes"
+                type="text" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
 
-          <b-form-group label="Tuliskan Alamat Faskes *" label-for="nama-faskes" class="mt-1">
-            <validation-provider #default="{ errors }" name="Tuliskan Alamat Faskes" rules="required">
-              <b-form-textarea id="nama-faskes" v-model="rekomendasi.data.reksip_alamat_instansi"
-                placeholder="Contoh: JL. Merak No. 3 ..." rows="3" />
+          <b-form-group
+            label="Tuliskan Alamat Faskes *"
+            label-for="nama-faskes"
+            class="mt-1">
+            <validation-provider
+              #default="{ errors }"
+              name="Tuliskan Alamat Faskes"
+              rules="required">
+              <b-form-textarea
+                id="nama-faskes"
+                v-model="rekomendasi.data.reksip_alamat_instansi"
+                placeholder="Contoh: JL. Merak No. 3 ..."
+                rows="3" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
 
-          <b-form-group label="Pernyataan *" label-for="pernyataan" class="mt-1">
-            <validation-provider #default="{ errors }" name="Pernyataan" rules="required">
-              <b-form-checkbox id="pernyataan" v-model="rekomendasi.data.reksip_tidak_kena_sanksi"
-                class="custom-control-primary" :value="true">
-                Bersama ini saya menyatakan bahwa saya tidak dalam sanksi berat Organisasi / Etik / Disiplin / Hukum.
+          <b-form-group
+            label="Pernyataan *"
+            label-for="pernyataan"
+            class="mt-1">
+            <validation-provider
+              #default="{ errors }"
+              name="Pernyataan"
+              rules="required">
+              <b-form-checkbox
+                id="pernyataan"
+                v-model="rekomendasi.data.reksip_tidak_kena_sanksi"
+                class="custom-control-primary"
+                :value="true">
+                Bersama ini saya menyatakan bahwa saya tidak dalam sanksi berat
+                Organisasi / Etik / Disiplin / Hukum.
               </b-form-checkbox>
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
-          <b-form-group label="Pilih Kompetensi *" label-for="pilih-kompetensi" class="mt-1">
-            <b-card v-if="rekomendasi.data.reksip_kompetensi_jenis && rekomendasi.data.reksip_kompetensi_no"
-              footer-tag="footer" class="shadow-none border pointer mt-1" footer-bg-variant="warning"
-              footer-text-variant="dark" footer-class="font-weight-bold pointer text-center">
+          <b-form-group
+            label="Pilih Kompetensi *"
+            label-for="pilih-kompetensi"
+            class="mt-1">
+            <b-card
+              v-if="
+                rekomendasi.data.reksip_kompetensi_jenis &&
+                rekomendasi.data.reksip_kompetensi_no
+              "
+              footer-tag="footer"
+              class="shadow-none border pointer mt-1"
+              footer-bg-variant="warning"
+              footer-text-variant="dark"
+              footer-class="font-weight-bold pointer text-center">
               <b-card-text class="font-weight-bold">
                 {{ rekomendasi.data.reksip_kompetensi_jenis }}
               </b-card-text>
               <b-card-text>
-                Nomor Sertifikat{{ " : " }}{{ rekomendasi.data.reksip_kompetensi_no }}
+                Nomor Sertifikat{{ " : "
+                }}{{ rekomendasi.data.reksip_kompetensi_no }}
               </b-card-text>
               <template #footer>
-                <div v-b-modal.modal-kompetensi>
-                  Ganti Kompetensi Ini
-                </div>
+                <div v-b-modal.modal-kompetensi>Ganti Kompetensi Ini</div>
               </template>
             </b-card>
             <b-button v-else v-b-modal.modal-kompetensi variant="danger">
               Pilih
             </b-button>
-
           </b-form-group>
 
           <b-form-group label="Ijazah *" label-for="ijazah" class="mt-1">
-            <b-card v-if="rekomendasi.data.reksip_pend_file" footer-tag="footer" class="shadow-none border pointer mt-1"
-              footer-bg-variant="warning" footer-text-variant="dark" footer-class="font-weight-bold pointer text-center"
+            <b-card
+              v-if="rekomendasi.data.reksip_pend_file"
+              footer-tag="footer"
+              class="shadow-none border pointer mt-1"
+              footer-bg-variant="warning"
+              footer-text-variant="dark"
+              footer-class="font-weight-bold pointer text-center"
               v-model="rekomendasi.data.reksip_pend_file">
-              <b-img fluid center :src="reksipIjazah(rekomendasi.data)" alt="file izajah" class="mt-1"
-                style="max-height: 250px;" />
+              <b-img
+                fluid
+                center
+                :src="reksipIjazah(rekomendasi.data)"
+                alt="file izajah"
+                class="mt-1"
+                style="max-height: 250px" />
               <template #footer>
-                <div v-b-modal.modal-ijazah>
-                  Ganti Ijazah Ini
-                </div>
+                <div v-b-modal.modal-ijazah>Ganti Ijazah Ini</div>
               </template>
             </b-card>
             <b-button v-else v-b-modal.modal-ijazah variant="danger">
@@ -77,35 +134,55 @@
             </b-button>
           </b-form-group>
 
-          <b-form-group label="Surat Tanda Registrasi *" label-for="surat-tanda-registrasi" class="mt-1">
+          <b-form-group
+            label="Surat Tanda Registrasi *"
+            label-for="surat-tanda-registrasi"
+            class="mt-1">
             <b-card
-              v-if="rekomendasi.data.reksip_str_tgl_berakhir || rekomendasi.data.reksip_str_no || rekomendasi.data.reksip_str_file"
-              footer-tag="footer" class="shadow-none border pointer mt-1" footer-bg-variant="warning"
-              footer-text-variant="dark" footer-class="font-weight-bold pointer text-center"
+              v-if="
+                rekomendasi.data.reksip_str_tgl_berakhir ||
+                rekomendasi.data.reksip_str_no ||
+                rekomendasi.data.reksip_str_file
+              "
+              footer-tag="footer"
+              class="shadow-none border pointer mt-1"
+              footer-bg-variant="warning"
+              footer-text-variant="dark"
+              footer-class="font-weight-bold pointer text-center"
               v-model="rekomendasi.data.reksip_str_file">
               <table>
                 <tr>
                   <td>Nomor STR</td>
-                  <td><span class="ml-1 mr-1">:</span>
-                    <span v-if="rekomendasi.data.reksip_str_no != ''">{{ rekomendasi.data.reksip_str_no }}</span>
-                    <span v-else>{{ 'nomor str not found' }}</span>
+                  <td>
+                    <span class="ml-1 mr-1">:</span>
+                    <span v-if="rekomendasi.data.reksip_str_no != ''">{{
+                      rekomendasi.data.reksip_str_no
+                    }}</span>
+                    <span v-else>{{ "nomor str not found" }}</span>
                   </td>
                 </tr>
                 <tr>
                   <td>Berlaku Sampai</td>
-                  <td><span class="ml-1 mr-1">:</span>
-                    <span v-if="rekomendasi.data.reksip_str_tgl_berakhir != ''">{{
-                      rekomendasi.data.reksip_str_tgl_berakhir }}</span>
-                    <span v-else>{{ 'tanggal berakhir not fond' }}</span>
+                  <td>
+                    <span class="ml-1 mr-1">:</span>
+                    <span
+                      v-if="rekomendasi.data.reksip_str_tgl_berakhir != ''"
+                      >{{ rekomendasi.data.reksip_str_tgl_berakhir }}</span
+                    >
+                    <span v-else>{{ "tanggal berakhir not fond" }}</span>
                   </td>
                 </tr>
               </table>
-              <b-img v-if="rekomendasi.data.reksip_str_file" fluid center :src="reksipSTR(rekomendasi.data)" alt="str"
-                class="mt-1" style="max-height: 250px;" />
+              <b-img
+                v-if="rekomendasi.data.reksip_str_file"
+                fluid
+                center
+                :src="reksipSTR(rekomendasi.data)"
+                alt="str"
+                class="mt-1"
+                style="max-height: 250px" />
               <template #footer>
-                <div v-b-modal.modal-str>
-                  Ganti STR Ini
-                </div>
+                <div v-b-modal.modal-str>Ganti STR Ini</div>
               </template>
             </b-card>
             <b-button v-else v-b-modal.modal-str variant="danger">
@@ -113,63 +190,136 @@
             </b-button>
           </b-form-group>
 
-          <b-form-group label="Kartu Tanda Anggota *" label-for="kartu-tanda-anggota" class="mt-1">
+          <b-form-group
+            label="Kartu Tanda Anggota *"
+            label-for="kartu-tanda-anggota"
+            class="mt-1">
             <b-card class="shadow-none border pointer mt-1">
-              <b-img v-if="rekomendasi.data.reksip_npa_file" fluid center :src="reksipKTA(rekomendasi.data)" alt="str"
-                class="mt-1" style="max-height: 250px;" />
+              <b-img
+                v-if="rekomendasi.data.reksip_npa_file"
+                fluid
+                center
+                :src="reksipKTA(rekomendasi.data)"
+                alt="str"
+                class="mt-1"
+                style="max-height: 250px" />
             </b-card>
           </b-form-group>
 
           <b-form-group label="KRIP *" label-for="krip" class="mt-1">
-            <b-card v-if="rekomendasi.data.reksip_krip_file" footer-tag="footer" class="shadow-none border pointer mt-1"
-              footer-bg-variant="warning" footer-text-variant="dark" footer-class="font-weight-bold pointer text-center">
-              <b-img v-if="rekomendasi.data.reksip_krip_file" fluid center :src="reksipKRIP(rekomendasi.data)" alt="str"
-                class="mt-1" style="max-height: 250px;" />
+            <b-card
+              v-if="rekomendasi.data.reksip_krip_file"
+              footer-tag="footer"
+              class="shadow-none border pointer mt-1"
+              footer-bg-variant="warning"
+              footer-text-variant="dark"
+              footer-class="font-weight-bold pointer text-center">
+              <b-img
+                v-if="rekomendasi.data.reksip_krip_file"
+                fluid
+                center
+                :src="reksipKRIP(rekomendasi.data)"
+                alt="str"
+                class="mt-1"
+                style="max-height: 250px" />
               <template #footer>
-                <div v-b-modal.modal-krip>
-                  Ganti KRIP Ini
-                </div>
+                <div v-b-modal.modal-krip>Ganti KRIP Ini</div>
               </template>
             </b-card>
             <b-button v-else v-b-modal.modal-krip variant="danger">
               Pilih
             </b-button>
           </b-form-group>
-          <b-form-group label="Surat Keterangan Kerja *" label-for="surat-keterangan-kerja" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-keterangan-kerja"
-              v-model="rekomendasi.data.surat_keterangan_kerja">
-              <b-form-file id="surat-keterangan-kerja" :state="errors.length > 0 ? false : null"
-                name="surat-keterangan-kerja" accept="image/*" />
+          <b-form-group
+            label="Surat Keterangan Kerja"
+            label-for="surat-keterangan-kerja"
+            class="mt-1">
+            <validation-provider
+              #default="{ errors }"
+              name="surat-keterangan-kerja">
+              <b-form-file
+                id="surat-keterangan-kerja"
+                :state="errors.length > 0 ? false : null"
+                v-model="fileBerkas.keteranganKerja"
+                name="surat-keterangan-kerja"
+                accept="image/*"
+                @change="keteranganKerjaEvent($event)" />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
-
-          <b-form-group label="Surat Rekomendasi Cabang *" label-for="surat-rekomendasi-cabang" class="mt-1">
-            <validation-provider #default="{ errors }" name="surat-rekomendasi-cabang"
-              v-model="rekomendasi.data.surat_rekomendasi_cabang">
-              <b-form-file id="surat-rekomendasi-cabang" :state="errors.length > 0 ? false : null"
-                name="surat-rekomendasi-cabang" accept="image/*" />
+          <th>Keterangan Kerja File:</th>
+          <td v-if="rekomendasi.data.reksip_file_keterangan_kerja != null">
+            <a
+              :href="rekomendasi.data.reksip_file_keterangan_kerja"
+              alt="foto"
+              target="_blank"
+              >Tampilkan File</a
+            >
+          </td>
+          <td v-else>file tidak di temukan</td>
+          <br />
+          <p class="p-1">
+            Catatan: Untuk anggota IDI Jakarta Pusat, silahkan unduh
+            <a
+              class="link external"
+              href="https://drive.google.com/file/d/1HaxKWdxdu-4ZkWzA9iJG0J6CJG00EhCz/view"
+              >formulir ini</a
+            >, diisi dan unggah kembali.
+          </p>
+          <b-form-group
+            label="Surat Rekomendasi Cabang"
+            label-for="surat-rekomendasi-cabang"
+            class="mt-1">
+            <validation-provider
+              #default="{ errors }"
+              name="surat-rekomendasi-cabang">
+              <b-form-file
+                id="surat-rekomendasi-cabang"
+                :state="errors.length > 0 ? false : null"
+                v-model="fileBerkas.rekomendasiCabang"
+                name="surat-rekomendasi-cabang"
+                accept="image/*"
+                @change="rekomendasiCabangEvent($event)" />
               <small class="text-danger">{{ errors[0] }}</small>
-              <p class="p-1">
-                Catatan:
-                Untuk anggota IDI Jakarta Pusat, silahkan unduh <a class="link external"
-                  href="https://drive.google.com/file/d/1HaxKWdxdu-4ZkWzA9iJG0J6CJG00EhCz/view">formulir ini</a>, diisi
-                dan unggah kembali.
-              </p>
             </validation-provider>
           </b-form-group>
-          <b-button type="submit" variant="outline-danger" block @click="validationForm">
-            Update Data
+          <br />
+          <th>Rekomendasi Cabang File:</th>
+          <td
+            v-if="
+              rekomendasi.data.reksip_file_rekomcabang_untuk_nonjakpus != null
+            ">
+            <a
+              :href="rekomendasi.data.reksip_file_rekomcabang_untuk_nonjakpus"
+              alt="foto"
+              target="_blank"
+              >Tampilkan File</a
+            >
+          </td>
+          <td v-else>file tidak di temukan</td>
+          <br />
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="validationForm">
+            Edit
           </b-button>
         </b-form>
       </validation-observer>
 
-
       <!-- fetch file -->
       <b-modal id="modal-kompetensi" title="Pilih Kompetensi" hide-footer>
-        <b-card v-for="item in rekomendasi.data.kompetensi" :key="item.id" footer="Pilih Kompetensi Ini"
-          footer-tag="footer" class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-          footer-class="font-weight-bold pointer text-center" @click="changeKompetensi(item)">
+        <b-card
+          v-for="item in rekomendasi.data.kompetensi"
+          :key="item.id"
+          footer="Pilih Kompetensi Ini"
+          footer-tag="footer"
+          class="shadow-none border pointer"
+          footer-bg-variant="warning"
+          footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center"
+          @click="changeKompetensi(item)">
           <b-card-text class="font-weight-bold">
             {{ item.kompetensi_jenis }}
           </b-card-text>
@@ -180,175 +330,100 @@
       </b-modal>
 
       <b-modal id="modal-ijazah" title="Pilih Ijazah" hide-footer>
-        <b-card v-for="item in rekomendasi.data.pendidikan" :key="item.id" footer="Pilih Ijazah Ini" footer-tag="footer"
-          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-          footer-class="font-weight-bold pointer text-center" @click="changeIjazah(item)">
+        <b-card
+          v-for="item in rekomendasi.data.pendidikan"
+          :key="item.id"
+          footer="Pilih Ijazah Ini"
+          footer-tag="footer"
+          class="shadow-none border pointer"
+          footer-bg-variant="warning"
+          footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center"
+          @click="changeIjazah(item)">
           <b-card-text class="font-weight-bold">
-            Nama Studi : {{ item.pend_nama_studi }}
+            Nama Univ :{{ item.pend_nama_univ }}
+            <br />
+            Tahun Masuk :
+            {{ item.pend_thn_masuk }}
+            <br />
+            Tahun Keluar : {{ item.pend_thn_keluar }}
           </b-card-text>
-          <b-img v-if="item.pend_ijazah_file" fluid center :src="photoIjazah(item)" alt="ijazah" class="mt-1"
-            style="max-height: 250px;" />
+          <b-img
+            v-if="item.pend_ijazah_file"
+            fluid
+            center
+            :src="photoIjazah(item)"
+            alt="ijazah"
+            class="mt-1"
+            style="max-height: 250px" />
         </b-card>
       </b-modal>
 
       <b-modal id="modal-str" title="Pilih Surat Tanda Registrasi" hide-footer>
-        <b-card v-for="item in rekomendasi.data.str" :key="item.id" footer="Pilih STR Ini" footer-tag="footer"
-          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-          footer-class="font-weight-bold pointer text-center" @click="changeSTR(item)">
+        <b-card
+          v-for="item in rekomendasi.data.str"
+          :key="item.id"
+          footer="Pilih STR Ini"
+          footer-tag="footer"
+          class="shadow-none border pointer"
+          footer-bg-variant="warning"
+          footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center"
+          @click="changeSTR(item)">
           <table>
             <tr>
               <td>Nomor STR</td>
-              <td><span class="ml-1 mr-1">:</span>
+              <td>
+                <span class="ml-1 mr-1">:</span>
                 <span v-if="item.str_no != ''">{{ item.str_no }}</span>
-                <span v-else>{{ 'nomor tidak di temukan' }}</span>
+                <span v-else>{{ "nomor tidak di temukan" }}</span>
               </td>
             </tr>
             <tr>
               <td>Berlaku Sampai</td>
-              <td><span class="ml-1 mr-1">:</span>
-                <span v-if="item.str_tgl_berakhir != ''">{{ item.str_tgl_berakhir }}</span>
-                <span v-else>{{ 'tanggal berakhir tidak di temukan' }}</span>
+              <td>
+                <span class="ml-1 mr-1">:</span>
+                <span v-if="item.str_tgl_berakhir != ''">{{
+                  item.str_tgl_berakhir
+                }}</span>
+                <span v-else>{{ "tanggal berakhir tidak di temukan" }}</span>
               </td>
             </tr>
           </table>
 
-          <b-img v-if="item.str_file" fluid center :src="photoStr(item)" alt="str" class="mt-1"
-            style="max-height: 250px;" />
-
+          <b-img
+            v-if="item.str_file"
+            fluid
+            center
+            :src="photoStr(item)"
+            alt="str"
+            class="mt-1"
+            style="max-height: 250px" />
         </b-card>
       </b-modal>
 
       <b-modal id="modal-krip" title="Pilih KRIP" hide-footer>
-        <b-card v-for="item in rekomendasi.data.krip" :key="item.id" footer="Pilih KRIP Ini" footer-tag="footer"
-          class="shadow-none border pointer" footer-bg-variant="warning" footer-text-variant="dark"
-          footer-class="font-weight-bold pointer text-center" @click="changeKRIP(item)">
-          <b-img v-if="item.krip_file" fluid center :src="photoKRIP(item)" alt="krip" class="mt-1"
-            style="max-height: 250px;" />
+        <b-card
+          v-for="item in rekomendasi.data.krip"
+          :key="item.id"
+          footer="Pilih KRIP Ini"
+          footer-tag="footer"
+          class="shadow-none border pointer"
+          footer-bg-variant="warning"
+          footer-text-variant="dark"
+          footer-class="font-weight-bold pointer text-center"
+          @click="changeKRIP(item)">
+          <b-img
+            v-if="item.krip_file"
+            fluid
+            center
+            :src="photoKRIP(item)"
+            alt="krip"
+            class="mt-1"
+            style="max-height: 250px" />
         </b-card>
       </b-modal>
     </div>
-    <!-- ngak di pake sementara-->
-    <!-- <div v-else class="p-2 mx-auto">
-      <validation-observer v-if="rekomendasi.data && !rekomendasi.isLoading" ref="buktiBayarValidation">
-        <b-form class="mt-1" @submit.prevent>
-
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">
-                  Invoice: # {{ rekomendasi.data.invoices.id }}
-                  <br>
-                  IdRekomendasi: # {{ rekomendasi.data.id }}
-                </div>
-                <small>
-                  {{ rekomendasi.data.invoices.created_at }}
-                </small>
-              </div>
-            </div>
-
-            <div class="text-center pt-1">
-              <div style="font-size: 24px">
-                <b>Rp {{ rekomendasi.data.invoices.invoice_jumlah }}</b>
-              </div>
-              <div class="border-1">
-                <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
-              </div>
-              <b-card v-if="rekomendasi.data.invoices.invoice_status == 'sudah-dibayar'" img-alt="Card image cap" img-top
-                no-body>
-                <b-card-body>
-                  <b-card-text>
-                    selanjutkan lakukan pengaktifkan rekomendasi izin praktik anda dengan cara menghubungi pihak admin
-                    praktik.
-                  </b-card-text>
-                </b-card-body>
-                <b-card-footer>
-                  <small class="text-muted"><i>Noted: jika rekom sudah terbit maka anda dapat melihat kembali data rekom
-                      yang
-                      sudah anda ajukan</i></small>
-                </b-card-footer>
-              </b-card>
-              <b-card v-else img-alt="Card image cap" img-top no-body>
-                <b-card-footer>
-                  <small class="text-muted"><i>Noted: harap hubungi pihak admin agar mempercepat proses verifikasi invoice
-                      anda</i></small>
-                </b-card-footer>
-              </b-card>
-            </div>
-          </b-card>
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">
-                  Informasi Pembayaran
-                </div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr>
-                  <td>Bank</td>
-                  <td class="font-weight-bold">
-                    : Bank Syariah Indonesia
-                  </td>
-                </tr>
-                <tr>
-                  <td>Akun</td>
-                  <td class="font-weight-bold">
-                    : IDI JAKPUS
-                  </td>
-                </tr>
-                <tr>
-                  <td>Rekening</td>
-                  <td class="font-weight-bold">
-                    : 7132822063
-                  </td>
-                </tr>
-                <tr>
-                  <td>Keterangan</td>
-                  <td class="font-weight-bold">
-                    : {{ rekomendasi.data.invoices.invoice_name }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-form-group label="Upload Bukti Bayar *" label-for="upload-bukti-bayar" class="mt-1">
-            <validation-provider #default="{ errors }" name="upload-bukti-bayar" rules="required">
-              <b-form-file id="upload-bukti-bayar" :state="errors.length > 0 ? false : null" v-model="tempBuktiBayar"
-                accept="image/*" @change="buktiBayar($event)" />
-              <small class="text-danger">{{ errors[0] }}</small>
-            </validation-provider>
-          </b-form-group>
-
-          <b-card class="shadow-none border p-1 mb-1" no-body>
-            <div class="d-flex pb-1 border-bottom">
-              <div>
-                <div class="font-weight-bold">
-                  Bukti Pembayaran
-                </div>
-              </div>
-            </div>
-            <table class="mt-1">
-              <tbody>
-                <tr v-if="rekomendasi.data.invoices.invoice_file != null">
-                  <td>
-                    <img :src="rekomendasi.data.invoices.invoice_file" alt="gallery_image" width="320" height="280" />
-                  </td>
-                </tr>
-                <tr v-else>
-                  <p>belum ada bukti screenshoot</p>
-                </tr>
-              </tbody>
-            </table>
-          </b-card>
-
-          <b-button type="submit" variant="outline-danger" block @click="validateUploadBuktiBayar">
-            Simpan
-          </b-button>
-        </b-form>
-      </validation-observer>
-    </div> -->
   </div>
 </template>
 
@@ -361,35 +436,30 @@ import {
   BForm,
   BFormInput,
   BFormSelect,
-  BCardTitle,
   BFormFile,
   BModal,
   BFormGroup,
   BFormTextarea,
   BFormCheckbox,
-  BCardGroup,
+  BFormDatepicker,
+  BFormTimepicker,
   VBModal,
   BCardText,
-  BCardFooter,
-  BCardBody,
   BImg,
-} from 'bootstrap-vue'
-import BaseNavigation from '@/components/Base/BaseNavigation.vue'
-import DividerNavigation from '@/components/Base/DividerNavigation.vue'
-import { ValidationProvider, ValidationObserver } from 'vee-validate'
-import { required } from '@validations'
+} from "bootstrap-vue";
+import BaseNavigation from "@/components/Base/BaseNavigation.vue";
+import DividerNavigation from "@/components/Base/DividerNavigation.vue";
+import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { required } from "@validations";
+import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
 
-import apis from '@/api'
+import apis from "@/api";
 
 export default {
   components: {
     BaseNavigation,
     DividerNavigation,
     BButton,
-    BCardGroup,
-    BCardBody,
-    BCardFooter,
-    BCardTitle,
     ValidationProvider,
     ValidationObserver,
     BForm,
@@ -398,6 +468,8 @@ export default {
     BFormFile,
     BFormGroup,
     BFormTextarea,
+    BFormDatepicker,
+    BFormTimepicker,
     BFormCheckbox,
     BModal,
     BCard,
@@ -405,7 +477,7 @@ export default {
     BImg,
   },
   directives: {
-    'b-modal': VBModal,
+    "b-modal": VBModal,
   },
   data() {
     return {
@@ -416,101 +488,93 @@ export default {
       },
       buktiBayarBase64: {},
       tempBuktiBayar: null,
-      fileBerkas: null,
-      // form ini dipake kalo posisinya create kalo update langsung panggil v-modelnya aja
-      // form: {
-      //   reksip_kategori: '',
-      //   reksip_id: '',
-      //   reksip_nama_instansi: '',
-      //   reksip_pend_file: '',
-      //   reksip_str_file: '',
-      //   reksip_tidak_kena_sanksi: '',
-      //   reksip_npa_file: '',
-      //   reksip_alamat_instansi: '',
-      // }
-    }
+      fileBerkas: {
+        keteranganKerja: null,
+        rekomendasiCabang: null,
+      },
+    };
   },
   computed: {
     photoIjazah() {
-      return item => {
+      return (item) => {
         if (item.pend_ijazah_file) {
-          if (!item.pend_ijazah_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/pend/pend_ijazah_file/${item.id}/${item.pend_ijazah_file}`
+          if (!item.pend_ijazah_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/pend/pend_ijazah_file/${item.id}/${item.pend_ijazah_file}`;
           }
-          return item.pend_ijazah_file
+          return item.pend_ijazah_file;
         }
-        return null
-      }
+        return null;
+      };
     },
     reksipIjazah() {
-      return item => {
+      return (item) => {
         if (item.reksip_pend_file) {
-          if (!item.reksip_pend_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_pend_file/${item.id}/${item.reksip_pend_file}`
+          if (!item.reksip_pend_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_pend_file/${item.id}/${item.reksip_pend_file}`;
           }
-          return item.reksip_pend_file
+          return item.reksip_pend_file;
         }
 
-        return null
-      }
+        return null;
+      };
     },
     photoStr() {
-      return item => {
+      return (item) => {
         if (item.str_file) {
-          if (!item.str_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/str/str_file/${item.id}/${item.str_file}`
+          if (!item.str_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/str/str_file/${item.id}/${item.str_file}`;
           }
-          return item.str_file
+          return item.str_file;
         }
-        return null
-      }
+        return null;
+      };
     },
     reksipSTR() {
-      return item => {
+      return (item) => {
         if (item.reksip_str_file) {
-          if (!item.reksip_str_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_str_file/${item.id}/${item.reksip_str_file}`
+          if (!item.reksip_str_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_str_file/${item.id}/${item.reksip_str_file}`;
           }
-          return item.reksip_str_file
+          return item.reksip_str_file;
         }
 
-        return null
-      }
+        return null;
+      };
     },
     reksipKTA() {
-      return item => {
+      return (item) => {
         if (item.reksip_npa_file) {
-          if (!item.reksip_npa_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_npa_file/${item.id}/${item.reksip_npa_file}`
+          if (!item.reksip_npa_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_npa_file/${item.id}/${item.reksip_npa_file}`;
           }
-          return item.reksip_npa_file
+          return item.reksip_npa_file;
         }
 
-        return null
-      }
+        return null;
+      };
     },
     photoKRIP() {
-      return item => {
+      return (item) => {
         if (item.krip_file) {
-          if (!item.krip_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/krip/krip_file/${item.id}/${item.krip_file}`
+          if (!item.krip_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/krip/krip_file/${item.id}/${item.krip_file}`;
           }
-          return item.krip_file
+          return item.krip_file;
         }
-        return null
-      }
+        return null;
+      };
     },
     reksipKRIP() {
-      return item => {
+      return (item) => {
         if (item.reksip_krip_file) {
-          if (!item.reksip_krip_file.includes('https')) {
-            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_krip_file/${item.id}/${item.reksip_krip_file}`
+          if (!item.reksip_krip_file.includes("https")) {
+            return `https://www.staging.idijakpus.or.id/uploads/reksip/reksip_krip_file/${item.id}/${item.reksip_krip_file}`;
           }
-          return item.reksip_krip_file
+          return item.reksip_krip_file;
         }
 
-        return null
-      }
+        return null;
+      };
     },
   },
   watch: {
@@ -521,136 +585,154 @@ export default {
       // },
     },
   },
-  mounted() { },
+  mounted() {},
   created() {
-    this.fetchRekomandasi()
+    this.fetchEditRekomUmum();
   },
   methods: {
     changeKompetensi(item) {
-      this.rekomendasi.data.reksip_kompetensi_file = item.kompetensi_file
-      this.rekomendasi.data.reksip_kompetensi_jenis = item.kompetensi_jenis
-      this.rekomendasi.data.reksip_kompetensi_no = item.kompetensi_no
-      this.$bvModal.hide('modal-kompetensi')
+      this.rekomendasi.data.reksip_kompetensi_file = item.kompetensi_file;
+      this.rekomendasi.data.reksip_kompetensi_jenis = item.kompetensi_jenis;
+      this.rekomendasi.data.reksip_kompetensi_no = item.kompetensi_no;
+      this.$bvModal.hide("modal-kompetensi");
     },
     changeIjazah(item) {
-      this.rekomendasi.data.reksip_pend_file = this.photoIjazah(item)
-      this.$bvModal.hide('modal-ijazah')
+      this.rekomendasi.data.reksip_pend_file = this.photoIjazah(item);
+      this.$bvModal.hide("modal-ijazah");
     },
     changeSTR(item) {
-      this.rekomendasi.data.reksip_str_file = this.photoStr(item)
-      this.rekomendasi.data.reksip_str_no = item.str_no
-      this.rekomendasi.data.reksip_str_tgl_berakhir = item.str_tgl_berakhir
-      this.$bvModal.hide('modal-str')
+      this.rekomendasi.data.reksip_str_file = this.photoStr(item);
+      this.rekomendasi.data.reksip_str_no = item.str_no;
+      this.rekomendasi.data.reksip_str_tgl_berakhir = item.str_tgl_berakhir;
+      this.$bvModal.hide("modal-str");
     },
     changeKRIP(item) {
-      this.rekomendasi.data.reksip_krip_file = this.photoKRIP(item)
-      this.$bvModal.hide('modal-krip')
+      this.rekomendasi.data.reksip_krip_file = this.photoKRIP(item);
+      this.$bvModal.hide("modal-krip");
     },
 
     validationForm() {
-      this.$refs.rekomendasiValidation.validate().then(success => {
+      this.$refs.rekomendasiValidation.validate().then((success) => {
         if (success) {
-          this.submitRekomendasi()
+          this.editRekomendasi();
         }
-      })
+      });
     },
 
-    /** 
-     * method dibawah adalah handler img untuk upload file
-    validateUploadBuktiBayar() {
-      this.$refs.buktiBayarValidation.validate().then(success => {
-        if (success) {
-          this.submitBuktiBayar()
-        }
-      })
-    },
-
-    buktiBayar(e) {
-      const { files } = e.target
+    keteranganKerjaEvent(e) {
+      const { files } = e.target;
       if (files.length) {
-        this.createImage(files[0], result => {
-          this.fileBerkas = result
-        })
+        this.createImageKeteranganKerja(files[0], (result) => {
+          this.fileBerkas.keteranganKerja = result;
+        });
       }
     },
 
-    createImage(file, cb) {
-      const reader = new FileReader()
+    createImageKeteranganKerja(file, cb) {
+      const reader = new FileReader();
 
-      reader.onload = e => {
-        cb(e.target.result)
-      }
-      reader.readAsDataURL(file)
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
     },
 
-
-    // method dibawah ini untuk submit bukti transfer/bayar
-    async submitBuktiBayar() {
-      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-      try {
-        await apis.rekomendasi.rekomendasiPublish({
-          reksip_id: this.rekomendasi.data.id,
-          invoice_file: this.fileBerkas
-        })
-        this.successHandler('berhasil upload bukti bayar')
-      } catch (error) {
-        this.errorHandler(error, 'gagal upload bukti bayar')
-      } finally {
-        this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
+    rekomendasiCabangEvent(e) {
+      const { files } = e.target;
+      if (files.length) {
+        this.createImageRekomendasiCabang(files[0], (result) => {
+          this.fileBerkas.rekomendasiCabang = result;
+        });
       }
     },
-    **/
 
+    createImageRekomendasiCabang(file, cb) {
+      const reader = new FileReader();
 
-    submitRekomendasi() {
-      this.$store.commit('app/UPDATE_LOADING_BLOCK', true)
-      apis.rekomendasi.rekomendasiInput({
-        reksip_kategori: 'spesialis',
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+
+    async editRekomendasi() {
+      var editRekomUmum = {
+        reksip_kategori: "umum",
         reksip_id: this.rekomendasi.data.id,
         reksip_nama_instansi: this.rekomendasi.data.reksip_nama_instansi,
-        reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
-        reksip_str_file: this.rekomendasi.data.reksip_str_file,
-        reksip_tidak_kena_sanksi: this.rekomendasi.data.reksip_tidak_kena_sanksi,
         reksip_alamat_instansi: this.rekomendasi.data.reksip_alamat_instansi,
+        reksip_tidak_kena_sanksi:
+          this.rekomendasi.data.reksip_tidak_kena_sanksi,
         reksip_kompetensi_no: this.rekomendasi.data.reksip_kompetensi_no,
         reksip_kompetensi_jenis: this.rekomendasi.data.reksip_kompetensi_jenis,
-        reksip_krip_file: this.rekomendasi.data.reksip_krip_file
+        reksip_pend_file: this.rekomendasi.data.reksip_pend_file,
+        reksip_str_file: this.rekomendasi.data.reksip_str_file,
+        reksip_npa_file: this.rekomendasi.data.reksip_npa_file,
+        reksip_krip_file: this.rekomendasi.data.reksip_krip_file,
+        reksip_file_keterangan_kerja:
+          this.fileBerkas.keteranganKerja !== null
+            ? this.fileBerkas.keteranganKerja
+            : this.rekomendasi.data.reksip_file_keterangan_kerja,
+        reksip_file_rekomcabang_untuk_nonjakpus:
+          this.fileBerkas.rekomendasiCabang !== null
+            ? this.fileBerkas.rekomendasiCabang
+            : this.rekomendasi.data.reksip_file_rekomcabang_untuk_nonjakpus,
+      };
+      this.$swal({
+        title: "Apakah kamu yakin?",
+        text: "Data Rekomendasi Izin Praktik UMUM yang di edit sudah sesuai dengan yang anda isi ",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Edit Rekomendasi!",
+        cancelButtonText: "Batal",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
       })
-        .then(() => {
-          /** 
-           * call apis rekomendasi publish dilakukan ketika mau dibuat invoice untuk rekom ini 
-           * tapi kita gak pake karena ini edit bukan untuk create dengan invoicenya
-          apis.rekomendasi.rekomendasiPublish({ reksip_id: this.rekomendasi.data.id })
-            .then(() => {
-              location.reload()
-            })
-            .catch(error => {
-              this.errorHandler(error, 'gagal create invoice silahkan coba lagi')
-            })
-            **/
-          this.successHandler('berhasil created invoice')
-          location.reload()
+        .then((result) => {
+          if (result.value) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+            return apis.rekomendasi.rekomendasiInput(editRekomUmum);
+          }
+          return false;
         })
-        .catch(error => {
-          this.errorHandler(error, 'rekomendasi gagal silahkan coba lagi')
+        .then((result) => {
+          if (result) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+            this.$toast({
+              component: ToastificationContentVue,
+              props: {
+                title: "Berhasil edit rekomendasi UMUM ",
+                icon: "CheckIcon",
+                variant: "success",
+              },
+            });
+            this.$router.push({ path: "/rekomendasi/umum", replace: true });
+          }
+        })
+        .catch((error) => {
+          this.errorHandler(error, "kesalahan sistem silahkan coba lagi");
         })
         .finally(() => {
-          this.$store.commit('app/UPDATE_LOADING_BLOCK', false)
-        })
+          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+        });
     },
 
-    fetchRekomandasi() {
-      this.rekomendasi.isLoading = true
-      apis.rekomendasi.getById(this.$route.params.id)
+    fetchEditRekomUmum() {
+      this.rekomendasi.isLoading = true;
+      apis.rekomendasi
+        .getById(this.$route.params.id)
         .then(({ data }) => {
-          this.rekomendasi.data = data
+          this.rekomendasi.data = data;
         })
         .finally(() => {
-          this.rekomendasi.isLoading = false
-        })
+          this.rekomendasi.isLoading = false;
+        });
     },
   },
-}
+};
 </script>
 
 <style></style>

@@ -59,8 +59,9 @@ const endpoints = {
   rekomendasi: {
     default: "/recommendation",
     cancel: "cancel",
+    form: "create/forms",
     input: "input",
-    publish: "publish",
+    publish: "invoices",
   },
   completeRegistration: {
     default: "/reg",
@@ -231,8 +232,14 @@ const apis = {
     getRekomendasi() {
       return resource.get(endpoints.rekomendasi.default);
     },
+    // this method view of detail data for update data and show invoices
     getById(id) {
       return resource.get(`${endpoints.rekomendasi.default}/${id}`);
+    },
+    getByForm() {
+      return resource.get(
+        `${endpoints.rekomendasi.default}/${endpoints.rekomendasi.form}`
+      );
     },
     cancelRecomendation(body) {
       return resource.post(
@@ -247,7 +254,7 @@ const apis = {
         body
       );
     },
-    rekomendasiPublish(body) {
+    rekomendasiInvoices(body) {
       return resource.post(
         `${endpoints.rekomendasi.default}/${endpoints.rekomendasi.publish}`,
         body

@@ -7,11 +7,10 @@
         <b-button
           variant="outline-danger"
           block
-          @click="inputRekomendasi((kategori = 'umum'))">
+          @click="$router.push('/rekomendasi/umum/create')">
           Permintaan Baru
         </b-button>
       </div>
-
       <div class="mt-1" v-for="item in rekomendasi.data" :key="item.id">
         <b-card
           v-if="
@@ -32,47 +31,32 @@
               </div>
               <!-- label status verif rekom izin praktek-->
               <b-badge
-                v-if="item.reksip_terbit != false && item.invoice_id != 0"
+                v-if="item.reksip_terbit === true"
                 variant="success font-weight–light mt-25">
                 Sudah Terbit
               </b-badge>
-              <b-badge
-                v-else-if="item.reksip_terbit == false && item.invoice_id != 0"
-                variant="warning font-weight–light mt-25">
+              <b-badge v-else variant="warning font-weight–light mt-25">
                 Belum Terbit
               </b-badge>
-              <b-badge v-else variant="danger font-weight–light mt-25">
-                Belum Terverifikasi
-              </b-badge>
             </div>
-            <!-- gak di pake yang menu bagian sudut kanan -->
-            <div
-              v-if="item.reksip_terbit == true"
-              class="ml-auto d-flex text-danger">
+            <div class="ml-auto d-flex text-danger">
               <div
                 class="pointer mr-2"
-                @click="$router.push(`/rekomendasi/umum/edit/${item.id}`)">
+                @click="$router.push(`/rekomendasi/umum/${item.id}/edit`)">
                 <feather-icon icon="EditIcon" size="20" class="align-middle" />
               </div>
-              <!-- <div class="pointer">
-                <feather-icon icon="XIcon" size="20" class="align-middle" @click="cancelRecomendation(item.id)" />
-              </div> -->
+              <div v-if="item.reksip_terbit === false" class="pointer">
+                <feather-icon
+                  icon="XIcon"
+                  size="20"
+                  class="align-middle"
+                  @click="cancelRecomendation(item.id)" />
+              </div>
             </div>
           </div>
           <div class="pt-1">
             <div
-              v-if="item.reksip_terbit != true && item.invoice_id == 0"
-              class="card-content card-content-padding"
-              style="text-align: justify">
-              <p class="">Proses pada pelayanan ini belum selesai.</p>
-              <p class="p-0 mb-0">
-                Silahkan pilih tombol dibawah ini untuk melanjutkan proses atau
-                membatalkannya.
-              </p>
-              <br />
-            </div>
-            <div
-              v-else-if="item.reksip_terbit == false && item.invoice_id != 0"
+              v-if="item.reksip_terbit === false"
               class="card-content card-content-padding"
               style="text-align: justify">
               <p class="">
@@ -97,39 +81,16 @@
                 <br />
                 Alamat: {{ item.reksip_alamat_instansi }}
               </p>
-              <!-- <p class="p-0 mb-0">
-                Silahkan lakukan Proses Selanjutnya.
-              </p> -->
             </div>
           </div>
-          <p v-if="item.invoice_id == 0 || item.reksip_terbit == false">
-            <b-button
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
-              <feather-icon icon="ArrowRightIcon" class="mr-26" />
-              <span>Lanjutkan</span></b-button
-            >
-            <b-button
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="cancelRecomendation(item.id)">
-              <feather-icon icon="XIcon" class="mr-26" />
-              <span>Cancel</span>
-            </b-button>
-          </p>
-          <p v-else-if="item.reksip_terbit == true">
-            <b-button
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="$router.push(`/rekomendasi/umum/create/${item.id}`)">
-              <feather-icon icon="ArrowRightIcon" class="mr-26" />
-              <span>Lihat Invoice</span></b-button
-            >
-          </p>
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="$router.push(`/rekomendasi/${item.id}/pembayaran`)">
+            <feather-icon icon="DollarSignIcon" class="mr-26" />
+            <span>Lihat Invoices</span></b-button
+          >
         </b-card>
       </div>
     </div>
@@ -171,7 +132,6 @@ export default {
   methods: {
     async cancelRecomendation(ids) {
       try {
-        this.rekomendasi.isLoading = true;
         this.$swal({
           title: "Apakah kamu yakin?",
           text: "Rekomendasi Izin Praktik Umum yang sudah dihapus, tidak bisa dikembalikan",
@@ -208,24 +168,14 @@ export default {
           })
           .catch((error) => {
             this.errorHandler(error, "gagal di cancel coba lagi");
+          })
+          .finally(() => {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
           });
       } catch (error) {
         this.errorHandler(error, "kesalahan sistem");
       } finally {
-        this.rekomendasi.isLoading = false;
-      }
-    },
-
-    async inputRekomendasi(kategori) {
-      try {
-        this.rekomendasi.isLoading = true;
-        await apis.rekomendasi.rekomendasiInput({ reksip_kategori: kategori });
-        this.successHandler("berhasil create rekomendasi umum");
-        location.reload();
-      } catch (error) {
-        this.errorHandler(error, "gagal di input");
-      } finally {
-        this.rekomendasi.isLoading = false;
+        this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
       }
     },
 

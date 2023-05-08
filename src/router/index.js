@@ -256,7 +256,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/rekomendasi/umum/create/:id",
+      path: "/rekomendasi/umum/create",
       name: "create-rekomendasi-umum",
       component: () => import("@/views/CreateRekomendasiUmum.vue"),
       meta: {
@@ -266,7 +266,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/rekomendasi/umum/edit/:id",
+      path: "/rekomendasi/umum/:id/edit",
       name: "edit-rekomendasi-umum",
       component: () => import("@/views/EditRekomendasiUmum.vue"),
       meta: {
@@ -276,7 +276,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/rekomendasi/spesialis/create/:id",
+      path: "/rekomendasi/spesialis/create",
       name: "create-rekomendasi-spesialis",
       component: () => import("@/views/CreateRekomendasiSpesialis.vue"),
       meta: {
@@ -286,7 +286,7 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/rekomendasi/spesialis/edit/:id",
+      path: "/rekomendasi/spesialis/:id/edit",
       name: "edit-rekomendasi-spesialis",
       component: () => import("@/views/EditRekomendasiSpesialis.vue"),
       meta: {
@@ -296,9 +296,9 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/rekomendasi/umum/pembayaran",
+      path: "/rekomendasi/:id/pembayaran",
       name: "pembayaran-rekomendasi-umum",
-      component: () => import("@/views/PembayaranRekomendasiUmum.vue"),
+      component: () => import("@/views/InvoicesRekomendasi.vue"),
       meta: {
         layout: "full",
         navbar: true,
@@ -377,7 +377,7 @@ const router = new VueRouter({
     //bayar tagihan
     {
       path: "/reg/bayar/:id_invoices/invoices",
-      name: "complete_registration",
+      name: "bayar-tagihan-calona-anggota",
       component: () => import("@/views/BayarTagihan.vue"),
       meta: {
         layout: "full",
