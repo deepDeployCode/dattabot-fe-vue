@@ -1,420 +1,448 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import { getUserDataFromStorage } from '@/helpers/getDataFromStorage'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import { getUserDataFromStorage } from "@/helpers/getDataFromStorage";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
   scrollBehavior() {
-    return { x: 0, y: 0 }
+    return { x: 0, y: 0 };
   },
   routes: [
     {
-      path: '/',
-      name: 'beranda',
-      component: () => import('@/views/Beranda.vue'),
+      path: "/",
+      name: "beranda",
+      component: () => import("@/views/Beranda.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
         isBack: false,
-        title: 'Simfoni'
+        title: "Simfoni",
       },
     },
     {
-      path: '/studi-kasus',
-      name: 'studi-kasus',
-      component: () => import('@/views/StudiKasus.vue'),
+      path: "/studi-kasus",
+      name: "studi-kasus",
+      component: () => import("@/views/StudiKasus.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
         isBack: false,
-        title: 'Forum',
+        title: "Forum",
       },
     },
     {
-      path: '/profile',
-      name: 'profile',
-      component: () => import('@/views/Profile.vue'),
+      path: "/profile",
+      name: "profile",
+      component: () => import("@/views/Profile.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
         isBack: false,
-        title: 'Profil',
+        title: "Profil",
       },
     },
     {
-      path: '/profile/kompetensi',
-      name: '/profile',
-      component: () => import('@/views/Kompetensi.vue'),
+      path: "/profile/kompetensi",
+      name: "/profile",
+      component: () => import("@/views/Kompetensi.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Kompetensi',
+        title: "Kompetensi",
       },
     },
     {
-      path: '/profile/str',
-      name: '/str',
-      component: () => import('@/views/Str.vue'),
+      path: "/profile/str",
+      name: "/str",
+      component: () => import("@/views/Str.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'STR',
+        title: "STR",
       },
     },
     {
-      path: '/profile/pendidikan',
-      name: '/pendidikan',
-      component: () => import('@/views/Pendidikan.vue'),
+      path: "/profile/pendidikan",
+      name: "/pendidikan",
+      component: () => import("@/views/Pendidikan.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Pendidikan',
+        title: "Pendidikan",
       },
     },
     {
-      path: '/studi-kasus/:id',
-      name: 'detail-studi-kasus',
-      component: () => import('@/views/DetailStudiKasus.vue'),
+      path: "/studi-kasus/:id",
+      name: "detail-studi-kasus",
+      component: () => import("@/views/DetailStudiKasus.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Detail Forum',
+        title: "Detail Forum",
       },
     },
     {
-      path: '/tambah/studi-kasus',
-      name: 'tambah-studi-kasus',
-      component: () => import('@/views/TambahStudiKasus.vue'),
+      path: "/tambah/studi-kasus",
+      name: "tambah-studi-kasus",
+      component: () => import("@/views/TambahStudiKasus.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Tambah Forum',
+        title: "Tambah Forum",
       },
     },
     {
-      path: '/forum/edit/:id',
-      name: 'edit-forum',
-      component: () => import('@/views/EditForum.vue'),
+      path: "/forum/edit/:id",
+      name: "edit-forum",
+      component: () => import("@/views/EditForum.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Edit Forum',
+        title: "Edit Forum",
       },
     },
     {
-      path: '/forum/report/:id',
-      name: 'report-forum',
-      component: () => import('@/views/ReportForum.vue'),
+      path: "/forum/report/:id",
+      name: "report-forum",
+      component: () => import("@/views/ReportForum.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Laporkan Forum',
+        title: "Laporkan Forum",
       },
     },
     {
-      path: '/menu',
-      name: 'menu',
-      component: () => import('@/views/Menu.vue'),
+      path: "/menu",
+      name: "menu",
+      component: () => import("@/views/Menu.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Menu',
+        title: "Menu",
         isNavMenu: false,
       },
     },
     {
-      path: '/tentang/susunan-pengurus',
-      name: 'susunan-pengurus',
-      component: () => import('@/views/SusunanPengurus.vue'),
+      path: "/tentang/susunan-pengurus",
+      name: "susunan-pengurus",
+      component: () => import("@/views/SusunanPengurus.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Susunan Pengurus',
+        title: "Susunan Pengurus",
       },
     },
     {
-      path: '/tentang/galery',
-      name: 'galery',
-      component: () => import('@/views/Galery.vue'),
+      path: "/tentang/galery",
+      name: "galery",
+      component: () => import("@/views/Galery.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Galeri',
+        title: "Galeri",
       },
     },
     {
-      path: '/berkas',
-      name: 'berkas',
-      component: () => import('@/views/Berkas.vue'),
+      path: "/berkas",
+      name: "berkas",
+      component: () => import("@/views/Berkas.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Berkas',
+        title: "Berkas",
       },
     },
     {
-      path: '/pdfview',
-      name: 'pdfview',
-      component: () => import('@/views/ViewPdf.vue'),
+      path: "/pdfview",
+      name: "pdfview",
+      component: () => import("@/views/ViewPdf.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'PDF View',
+        title: "PDF View",
       },
     },
     {
-      path: '/krip',
-      name: 'krip',
-      component: () => import('@/views/KRIP.vue'),
+      path: "/krip",
+      name: "krip",
+      component: () => import("@/views/KRIP.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'KRIP',
+        title: "KRIP",
       },
     },
     {
-      path: '/krip/jadwal',
-      name: 'jadwal-krip',
-      component: () => import('@/views/JadwalKRIP.vue'),
+      path: "/krip/jadwal",
+      name: "jadwal-krip",
+      component: () => import("@/views/JadwalKRIP.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Jadwal KRIP',
+        title: "Jadwal KRIP",
       },
     },
     {
-      path: '/mutasi',
-      name: 'mutasi',
-      component: () => import('@/views/Mutasi.vue'),
+      path: "/mutasi",
+      name: "mutasi",
+      component: () => import("@/views/Mutasi.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Mutasi',
+        title: "Mutasi",
       },
     },
     {
-      path: '/mutasi/pengajuan-mutasi-masuk',
-      name: 'pengajuan-mutasi-masuk',
-      component: () => import('@/views/PengajuanMutasiMasuk.vue'),
+      path: "/mutasi/pengajuan-mutasi-masuk",
+      name: "pengajuan-mutasi-masuk",
+      component: () => import("@/views/PengajuanMutasiMasuk.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Pengajuan Mutasi Masuk',
+        title: "Pengajuan Mutasi Masuk",
       },
     },
     {
-      path: '/mutasi/pengajuan-mutasi-keluar',
-      name: 'pengajuan-mutasi-keluar',
-      component: () => import('@/views/PengajuanMutasiKeluar.vue'),
+      path: "/mutasi/pengajuan-mutasi-keluar",
+      name: "pengajuan-mutasi-keluar",
+      component: () => import("@/views/PengajuanMutasiKeluar.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Pengajuan Mutasi Keluar',
+        title: "Pengajuan Mutasi Keluar",
       },
     },
     {
-      path: '/mutasi/edit-pengajuan-mutasi-masuk',
-      name: 'edit-pengajuan-mutasi-masuk',
-      component: () => import('@/views/EditPengajuanMutasiMasuk.vue'),
+      path: "/mutasi/edit-pengajuan-mutasi-masuk",
+      name: "edit-pengajuan-mutasi-masuk",
+      component: () => import("@/views/EditPengajuanMutasiMasuk.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Edit Mutasi Masuk',
+        title: "Edit Mutasi Masuk",
       },
     },
     {
-      path: '/mutasi/edit-pengajuan-mutasi-keluar',
-      name: 'edit-pengajuan-mutasi-keluar',
-      component: () => import('@/views/EditPengajuanMutasiKeluar.vue'),
+      path: "/mutasi/edit-pengajuan-mutasi-keluar",
+      name: "edit-pengajuan-mutasi-keluar",
+      component: () => import("@/views/EditPengajuanMutasiKeluar.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Edit Mutasi Keluar',
+        title: "Edit Mutasi Keluar",
       },
     },
     {
-      path: '/rekomendasi/umum',
-      name: 'rekomendasi-umum',
-      component: () => import('@/views/RekomendasiUmum.vue'),
+      path: "/rekomendasi/umum",
+      name: "rekomendasi-umum",
+      component: () => import("@/views/RekomendasiUmum.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Rekomendasi SIP Umum',
+        title: "Rekomendasi SIP Umum",
       },
     },
     {
-      path: '/rekomendasi/spesialis',
-      name: 'rekomendasi-spesialis',
-      component: () => import('@/views/RekomendasiSpesialis.vue'),
+      path: "/rekomendasi/spesialis",
+      name: "rekomendasi-spesialis",
+      component: () => import("@/views/RekomendasiSpesialis.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Rekomendasi SIP Spesialis',
+        title: "Rekomendasi SIP Spesialis",
       },
     },
     {
-      path: '/rekomendasi/umum/create/:id',
-      name: 'create-rekomendasi-umum',
-      component: () => import('@/views/CreateRekomendasiUmum.vue'),
+      path: "/rekomendasi/umum/create",
+      name: "create-rekomendasi-umum",
+      component: () => import("@/views/CreateRekomendasiUmum.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Rekomendasi SIP Umum',
+        title: "Rekomendasi SIP Umum",
       },
     },
     {
-      path: '/rekomendasi/umum/edit/:id',
-      name: 'edit-rekomendasi-umum',
-      component: () => import('@/views/EditRekomendasiUmum.vue'),
+      path: "/rekomendasi/umum/:id/edit",
+      name: "edit-rekomendasi-umum",
+      component: () => import("@/views/EditRekomendasiUmum.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Edit Rekomendasi SIP Umum',
+        title: "Edit Rekomendasi SIP Umum",
       },
     },
     {
-      path: '/rekomendasi/spesialis/create/:id',
-      name: 'create-rekomendasi-spesialis',
-      component: () => import('@/views/CreateRekomendasiSpesialis.vue'),
+      path: "/rekomendasi/spesialis/create",
+      name: "create-rekomendasi-spesialis",
+      component: () => import("@/views/CreateRekomendasiSpesialis.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Rekomendasi SIP Spesialis',
+        title: "Rekomendasi SIP Spesialis",
       },
     },
     {
-      path: '/rekomendasi/spesialis/edit/:id',
-      name: 'edit-rekomendasi-spesialis',
-      component: () => import('@/views/EditRekomendasiSpesialis.vue'),
+      path: "/rekomendasi/spesialis/:id/edit",
+      name: "edit-rekomendasi-spesialis",
+      component: () => import("@/views/EditRekomendasiSpesialis.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Edit Rekomendasi SIP Spesialis',
+        title: "Edit Rekomendasi SIP Spesialis",
       },
     },
     {
-      path: '/rekomendasi/umum/pembayaran',
-      name: 'pembayaran-rekomendasi-umum',
-      component: () => import('@/views/PembayaranRekomendasiUmum.vue'),
+      path: "/rekomendasi/:id/pembayaran",
+      name: "pembayaran-rekomendasi-umum",
+      component: () => import("@/views/InvoicesRekomendasi.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Pembayaran',
+        title: "Pembayaran",
       },
     },
     {
-      path: '/second-page',
-      name: 'second-page',
-      component: () => import('@/views/SecondPage.vue'),
+      path: "/second-page",
+      name: "second-page",
+      component: () => import("@/views/SecondPage.vue"),
       meta: {
-        pageTitle: 'Second Page',
+        pageTitle: "Second Page",
         breadcrumb: [
           {
-            text: 'Second Page',
+            text: "Second Page",
             active: true,
           },
         ],
       },
     },
     {
-      path: '/login-legacy',
-      name: 'loginLegacy',
-      component: () => import('@/views/LoginLegacy.vue'),
+      path: "/login-legacy",
+      name: "loginLegacy",
+      component: () => import("@/views/LoginLegacy.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
       },
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/views/Login.vue'),
+      path: "/login",
+      name: "login",
+      component: () => import("@/views/Login.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         authenticationPage: true,
       },
     },
     {
-      path: '/register',
-      name: 'register',
-      component: () => import('@/views/Register.vue'),
+      path: "/register",
+      name: "register",
+      component: () => import("@/views/Register.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Daftar Akun',
+        title: "Daftar Akun",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+    //check verify email before lengkapi data calon anggota
+
+    {
+      path: "/auth/verify/:reg_token",
+      name: "verify_email_account",
+      component: () => import("@/views/verifyAccount.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "verify email account",
         isNavMenu: false,
         authenticationPage: true,
       },
     },
     {
-      path: '/uploads/:id/invoice',
-      name: 'upload_struk_pembayaran',
-      component: () => import('@/views/VerifyInvoiceCalonAnggota.vue'),
+      path: "/reg/:reg_token/data",
+      name: "complete_registration",
+      component: () => import("@/views/CompleteRegistration.vue"),
       meta: {
-        layout: 'full',
+        layout: "full",
         navbar: true,
-        title: 'Upload Bukti Bayar',
+        title: "Complete Registration",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+    //bayar tagihan
+    {
+      path: "/reg/bayar/:id_invoices/invoices",
+      name: "bayar-tagihan-calona-anggota",
+      component: () => import("@/views/BayarTagihan.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "bayar tagihan",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+    //end check verify email before lengkapi data calon anggota
+    {
+      path: "/forget-password",
+      name: "forget-password",
+      component: () => import("@/views/ForgetPassword.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isNavMenu: false,
+        title: "Lupa Password",
+        authenticationPage: true,
+      },
+    },
+    {
+      path: "/auth/changePassword/:token",
+      name: "change-password",
+      component: () => import("@/views/ChangePassword.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "Reset Password",
         isNavMenu: false,
         authenticationPage: true,
       },
     },
     {
-      path: '/forget-password',
-      name: 'forget-password',
-      component: () => import('@/views/ForgetPassword.vue'),
+      path: "/error-404",
+      name: "error-404",
+      component: () => import("@/views/error/Error404.vue"),
       meta: {
-        layout: 'full',
-        navbar: true,
-        isNavMenu: false,
-        title: 'Lupa Password',
-        authenticationPage: true,
+        layout: "full",
       },
     },
     {
-      path: '/auth/changePassword/:token',
-      name: 'change-password',
-      component: () => import('@/views/ChangePassword.vue'),
-      meta: {
-        layout: 'full',
-        navbar: true,
-        title: 'Reset Password',
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
-    {
-      path: '/error-404',
-      name: 'error-404',
-      component: () => import('@/views/error/Error404.vue'),
-      meta: {
-        layout: 'full',
-      },
-    },
-    {
-      path: '*',
-      redirect: 'error-404',
+      path: "*",
+      redirect: "error-404",
     },
   ],
-})
+});
 
 router.beforeEach((to, from, next) => {
   if (!to.meta.authenticationPage && !getUserDataFromStorage()?.tokenCurrent) {
-    return next('/login')
+    return next("/login");
   }
 
-  return next()
-})
+  return next();
+});
 
 // ? For splash screen
 // Remove afterEach hook if you are not using splash screen
 router.afterEach(() => {
   // Remove initial loading
-  const appLoading = document.getElementById('loading-bg')
+  const appLoading = document.getElementById("loading-bg");
   if (appLoading) {
-    appLoading.style.display = 'none'
+    appLoading.style.display = "none";
   }
-})
+});
 
-export default router
+export default router;
