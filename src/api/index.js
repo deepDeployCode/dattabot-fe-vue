@@ -232,10 +232,10 @@ const apis = {
         data
       );
     },
-    getKompetensi() {
-      return resource.get(
-        `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}`
-      );
+    getKompetensi(
+      url = `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}`
+    ) {
+      return resource.get(url);
     },
     createKompetensi(body) {
       return resource.post(
@@ -245,7 +245,7 @@ const apis = {
     },
     deleteKompetensi(id) {
       return resource.delete(
-        `${endpoints.profile.kompetensi.defaultKompetensi}/${id}/${endpoints.profile.kompetensi.delete}`
+        `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}/${id}/${endpoints.profile.kompetensi.delete}`
       );
     },
   },

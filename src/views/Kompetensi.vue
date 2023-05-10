@@ -4,7 +4,11 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <app-collapse class="p-0">
-        <app-collapse-item title="Tambah Kompetensi" class="shadow-none p-0">
+        <app-collapse-item
+          title="Tambah Kompetensi"
+          class="shadow-none p-0"
+          :is-visible="isTambahKompetensi"
+          @visible="changeVisible">
           <validation-observer ref="formKompetensi">
             <b-form class="mt-1" @submit.prevent>
               <b-form-group
@@ -83,19 +87,35 @@
         :key="item.id"
         class="shadow-none border p-1 mb-1"
         no-body>
-        <table>
-          <tbody>
-            <tr>
-              <td>ID KOMPETENSI</td>
-              <td class="font-weight-bold">: {{ item.id }}</td>
-            </tr>
-            <tr>
-              <td>Nomor Kompetensi</td>
-              <td class="font-weight-bold">:{{ item.kompetensi_no }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="d-flex pb-1 border-bottom">
+          <div>
+            <div class="font-weight-bold">#ID: {{ item.id }}</div>
+            <div class="font-weight-bold">
+              #JENIS: {{ item.kompetensi_jenis }}
+            </div>
+            <div class="font-weight-bold">#NO: {{ item.kompetensi_no }}</div>
+          </div>
+          <div
+            class="ml-auto pointer text-danger"
+            @click="deleteKompetensi(item.id)">
+            <feather-icon icon="TrashIcon" size="16" class="align-middle" />
+          </div>
+        </div>
+        <div class="pb-1 pt-1">
+          <b-img
+            v-if="!isPDF(item)"
+            :src="getKompetensiFile(item)"
+            fluid
+            class="mb-25" />
+          <div
+            v-else
+            class="text-primary text-underline pointer"
+            @click="viewPdf(getKompetensiFile(item))">
+            <u>Lihat berkas</u>
+          </div>
+        </div>
       </b-card>
+
       <div
         v-if="kompetensi.isLoading"
         class="d-flex justify-content-center mb-1">
@@ -149,11 +169,13 @@ export default {
       kompetensi: {
         isLoading: false,
         data: [],
+        nextPageUrl: null,
         form: {
           kompetensi_no: "",
           kompetensi_jenis: "",
         },
       },
+      isTambahKompetensi: false,
     };
   },
   watch: {
@@ -164,12 +186,51 @@ export default {
       },
     },
   },
-  mounted() {},
+  computed: {
+    isPDF() {
+      return (item) => {
+        if (item.kompetensi_file?.includes(".pdf")) {
+          return true;
+        }
+        return false;
+      };
+    },
+    getKompetensiFile() {
+      return (item) => {
+        if (item.kompetensi_file) {
+          return item.kompetensi_file;
+        }
+        return null;
+      };
+    },
+  },
+  mounted() {
+    document
+      .getElementsByClassName("app-wrapper")[0]
+      .addEventListener("scroll", this.scrollCallback);
+  },
   created() {
     this.fetchKompetensi();
   },
-  computed: {},
   methods: {
+    viewPdf(url) {
+      storage.setStorage("pdfUrl", url);
+      this.$router.push({ path: "/pdfview" });
+    },
+    scrollCallback() {
+      const element = document.getElementsByClassName("app-wrapper")[0];
+      const { scrollTop } = element;
+      const { scrollHeight } = element;
+      const { clientHeight } = element;
+      if (scrollTop + clientHeight + 100 >= scrollHeight) {
+        if (!this.kompetensi.isLoading && this.kompetensi.nextPageUrl) {
+          this.fetchKompetensi(this.kompetensi.nextPageUrl);
+        }
+      }
+    },
+    changeVisible(payload) {
+      this.isTambahKompetensi = payload;
+    },
     validationForm() {
       this.$refs.formKompetensi.validate().then((success) => {
         if (success) {
@@ -196,15 +257,17 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    fetchKompetensi() {
-      this.komptensi.isLoading = true;
+    fetchKompetensi(url) {
+      this.kompetensi.isLoading = true;
       apis.profile
-        .getKompetensi()
+        .getKompetensi(url)
         .then(({ data }) => {
-          if (data.data.length) {
+          if (url) {
+            this.kompetensi.data = this.kompetensi.data.concat(data.data);
+          } else {
             this.kompetensi.data = data.data;
-            console.log(this.kompetensi.data);
           }
+          this.kompetensi.nextPageUrl = data.next_page_url;
         })
         .finally(() => {
           this.kompetensi.isLoading = false;
@@ -227,7 +290,7 @@ export default {
               variant: "success",
             },
           });
-          location.reload();
+          this.fetchKompetensi();
         })
         .catch((error) => {
           this.errorHandler(
@@ -264,7 +327,6 @@ export default {
         .then((result) => {
           if (result) {
             this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-            this.fetchKrips();
             this.$toast({
               component: ToastificationContentVue,
               props: {
@@ -273,6 +335,7 @@ export default {
                 variant: "success",
               },
             });
+            this.fetchKompetensi();
           }
         })
         .catch((error) => {
