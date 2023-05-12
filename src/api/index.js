@@ -55,6 +55,11 @@ const endpoints = {
     pendidikan: "/profile/pendidikan",
     createPendidikan: "/profile/pendidikan/create",
     update: "update",
+    kompetensi: {
+      defaultKompetensi: "kompentensi",
+      create: "create",
+      delete: "delete",
+    },
   },
   rekomendasi: {
     default: "/recommendation",
@@ -225,6 +230,22 @@ const apis = {
       return resource.put(
         `${endpoints.profile.default}/${id}/${endpoints.profile.update}`,
         data
+      );
+    },
+    getKompetensi(
+      url = `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}`
+    ) {
+      return resource.get(url);
+    },
+    createKompetensi(body) {
+      return resource.post(
+        `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}/${endpoints.profile.kompetensi.create}`,
+        body
+      );
+    },
+    deleteKompetensi(id) {
+      return resource.delete(
+        `${endpoints.profile.default}/${endpoints.profile.kompetensi.defaultKompetensi}/${id}/${endpoints.profile.kompetensi.delete}`
       );
     },
   },
