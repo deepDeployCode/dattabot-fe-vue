@@ -250,12 +250,14 @@
           </b-form-group>
 
           <p class="p-1">
-            Catatan: Untuk anggota IDI Jakarta Pusat, silahkan unduh
+            Catatan: Surat Rekomendasi dari IDI Cabang Selain Jakpus ATAU
+            Pengantar dari IDI Cabang Asal, silahkan unduh
             <a
               class="link external"
               href="https://drive.google.com/file/d/1HaxKWdxdu-4ZkWzA9iJG0J6CJG00EhCz/view"
               >formulir ini</a
-            >, diisi dan unggah kembali.
+            >, diisi dan unggah kembali pada upload file surat rekomendasi
+            cabang.
           </p>
           <b-form-group
             label="Surat Rekomendasi Cabang *"
