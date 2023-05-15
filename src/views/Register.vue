@@ -2,7 +2,82 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div class="p-2 mx-auto">
+    <div v-if="validate.data.status === false" class="p-2 mx-auto">
+      <!-- form -->
+      <div class="d-flex justify-content-center mb-2">
+        <b-img
+          fluid
+          width="150"
+          height="150"
+          :src="simfoniLogo"
+          alt="simfoniLogo" />
+      </div>
+      <validation-observer ref="validateBeforeRegister">
+        <b-form class="auth-login-form" @submit.prevent>
+          <b-form-group label="Email" label-for="login-email">
+            <validation-provider
+              #default="{ errors }"
+              name="Email"
+              rules="required|email">
+              <b-form-input
+                id="login-email"
+                v-model="emailValidate"
+                :state="errors.length > 0 ? false : null"
+                name="login-email"
+                placeholder="john@example.com" />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+
+          <!-- submit buttons -->
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="validateBeforeRegisterData">
+            Cek Email
+          </b-button>
+        </b-form>
+      </validation-observer>
+      <br />
+      <div class="d-flex align-self-center">
+        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
+        <h4>Status Account</h4>
+      </div>
+      <div>
+        <b-col
+          v-for="(data, index) in colorVerifyStatusAccount"
+          :key="index"
+          md="6"
+          xl="4">
+          <b-card :bg-variant="data.bg" text-variant="white">
+            <b-card-text v-if="validate.data.message">
+              <p>
+                {{ validate.data.message }}
+              </p>
+              <b-button
+                v-if="validate.data.login === true"
+                type="submit"
+                variant="outline-info"
+                block
+                @click="$router.push('/login')">
+                Login
+              </b-button>
+            </b-card-text>
+            <b-button
+              v-if="validate.data.restore === true"
+              type="submit"
+              variant="outline-info"
+              block
+              @click="restoreDataUsers">
+              Restore Data
+            </b-button>
+          </b-card>
+        </b-col>
+        <!-- submit buttons -->
+      </div>
+    </div>
+    <div v-else class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
         <b-img
@@ -192,7 +267,7 @@
                 rules="required|email">
                 <b-form-input
                   id="email"
-                  v-model="form.email"
+                  v-model="validate.data.user"
                   :state="errors.length > 0 ? false : null"
                   name="email"
                   type="email" />
@@ -319,6 +394,8 @@ import {
   BFormGroup,
   BCardText,
   BForm,
+  BModal,
+  BCard,
   BButton,
   BFormSelect,
   BFormFile,
@@ -339,6 +416,8 @@ export default {
     BFormGroup,
     BCardText,
     BForm,
+    BModal,
+    BCard,
     BButton,
     BFormFile,
     ValidationProvider,
@@ -362,6 +441,7 @@ export default {
       required,
       email,
       confirmPassword: "",
+      colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],
       optionRegistration: [
         {
           value: null,
@@ -381,7 +461,6 @@ export default {
         },
       ],
       form: {
-        email: "",
         password: "",
         npa_idi: "", // 0000
         kartu_id_nomor: "",
@@ -398,6 +477,10 @@ export default {
         jenis_pendaftaran: null,
         nomor_hp: "",
       },
+      validate: {
+        data: null,
+        isLoading: false,
+      },
     };
   },
   computed: {
@@ -413,11 +496,22 @@ export default {
       return this.sideImg;
     },
   },
+  created() {
+    this.fetchValidateBeforeRegister();
+  },
   methods: {
     validationForm() {
       this.$refs.registerValidation.validate().then((success) => {
         if (success) {
           this.register();
+        }
+      });
+    },
+
+    validateBeforeRegisterData() {
+      this.$refs.validateBeforeRegister.validate().then((success) => {
+        if (success) {
+          this.fetchValidateBeforeRegister();
         }
       });
     },
@@ -477,6 +571,39 @@ export default {
       reader.readAsDataURL(file);
     },
 
+    fetchValidateBeforeRegister() {
+      this.validate.isLoading = true;
+      apis.auth
+        .validateEmailBeforeRegister({
+          email: this.emailValidate != null ? this.emailValidate : null,
+        })
+        .then(({ data }) => {
+          this.validate.data = data;
+        })
+        .catch((error) => {
+          this.errorHandler(error, "gagal validate email");
+        })
+        .finally(() => {
+          this.validate.isLoading = false;
+        });
+    },
+
+    restoreDataUsers() {
+      this.validate.isLoading = true;
+
+      apis.auth
+        .restoreDataUsers({ email: this.validate.data.user.email })
+        .then(({ data }) => {
+          this.successHandler(data.message);
+        })
+        .catch((error) => {
+          this.errorHandler(error, "gagal harap coba lagi");
+        })
+        .finally(() => {
+          this.validate.isLoading = false;
+        });
+    },
+
     register() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
       const newForm = { ...this.form };
@@ -485,6 +612,7 @@ export default {
       }
       var insertData = {
         ...this.form,
+        email: this.validate.data.user,
         kartu_id_file: this.kartu_id_file,
         pasphoto: this.pasphoto,
         npa_file: this.npa_file,

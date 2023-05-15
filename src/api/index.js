@@ -17,6 +17,8 @@ const endpoints = {
     forgotPassword: "/auth/forgotPassword",
     resetPassword: "/auth/changePassword/noAuth",
     getChangePassword: "/auth/changePassword",
+    validateEmailBeforeRegister: "/auth/validateEmail",
+    restoreDataUsers: "/auth/restore/data",
     register: "/auth/register",
     user: "/auth/user",
     verify: "/auth/verify",
@@ -100,6 +102,12 @@ const apis = {
     },
     getUser() {
       return resource.post(endpoints.auth.user);
+    },
+    validateEmailBeforeRegister(email) {
+      return resource.post(endpoints.auth.validateEmailBeforeRegister, email);
+    },
+    restoreDataUsers(email) {
+      return resource.post(endpoints.auth.restoreDataUsers, email);
     },
   },
   completeRegistration: {
