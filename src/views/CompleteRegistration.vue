@@ -189,11 +189,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Gelar Belakang *" label-for="gelar_belakang">
-              <validation-provider
-                #default="{ errors }"
-                name="Gelar Belakang"
-                rules="required">
+            <b-form-group label="Gelar Belakang" label-for="gelar_belakang">
+              <validation-provider #default="{ errors }" name="Gelar Belakang">
                 <b-form-input
                   id="gelar_belakang"
                   :state="errors.length > 0 ? false : null"
