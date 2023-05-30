@@ -177,8 +177,8 @@ export default {
     },
     isHowAddPengajuan() {
       return (
-        this.mutasi.data?.[0] &&
-        this.mutasi.data?.[0].mutkeluar_status !== "diajukan" &&
+        this.mutasi.data?.[0] ||
+        this.mutasi.data?.[0].mutkeluar_status !== "diajukan" ||
         this.user?.data?.orang_level === "jakpus"
       );
     },
