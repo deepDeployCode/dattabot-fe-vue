@@ -25,12 +25,23 @@ const router = new VueRouter({
     {
       path: "/webinar",
       name: "webinar",
-      component: () => import('@/views/Webinar.vue'),
+      component: () => import("@/views/Webinar.vue"),
       meta: {
         layout: "full",
         navbar: true,
         isBack: false,
         title: "Webinar",
+      },
+    },
+    {
+      path: "/sertifikat/webinar",
+      name: "sertifikat_webinar",
+      component: () => import("@/views/SertifikatWebinar.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isBack: false,
+        title: "Sertifikat Webinar",
       },
     },
     {
