@@ -81,6 +81,12 @@ const endpoints = {
       invoices: "invoices",
     },
   },
+  webinar: {
+    index: "/p2kb/webinar",
+    eventWebinar: "/p2kb/webinar/list/event",
+    daftar: "create",
+    delete: "delete",
+  },
 };
 
 const apis = {
@@ -287,6 +293,25 @@ const apis = {
       return resource.post(
         `${endpoints.rekomendasi.default}/${endpoints.rekomendasi.publish}`,
         body
+      );
+    },
+  },
+  webinar: {
+    listRegisterWebinar() {
+      return resource.get(`${endpoints.webinar.index}`);
+    },
+    listWebinarEvent(url = endpoints.webinar.eventWebinar) {
+      return resource.get(url);
+    },
+    registeWebinar(body) {
+      return resource.post(
+        `${endpoints.webinar.index}/${endpoints.webinar.daftar}`,
+        body
+      );
+    },
+    cancelWebinar(idWebinar) {
+      return resource.delete(
+        `${endpoints.webinar.index}/${idWebinar}/${endpoints.webinar.delete}`
       );
     },
   },

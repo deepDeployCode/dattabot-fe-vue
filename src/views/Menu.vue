@@ -9,6 +9,13 @@
         @click="$router.push({ path: '/' })">
         Beranda
       </div>
+      <hr v-show="!isVisibleCollapseTentang">
+      <div
+        style="font-weight: 500; font-size: 1.1rem"
+        class="mb-1 pointer"
+        @click="$router.push({ path: '/webinar' })">
+        Webinar
+      </div>
       <hr v-show="!isVisibleCollapseTentang" />
       <app-collapse class="p-0 mb-1">
         <app-collapse-item
