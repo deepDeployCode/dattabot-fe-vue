@@ -52,15 +52,18 @@
               </b-button>
             </div>
           </div>
+          <div class="pb-1 pt-1">
+            <b-img
+              :src="getWebinarImg(item)"
+              fluid
+              class="mb-25"
+              width="340"
+              height="300"
+              center />
+          </div>
           <div class="p-1">
             <table>
               <tbody>
-                <tr>
-                  <td>Tanggal</td>
-                  <td class="font-weight-bold">
-                    : {{ item.webijadwal_tanggal }}
-                  </td>
-                </tr>
                 <tr>
                   <td>Title</td>
                   <td class="font-weight-bold">
@@ -68,10 +71,20 @@
                   </td>
                 </tr>
                 <tr>
+                  <td>Tanggal</td>
+                  <td class="font-weight-bold">
+                    : {{ item.webijadwal_tanggal }}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Jam</td>
+                  <td class="font-weight-bold">: {{ item.webijadwal_jam }}</td>
+                </tr>
+                <tr>
                   <td>Limit / Durasi</td>
                   <td class="font-weight-bold">
-                    : {{ item.webijadwal_durasi }} Limit /
-                    {{ item.webijadwal_limit }} Durasi
+                    : {{ item.webijadwal_durasi }}/
+                    {{ item.webijadwal_limit }} Menit
                   </td>
                 </tr>
                 <tr>
@@ -178,24 +191,12 @@ export default {
     };
   },
   computed: {
-    // https://www.idijakpus.or.id/uploads/krip/krip_file/1473/A2.png
-    getKRPFile() {
+    getWebinarImg() {
       return (item) => {
-        if (item.krip_file) {
-          if (!item.krip_file.includes("https")) {
-            return `https://www.idijakpus.or.id/uploads/krip/krip_file/${item.id}/${item.krip_file}`;
-          }
-          return item.krip_file;
+        if (item.webijadwal_img) {
+          return item.webijadwal_img;
         }
-        return null;
-      };
-    },
-    isPDF() {
-      return (item) => {
-        if (item.krip_file?.includes(".pdf")) {
-          return true;
-        }
-        return false;
+        return require("@/assets/images/logo/no_available.jpg");
       };
     },
   },
