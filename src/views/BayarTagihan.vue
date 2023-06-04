@@ -43,8 +43,8 @@
                 no-body>
                 <b-card-body>
                   <b-card-text>
-                    selamat tagihan anda sudah lunas harap untuk melakukan login ke dalam
-                    aplikasi.
+                    selamat tagihan anda sudah lunas harap untuk melakukan login
+                    ke dalam aplikasi.
                   </b-card-text>
                 </b-card-body>
                 <b-card-footer>

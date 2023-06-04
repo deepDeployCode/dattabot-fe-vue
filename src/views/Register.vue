@@ -112,7 +112,8 @@
               label-for="nomor-pokok">
               <validation-provider
                 #default="{ errors }"
-                name="Nomor Pokok Anggota">
+                name="Nomor Pokok Anggota"
+                rules="required">
                 <b-form-input
                   id="nomor-pokok"
                   v-model="form.npa_idi"
@@ -606,9 +607,8 @@ export default {
 
     register() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      const newForm = { ...this.form };
       if (this.form.jenis_pendaftaran === "baru") {
-        newForm.npa_idi = "0000";
+        this.form.npa_idi = "0000";
       }
       var insertData = {
         ...this.form,
