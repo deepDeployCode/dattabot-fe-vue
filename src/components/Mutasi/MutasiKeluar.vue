@@ -120,7 +120,7 @@
               <tr>
                 <td>Tujuan Cabang</td>
                 <td class="font-weight-bold">
-                  : {{ item.mutkeluar_tujuan || "Jakarta Pusat" }}
+                  : {{ item.mutkeluar_tujuan_cabang }}
                 </td>
               </tr>
             </tbody>
