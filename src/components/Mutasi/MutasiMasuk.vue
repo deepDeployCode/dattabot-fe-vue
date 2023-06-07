@@ -174,11 +174,7 @@ export default {
       );
     },
     isHowAddPengajuan() {
-      return (
-        this.mutasi.data?.[0] &&
-        this.mutasi.data?.[0].mutmasuk_status !== "diajukan" &&
-        this.user?.data?.orang_level === "non-jakpus"
-      );
+      return this.user?.data?.orang_level === "non-jakpus";
     },
     fileIuranAsal() {
       return (item) => {

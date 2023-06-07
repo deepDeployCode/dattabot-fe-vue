@@ -28,12 +28,18 @@
               type="text" />
           </b-form-group>
           <b-form-group label="Tujuan Cabang" label-for="tujuan-cabang">
-            <b-form-input
-              id="tujuan-cabang"
+            <validation-provider
+              #default="{ errors }"
               name="tujuan-cabang"
-              type="text"
-              value="Jakarta Pusat"
-              disabled />
+              rules="required">
+              <b-form-input
+                id="tujuan-cabang"
+                name="tujuan-cabang"
+                v-model="form.mutkeluar_tujuan_cabang"
+                :state="errors.length > 0 ? false : null"
+                type="text" />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
           </b-form-group>
           <b-form-group label="File Mutasi" label-for="file-mutasi">
             <validation-provider
@@ -110,7 +116,7 @@ export default {
 
         mutkeluar_asal_cabang: "Jakarta Pusat",
         mutkeluar_asal_wilayah: "DKI Jakarta",
-        mutkeluar_tujuan: "",
+        mutkeluar_tujuan_cabang: "",
       },
       temp: {
         mutkeluar_filemutasi: null,

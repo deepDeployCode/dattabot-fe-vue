@@ -176,11 +176,7 @@ export default {
       );
     },
     isHowAddPengajuan() {
-      return (
-        this.mutasi.data?.[0] ||
-        this.mutasi.data?.[0].mutkeluar_status !== "diajukan" ||
-        this.user?.data?.orang_level === "jakpus"
-      );
+      return this.user?.data?.orang_level === "jakpus";
     },
     fileMutasi() {
       return (item) => {
