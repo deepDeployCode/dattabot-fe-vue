@@ -11,7 +11,13 @@
     </div>
     <div v-if="isNavMenu" class="navigation-menu">
       <div class="notif-menu pr-1">
-        <feather-icon icon="BellIcon" size="22" stroke-width="2" />
+        <feather-icon
+          icon="BellIcon"
+          :badge="notifikasi.count"
+          badge-classes="bg-warning"
+          size="22"
+          stroke-width="2"
+          @click="$router.push({ path: '/notifikasi' })" />
       </div>
       <div class="menu" @click="$router.push({ path: '/menu' })">
         <feather-icon icon="MenuIcon" size="22" stroke-width="2" />
@@ -20,7 +26,8 @@
   </div>
 </template>
 <script>
-import { BImg } from 'bootstrap-vue'
+import { BImg } from "bootstrap-vue";
+import apis from "@/api";
 
 export default {
   components: {
@@ -29,21 +36,44 @@ export default {
   data() {
     return {
       // eslint-disable-next-line global-require
-      logo: require('@/assets/images/icons/simfoni_putih.png'),
-    }
+      logo: require("@/assets/images/icons/simfoni_putih.png"),
+      notifikasi: {
+        count: false,
+      },
+    };
+  },
+  mounted() {
+    this.showCountNotification();
   },
   computed: {
     title() {
-      return this.$route.meta?.title || 'SIMFONI'
+      return this.$route.meta?.title || "SIMFONI";
     },
     isBack() {
-      return this.$route.meta?.isBack === undefined ? true : this.$route.meta?.isBack
+      return this.$route.meta?.isBack === undefined
+        ? true
+        : this.$route.meta?.isBack;
     },
     isNavMenu() {
-      return this.$route.meta?.isNavMenu === undefined ? true : this.$route.meta?.isNavMenu
+      return this.$route.meta?.isNavMenu === undefined
+        ? true
+        : this.$route.meta?.isNavMenu;
     },
   },
-}
+  methods: {
+    showCountNotification() {
+      this.notification.isLoading = true;
+      apis.profile
+        .notificationCount()
+        .then(({ data }) => {
+          this.notifikasi.count = data.data;
+        })
+        .finally(() => {
+          this.notifikasi.isLoading = false;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

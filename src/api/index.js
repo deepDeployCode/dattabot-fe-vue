@@ -57,6 +57,11 @@ const endpoints = {
     pendidikan: "/profile/pendidikan",
     createPendidikan: "/profile/pendidikan/create",
     update: "update",
+    notification: {
+      index: "/profile/notifikasi",
+      detail: "detail",
+      count: "count",
+    },
     kompetensi: {
       defaultKompetensi: "kompentensi",
       create: "create",
@@ -231,6 +236,21 @@ const apis = {
     getStr() {
       return resource.get(endpoints.profile.str);
     },
+    //notification
+    notification(url = endpoints.profile.notification.index) {
+      return resource.post(url);
+    },
+    notificationDetail(id_notification) {
+      return resource.post(
+        `${endpoints.profile.notification.index}/${id_notification}/${endpoints.profile.notification.detail}`
+      );
+    },
+    notificationCount() {
+      return resource.post(
+        `${endpoints.profile.notification.index}/${endpoints.profile.notification.count}`
+      );
+    },
+    //end notification
     createStr(data) {
       return resource.post(endpoints.profile.createStr, data);
     },

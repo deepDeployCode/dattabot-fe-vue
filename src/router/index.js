@@ -33,6 +33,18 @@ const router = new VueRouter({
         title: "Webinar",
       },
     },
+    {
+      path: "/notifikasi",
+      name: "notifikasi",
+      component: () => import("@/views/Notification.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isBack: false,
+        title: "notifikasi",
+      },
+    },
+
     // {
     //   path: "/sertifikat/webinar",
     //   name: "sertifikat_webinar",
