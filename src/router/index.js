@@ -44,6 +44,17 @@ const router = new VueRouter({
         title: "notifikasi",
       },
     },
+    {
+      path: "/notifikasi/:id_notification",
+      name: "detail_notifikasi",
+      component: () => import("@/views/detailNotification.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isBack: false,
+        title: "detail notifikasi",
+      },
+    },
 
     // {
     //   path: "/sertifikat/webinar",

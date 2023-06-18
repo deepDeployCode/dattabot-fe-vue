@@ -22,7 +22,7 @@
               <b-button
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="showNotification(item.id)">
+                @click="$router.push(`/notifikasi/${item.id}`)">
                 Show
               </b-button>
             </div>
@@ -77,7 +77,6 @@ import apis from "@/api";
 import storage from "@/helpers/storage";
 import { required } from "@validations";
 import { ValidationProvider, ValidationObserver } from "vee-validate";
-import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
 
 export default {
   components: {
