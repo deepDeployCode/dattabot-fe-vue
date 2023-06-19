@@ -21,7 +21,7 @@
           <div
             class="d-flex p-1 border-bottom"
             :class="
-              item.webijadwal_uname === '1' ? 'bg-warning text-white' : ''
+              checkStatusWebinar(item) === true ? 'bg-warning text-white' : ''
             ">
             <div>
               <div class="font-weight-bold">#WEBINAR-{{ item.id }}</div>
@@ -47,7 +47,7 @@
                 "
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="batalkanKrip(item.id)">
+                @click="batalkanWebinar(item.id)">
                 Batalkan
               </b-button>
             </div>
@@ -199,6 +199,17 @@ export default {
         return require("@/assets/images/logo/no_available.jpg");
       };
     },
+    checkStatusWebinar() {
+      return (item) => {
+        if (item.id) {
+          apis.webinar.checkWebinarStatus(item.id).then(({ data }) => {
+            return data.data;
+          });
+        } else {
+          return false;
+        }
+      };
+    },
   },
   mounted() {
     document
@@ -269,7 +280,7 @@ export default {
           this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
         });
     },
-    batalkanKrip(id) {
+    batalkanWebinar(id) {
       this.$swal({
         title: "Apakah kamu yakin?",
         text: "Setelah membatalkan webinar, anda tetap bisa mendaftar kembali",

@@ -91,6 +91,7 @@ const endpoints = {
     eventWebinar: "/p2kb/webinar/list/event",
     daftar: "create",
     delete: "delete",
+    check: "check",
   },
 };
 
@@ -332,6 +333,11 @@ const apis = {
     cancelWebinar(idWebinar) {
       return resource.delete(
         `${endpoints.webinar.index}/${idWebinar}/${endpoints.webinar.delete}`
+      );
+    },
+    checkWebinarStatus(idWebinar) {
+      return resource.post(
+        `${endpoints.webinar.index}/${idWebinar}/${endpoints.webinar.check}`
       );
     },
   },
