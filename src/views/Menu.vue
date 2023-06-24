@@ -9,7 +9,7 @@
         @click="$router.push({ path: '/' })">
         Beranda
       </div>
-      <hr v-show="!isVisibleCollapseTentang">
+      <hr v-show="!isVisibleCollapseTentang" />
       <div
         style="font-weight: 500; font-size: 1.1rem"
         class="mb-1 pointer"

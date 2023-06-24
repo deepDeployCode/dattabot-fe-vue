@@ -4,10 +4,8 @@
 
 <script>
 export default {
-  setup() {
-
-  },
-}
+  setup() {},
+};
 </script>
 
 <style scoped>

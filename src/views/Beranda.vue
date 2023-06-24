@@ -6,32 +6,22 @@
     <BaseBottomNavigation />
     <div class="p-2 mx-auto">
       <!-- TODO: ketika di klik, menuju maintenance page -->
-      <!-- <div>
-        <div
-          class="font-weight-bold mb-1"
-          style="font-size: 16px;"
-        >
-          Webinar
-        </div>
-        <div
-          class="webinar-list"
-        >
+      <div>
+        <div class="font-weight-bold mb-1" style="font-size: 16px">Webinar</div>
+        <div class="webinar-list">
           <b-card
+            v-for="item in forums.webinar.data"
             class="shadow-none border mb-1 pointer mr-1 webinar-card"
-            img-src="https://picsum.photos/600/300/?image=25"
-          >
+            :img-src="item.webijadwal_img">
             <div class="mb-25 font-weight-bold">
-              Temu SIMFONI IDI JakPus
+              {{ item.webijadwal_title }}
             </div>
-            <div
-              class="font-weight-light"
-              style="font-size: 12px;"
-            >
-              08/12/2022
+            <div class="font-weight-light" style="font-size: 12px">
+              {{ item.created_at }}
             </div>
           </b-card>
         </div>
-          </div> -->
+      </div>
       <b-card class="shadow-none border mb-1">
         <div class="d-flex flex-row justify-content-between align-items-start">
           <div
@@ -146,6 +136,10 @@ export default {
       examplePicStudiKasus: require("@/assets/images/pages/Studi_Kasus_Contoh.jpeg"),
       forums: {
         isLoading: false,
+        webinar: {
+          isLoading: false,
+          data: null,
+        },
         data: [],
       },
       isShowRekomendasi: false,
@@ -153,6 +147,7 @@ export default {
   },
   created() {
     this.fetchForums();
+    this.fetchwebinar();
   },
   methods: {
     fetchForums() {
@@ -164,6 +159,14 @@ export default {
           this.forums.isLoading = false;
         })
         .catch(() => {});
+    },
+
+    fetchwebinar() {
+      this.forums.webinar.isLoading = true;
+      apis.webinar.listWebinarEvent().then(({ data }) => {
+        this.forums.webinar.data = data.data;
+        this.forums.webinar.isLoading = false;
+      });
     },
   },
 };
