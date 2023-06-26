@@ -34,6 +34,17 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/webinar/:id_webinar/detail",
+      name: "webinar_detail",
+      component: () => import("@/views/WebinarDetails.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isBack: false,
+        title: "webinar detail",
+      },
+    },
+    {
       path: "/notifikasi",
       name: "notifikasi",
       component: () => import("@/views/Notification.vue"),

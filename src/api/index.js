@@ -90,6 +90,7 @@ const endpoints = {
     index: "/p2kb/webinar",
     eventWebinar: "/p2kb/webinar/list/event",
     daftar: "create",
+    detail: "detail",
     delete: "delete",
     check: "check",
   },
@@ -318,13 +319,18 @@ const apis = {
     },
   },
   webinar: {
-    listRegisterWebinar() {
-      return resource.get(`${endpoints.webinar.index}`);
+    listRegisterWebinar(url = endpoints.webinar.index) {
+      return resource.get(url);
     },
     listWebinarEvent(url = endpoints.webinar.eventWebinar) {
       return resource.get(url);
     },
-    registeWebinar(body) {
+    detailsWebinar(id_webinar) {
+      return resource.post(
+        `${endpoints.webinar.index}/${id_webinar}/${endpoints.webinar.detail}`
+      );
+    },
+    registerWebinar(body) {
       return resource.post(
         `${endpoints.webinar.index}/${endpoints.webinar.daftar}`,
         body

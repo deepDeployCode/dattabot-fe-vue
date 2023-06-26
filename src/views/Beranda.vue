@@ -13,7 +13,9 @@
             v-for="item in forums.webinar.data"
             class="shadow-none border mb-1 pointer mr-1 webinar-card"
             :img-src="item.webijadwal_img">
-            <div class="mb-25 font-weight-bold">
+            <div
+              class="mb-25 font-weight-bold"
+              @click="$router.push(`/webinar/${item.id}/detail`)">
               {{ item.webijadwal_title }}
             </div>
             <div class="font-weight-light" style="font-size: 12px">
