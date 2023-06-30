@@ -8,11 +8,12 @@
       <!-- TODO: ketika di klik, menuju maintenance page -->
       <div>
         <div class="font-weight-bold mb-1" style="font-size: 16px">Webinar</div>
-        <div class="webinar-list">
+        <div class="p-2 mx-auto">
           <b-card
             v-for="item in forums.webinar.data"
             class="shadow-none border mb-1 pointer mr-1 webinar-card"
-            :img-src="item.webijadwal_img">
+            :img-src="item.webijadwal_img"
+            @click="$router.push(`/webinar/${item.id}/detail`)">
             <div
               class="mb-25 font-weight-bold"
               @click="$router.push(`/webinar/${item.id}/detail`)">
@@ -110,9 +111,13 @@
 import { BCard, BImg, BSpinner, BModal, BButton } from "bootstrap-vue";
 import BaseNavigation from "@/components/Base/BaseNavigation.vue";
 import DividerNavigation from "@/components/Base/DividerNavigation.vue";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
 import BaseBottomNavigation from "@/components/Base/BaseBottomNavigation.vue";
 import CardPost from "@/components/Forum/CardPost.vue";
+import BCardCode from "@core/components/b-card-code/BCardCode.vue";
+import "swiper/css/swiper.css";
 import ButtonCreateNewPost from "@/components/Forum/ButtonCreateNewPost.vue";
+import { codePagination } from "./code";
 
 import apis from "@/api";
 
@@ -124,13 +129,17 @@ export default {
     BImg,
     BaseBottomNavigation,
     BSpinner,
+    BCardCode,
     CardPost,
+    Swiper,
+    SwiperSlide,
     ButtonCreateNewPost,
     BModal,
     BButton,
   },
   data() {
     return {
+      codePagination,
       kripIcon: require("@/assets/images/icons/krip.png"),
       rekomendasiIcon: require("@/assets/images/icons/rekomendasi.png"),
       keanggotaanIcon: require("@/assets/images/icons/anggota.png"),
@@ -140,9 +149,8 @@ export default {
         isLoading: false,
         webinar: {
           isLoading: false,
-          data: null,
+          data: [],
         },
-        data: [],
       },
       isShowRekomendasi: false,
     };
@@ -169,6 +177,12 @@ export default {
         this.forums.webinar.data = data.data;
         this.forums.webinar.isLoading = false;
       });
+    },
+
+    swiperOptions: {
+      pagination: {
+        el: ".swiper-pagination",
+      },
     },
   },
 };

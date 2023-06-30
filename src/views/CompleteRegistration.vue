@@ -96,7 +96,7 @@
             </b-form-group>
             <b-form-group
               v-if="
-                reg.data.user.jenis_pendaftaran === 'anggota-jakpus' &&
+                reg.data.user.jenis_pendaftaran === 'anggota-jakpus' ||
                 reg.data.user.jenis_pendaftaran === 'non-anggota-jakpus'
               "
               label="Nomor Pokok Anggota"

@@ -3,53 +3,15 @@
     <BaseNavigation />
     <DividerNavigation />
     <div class="p-2 mx-auto">
-      <div style="width: 100%" class="pl-25">
-        <b-button
-          variant="outline-danger"
-          block
-          @click="$router.push('/sertifikat/webinar')">
-          Sertifikat
-        </b-button>
-      </div>
+      <div style="width: 100%" class="pl-25"></div>
       <br />
       <div>
-        <b-card
-          v-for="item in webinar.data"
-          :key="item.id"
-          class="shadow-none border mb-1"
-          no-body>
-          <div
-            class="d-flex p-1 border-bottom"
-            :class="
-              item.webijadwal_uname === '1' ? 'bg-warning text-white' : ''
-            ">
+        <b-card class="shadow-none border mb-1" no-body>
+          <div class="d-flex p-1 border-bottom">
             <div>
-              <div class="font-weight-bold">#WEBINAR-{{ item.id }}</div>
-              <!-- <b-badge variant="light-danger font-weight–light mt-25">
-                Belum terverifikasi
-              </b-badge> -->
-            </div>
-            <div class="ml-auto pointer">
-              <b-button
-                v-if="
-                  item.webijadwal_status === 'pendaftaran-dibuka' &&
-                  !item.webijadwal_uname
-                "
-                size="sm"
-                class="bg-primary bg-lighten-1"
-                @click="daftarWebinar(item.id)">
-                Daftar
-              </b-button>
-              <b-button
-                v-if="
-                  item.webijadwal_status === 'pendaftaran-dibuka' &&
-                  item.webijadwal_uname
-                "
-                size="sm"
-                class="bg-primary bg-lighten-1"
-                @click="batalkanKrip(item.id)">
-                Batalkan
-              </b-button>
+              <div class="font-weight-bold">
+                #WEBINAR-{{ sertifikat.data.webinar_id }}
+              </div>
             </div>
           </div>
           <div class="p-1">
@@ -58,66 +20,25 @@
                 <tr>
                   <td>Tanggal</td>
                   <td class="font-weight-bold">
-                    : {{ item.webijadwal_tanggal }}
+                    : {{ sertifikat.data.created_at }}
                   </td>
                 </tr>
                 <tr>
-                  <td>Title</td>
+                  <td>Sertifikat</td>
                   <td class="font-weight-bold">
-                    : {{ item.webijadwal_title }}
+                    :
+                    <a :href="getSERTIFIKAT(sertifikat.data)" target="_blank"
+                      >Unduh</a
+                    >
                   </td>
                 </tr>
-                <tr>
-                  <td>Limit / Durasi</td>
-                  <td class="font-weight-bold">
-                    : {{ item.webijadwal_durasi }} Limit /
-                    {{ item.webijadwal_limit }} Durasi
-                  </td>
-                </tr>
-                <tr>
-                  <td>Status</td>
-                  <td class="font-weight-bold">
-                    : {{ item.webijadwal_status }}
-                  </td>
-                </tr>
-                <template
-                  v-if="
-                    item.webijadwal_link &&
-                    item.webijadwal_status === 'pendaftaran-dibuka' &&
-                    item.webijadwal_uname === '1' // status true
-                  ">
-                  <tr>
-                    <td><b>Link</b></td>
-                    <td class="font-weight-bold">
-                      :
-                      <a
-                        :href="item.webijadwal_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Buka
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b>Zoom ID</b></td>
-                    <td class="font-weight-bold">
-                      : {{ item.webijadwal_zoom_id }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b>Password</b></td>
-                    <td class="font-weight-bold">
-                      : {{ item.webijadwal_password }}
-                    </td>
-                  </tr>
-                </template>
               </tbody>
             </table>
           </div>
         </b-card>
 
         <div
-          v-if="webinar.isLoading"
+          v-if="sertifikat.isLoading"
           class="d-flex justify-content-center mb-1">
           <b-spinner label="Loading..." variant="danger" />
         </div>
@@ -167,7 +88,7 @@ export default {
     return {
       required,
       examplePicStudiKasus: require("@/assets/images/pages/Studi_Kasus_Contoh.jpeg"),
-      webinar: {
+      sertifikat: {
         data: null,
         isLoading: false,
         nextPageUrl: null,
@@ -179,13 +100,13 @@ export default {
   },
   computed: {
     // https://www.idijakpus.or.id/uploads/krip/krip_file/1473/A2.png
-    getKRPFile() {
+    getSERTIFIKAT() {
       return (item) => {
-        if (item.krip_file) {
-          if (!item.krip_file.includes("https")) {
-            return `https://www.idijakpus.or.id/uploads/krip/krip_file/${item.id}/${item.krip_file}`;
+        if (item.webinar_file) {
+          if (!item.webinar_file.includes("https")) {
+            return `https://www.idijakpus.or.id/uploads/krip/webinar_file/${item.id}/${item.webinar_file}`;
           }
-          return item.krip_file;
+          return item.webinar_file;
         }
         return null;
       };
@@ -205,7 +126,7 @@ export default {
       .addEventListener("scroll", this.scrollCallback);
   },
   created() {
-    this.fetchWebinar();
+    this.fetchSertifikat();
   },
   methods: {
     viewPdf(url) {
@@ -218,96 +139,20 @@ export default {
       const { scrollHeight } = element;
       const { clientHeight } = element;
       if (scrollTop + clientHeight + 100 >= scrollHeight) {
-        if (!this.webinar.isLoading && this.webinar.nextPageUrl) {
-          this.fetchWebinar(this.webinar.nextPageUrl);
+        if (!this.sertifikat.isLoading && this.sertifikat.nextPageUrl) {
+          this.fetchSertifikat(this.sertifikat.nextPageUrl);
         }
       }
     },
-    fetchWebinar(url) {
-      this.webinar.isLoading = true;
+    fetchSertifikat() {
+      this.sertifikat.isLoading = true;
       apis.webinar
-        .listWebinarEvent(url)
+        .sertifikatWebinar(this.$route.params.id_sertifikat)
         .then(({ data }) => {
-          if (url) {
-            this.webinar.data = this.webinar.data.concat(data.data);
-          } else {
-            this.webinar.data = data.data;
-          }
-          this.webinar.nextPageUrl = data.next_page_url;
+          this.sertifikat.data = data.data;
         })
         .finally(() => {
-          this.webinar.isLoading = false;
-        });
-    },
-    daftarWebinar(id) {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      apis.webinar
-        .registeWebinar({
-          webijadwal_id: id,
-        })
-        .then(() => {
-          this.fetchWebinar();
-          this.$toast({
-            component: ToastificationContentVue,
-            props: {
-              title: "Berhasil mendaftar webinar!",
-              icon: "CheckIcon",
-              variant: "success",
-            },
-          });
-          this.toggleUploadBerkas = false;
-          this.fetchWebinar();
-        })
-        .catch((error) => {
-          this.errorHandler(
-            error,
-            "Gagal daftar webinar, silahkan coba lagi nanti"
-          );
-        })
-        .finally(() => {
-          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-        });
-    },
-    batalkanKrip(id) {
-      this.$swal({
-        title: "Apakah kamu yakin?",
-        text: "Setelah membatalkan webinar, anda tetap bisa mendaftar kembali",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Ya, Batalkan!",
-        cancelButtonText: "Tutup",
-        customClass: {
-          confirmButton: "btn btn-primary",
-          cancelButton: "btn btn-outline-danger ml-1",
-        },
-        buttonsStyling: false,
-      })
-        .then((result) => {
-          if (result.value) {
-            this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-            return apis.webinar.cancelWebinar(id);
-          }
-          return false;
-        })
-        .then((result) => {
-          if (result) {
-            this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-            this.fetchWebinar();
-            this.$toast({
-              component: ToastificationContentVue,
-              props: {
-                title: "Berhasil membatalkan pendaftaran webinar",
-                icon: "CheckIcon",
-                variant: "success",
-              },
-            });
-          }
-        })
-        .catch((error) => {
-          this.errorHandler(
-            error,
-            "Gagal membatalkan pendaftaran webinar, silahkan coba lagi nanti"
-          );
+          this.sertifikat.isLoading = false;
         });
     },
   },

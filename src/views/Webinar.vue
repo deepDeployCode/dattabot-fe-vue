@@ -14,7 +14,7 @@
           <div class="d-flex p-1 border-bottom">
             <div>
               <div class="font-weight-bold">
-                #WEBINAR-{{ item.webijadwal_id }}
+                #WEBINAR-{{ item.webijadwal_id.id }}
               </div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
@@ -24,13 +24,14 @@
               <b-button
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="batalkanWebinar(item.webijadwal_id)">
+                @click="batalkanWebinar(item.webijadwal_id.id)">
                 Cancel
               </b-button>
               <b-button
                 size="sm"
                 class="bg-warning bg-lighten-1"
-                @click="$router.push('/sertifikat/webinar')">
+                target="_blank"
+                @click="sertifikatWebinar(item.webijadwal_id.id)">
                 Sertifikat
               </b-button>
             </div>
@@ -39,12 +40,24 @@
             <table>
               <tbody>
                 <tr>
+                  <td>Judul</td>
+                  <td class="font-weight-bold">
+                    : {{ item.webijadwal_id.webijadwal_title }}
+                  </td>
+                </tr>
+                <tr>
                   <td>Urutan</td>
                   <td class="font-weight-bold">: {{ item.id }}</td>
                 </tr>
                 <tr>
                   <td>Tanggal</td>
                   <td class="font-weight-bold">: {{ item.created_at }}</td>
+                </tr>
+                <tr>
+                  <td>Name Users</td>
+                  <td class="font-weight-bold">
+                    : {{ item.orang_id.orang_nama_lengkap }}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -214,6 +227,26 @@ export default {
             error,
             "Gagal membatalkan pendaftaran webinar, silahkan coba lagi nanti"
           );
+        });
+    },
+
+    sertifikatWebinar(id) {
+      this.webinar.isLoading = true;
+      apis.webinar
+        .sertifikatWebinar(id)
+        .then(({ data }) => {
+          return this.$router.push(
+            `/sertifikat/${data.data.webinar_id}/webinar`
+          );
+        })
+        .catch((error) => {
+          this.errorHandler(
+            error,
+            "Gagal membatalkan pendaftaran webinar, silahkan coba lagi nanti"
+          );
+        })
+        .finally(() => {
+          this.webinar.isLoading = false;
         });
     },
   },

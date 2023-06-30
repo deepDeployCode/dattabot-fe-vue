@@ -67,17 +67,17 @@ const router = new VueRouter({
       },
     },
 
-    // {
-    //   path: "/sertifikat/webinar",
-    //   name: "sertifikat_webinar",
-    //   component: () => import("@/views/SertifikatWebinar.vue"),
-    //   meta: {
-    //     layout: "full",
-    //     navbar: true,
-    //     isBack: false,
-    //     title: "Sertifikat Webinar",
-    //   },
-    // },
+    {
+      path: "/sertifikat/:id_sertifikat/webinar",
+      name: "sertifikat_webinar",
+      component: () => import("@/views/SertifikatWebinar.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        isBack: false,
+        title: "Sertifikat Webinar",
+      },
+    },
     {
       path: "/studi-kasus",
       name: "studi-kasus",

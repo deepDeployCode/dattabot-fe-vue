@@ -93,6 +93,7 @@ const endpoints = {
     detail: "detail",
     delete: "delete",
     check: "check",
+    sertifikat: "sertifikat",
   },
 };
 
@@ -344,6 +345,11 @@ const apis = {
     checkWebinarStatus(idWebinar) {
       return resource.post(
         `${endpoints.webinar.index}/${idWebinar}/${endpoints.webinar.check}`
+      );
+    },
+    sertifikatWebinar(id) {
+      return resource.post(
+        `${endpoints.webinar.index}/${id}/${endpoints.webinar.sertifikat}`
       );
     },
   },
