@@ -3,14 +3,7 @@
     <BaseNavigation />
     <DividerNavigation />
     <div class="p-2 mx-auto">
-      <div style="width: 100%" class="pl-25">
-        <b-button
-          variant="outline-danger"
-          block
-          @click="$router.push('/sertifikat/webinar')">
-          Sertifikat
-        </b-button>
-      </div>
+      <div style="width: 100%" class="pl-25"></div>
       <br />
       <div>
         <b-card
@@ -18,112 +11,54 @@
           :key="item.id"
           class="shadow-none border mb-1"
           no-body>
-          <div
-            class="d-flex p-1 border-bottom"
-            :class="
-              checkStatusWebinar(item) === true ? 'bg-warning text-white' : ''
-            ">
+          <div class="d-flex p-1 border-bottom">
             <div>
-              <div class="font-weight-bold">#WEBINAR-{{ item.id }}</div>
+              <div class="font-weight-bold">
+                #WEBINAR-{{ item.webijadwal_id.id }}
+              </div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
               </b-badge> -->
             </div>
             <div class="ml-auto pointer">
               <b-button
-                v-if="
-                  item.webijadwal_status === 'pendaftaran-dibuka' &&
-                  !item.webijadwal_uname
-                "
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="daftarWebinar(item.id)">
-                Daftar
+                @click="batalkanWebinar(item.webijadwal_id.id)">
+                Cancel
               </b-button>
               <b-button
-                v-if="
-                  item.webijadwal_status === 'pendaftaran-dibuka' &&
-                  item.webijadwal_uname
-                "
                 size="sm"
-                class="bg-primary bg-lighten-1"
-                @click="batalkanWebinar(item.id)">
-                Batalkan
+                class="bg-warning bg-lighten-1"
+                target="_blank"
+                @click="sertifikatWebinar(item.webijadwal_id.id)">
+                Sertifikat
               </b-button>
             </div>
-          </div>
-          <div class="pb-1 pt-1">
-            <b-img
-              :src="getWebinarImg(item)"
-              fluid
-              class="mb-25"
-              width="340"
-              height="300"
-              center />
           </div>
           <div class="p-1">
             <table>
               <tbody>
                 <tr>
-                  <td>Title</td>
+                  <td>Judul</td>
                   <td class="font-weight-bold">
-                    : {{ item.webijadwal_title }}
+                    : {{ item.webijadwal_id.webijadwal_title }}
                   </td>
+                </tr>
+                <tr>
+                  <td>Urutan</td>
+                  <td class="font-weight-bold">: {{ item.id }}</td>
                 </tr>
                 <tr>
                   <td>Tanggal</td>
-                  <td class="font-weight-bold">
-                    : {{ item.webijadwal_tanggal }}
-                  </td>
+                  <td class="font-weight-bold">: {{ item.created_at }}</td>
                 </tr>
                 <tr>
-                  <td>Jam</td>
-                  <td class="font-weight-bold">: {{ item.webijadwal_jam }}</td>
-                </tr>
-                <tr>
-                  <td>Limit / Durasi</td>
+                  <td>Name Users</td>
                   <td class="font-weight-bold">
-                    : {{ item.webijadwal_durasi }}/
-                    {{ item.webijadwal_limit }} Menit
+                    : {{ item.orang_id.orang_nama_lengkap }}
                   </td>
                 </tr>
-                <tr>
-                  <td>Status</td>
-                  <td class="font-weight-bold">
-                    : {{ item.webijadwal_status }}
-                  </td>
-                </tr>
-                <template
-                  v-if="
-                    item.webijadwal_link &&
-                    item.webijadwal_status === 'pendaftaran-dibuka' &&
-                    item.webijadwal_uname === '1' // status true
-                  ">
-                  <tr>
-                    <td><b>Link</b></td>
-                    <td class="font-weight-bold">
-                      :
-                      <a
-                        :href="item.webijadwal_link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        >Buka
-                      </a>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b>Zoom ID</b></td>
-                    <td class="font-weight-bold">
-                      : {{ item.webijadwal_zoom_id }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td><b>Password</b></td>
-                    <td class="font-weight-bold">
-                      : {{ item.webijadwal_password }}
-                    </td>
-                  </tr>
-                </template>
               </tbody>
             </table>
           </div>
@@ -217,7 +152,7 @@ export default {
       .addEventListener("scroll", this.scrollCallback);
   },
   created() {
-    this.fetchWebinar();
+    this.fetchWebinarRegistered();
   },
   methods: {
     viewPdf(url) {
@@ -231,14 +166,14 @@ export default {
       const { clientHeight } = element;
       if (scrollTop + clientHeight + 100 >= scrollHeight) {
         if (!this.webinar.isLoading && this.webinar.nextPageUrl) {
-          this.fetchWebinar(this.webinar.nextPageUrl);
+          this.fetchWebinarRegistered(this.webinar.nextPageUrl);
         }
       }
     },
-    fetchWebinar(url) {
+    fetchWebinarRegistered(url) {
       this.webinar.isLoading = true;
       apis.webinar
-        .listWebinarEvent(url)
+        .listRegisterWebinar(url)
         .then(({ data }) => {
           if (url) {
             this.webinar.data = this.webinar.data.concat(data.data);
@@ -251,35 +186,7 @@ export default {
           this.webinar.isLoading = false;
         });
     },
-    daftarWebinar(id) {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      apis.webinar
-        .registeWebinar({
-          webijadwal_id: id,
-        })
-        .then(() => {
-          this.fetchWebinar();
-          this.$toast({
-            component: ToastificationContentVue,
-            props: {
-              title: "Berhasil mendaftar webinar!",
-              icon: "CheckIcon",
-              variant: "success",
-            },
-          });
-          this.toggleUploadBerkas = false;
-          this.fetchWebinar();
-        })
-        .catch((error) => {
-          this.errorHandler(
-            error,
-            "Gagal daftar webinar, silahkan coba lagi nanti"
-          );
-        })
-        .finally(() => {
-          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-        });
-    },
+
     batalkanWebinar(id) {
       this.$swal({
         title: "Apakah kamu yakin?",
@@ -304,7 +211,7 @@ export default {
         .then((result) => {
           if (result) {
             this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
-            this.fetchWebinar();
+            this.fetchWebinarRegistered();
             this.$toast({
               component: ToastificationContentVue,
               props: {
@@ -320,6 +227,26 @@ export default {
             error,
             "Gagal membatalkan pendaftaran webinar, silahkan coba lagi nanti"
           );
+        });
+    },
+
+    sertifikatWebinar(id) {
+      this.webinar.isLoading = true;
+      apis.webinar
+        .sertifikatWebinar(id)
+        .then(({ data }) => {
+          return this.$router.push(
+            `/sertifikat/${data.data.webinar_id}/webinar`
+          );
+        })
+        .catch((error) => {
+          this.errorHandler(
+            error,
+            "Gagal membatalkan pendaftaran webinar, silahkan coba lagi nanti"
+          );
+        })
+        .finally(() => {
+          this.webinar.isLoading = false;
         });
     },
   },

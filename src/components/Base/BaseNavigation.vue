@@ -38,7 +38,8 @@ export default {
       // eslint-disable-next-line global-require
       logo: require("@/assets/images/icons/simfoni_putih.png"),
       notifikasi: {
-        count: false,
+        isLoading: false,
+        count: null,
       },
     };
   },
@@ -63,14 +64,10 @@ export default {
   methods: {
     showCountNotification() {
       this.notification.isLoading = true;
-      apis.profile
-        .notificationCount()
-        .then(({ data }) => {
-          this.notifikasi.count = data.data;
-        })
-        .finally(() => {
-          this.notifikasi.isLoading = false;
-        });
+      apis.profile.notificationCount().then(({ data }) => {
+        this.notifikasi.count = data.data;
+        this.notifikasi.isLoading = false;
+      });
     },
   },
 };
