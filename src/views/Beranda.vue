@@ -6,7 +6,8 @@
     <BaseBottomNavigation />
     <div class="p-2 mx-auto">
       <!-- TODO: ketika di klik, menuju maintenance page -->
-      <div>
+      <!-- hide dulu yang ini--> 
+      <!-- <div>
         <div class="font-weight-bold mb-1" style="font-size: 16px">Webinar</div>
         <div class="p-2 mx-auto">
           <b-card
@@ -24,7 +25,7 @@
             </div>
           </b-card>
         </div>
-      </div>
+      </div> -->
       <b-card class="shadow-none border mb-1">
         <div class="d-flex flex-row justify-content-between align-items-start">
           <div

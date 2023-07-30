@@ -86,7 +86,8 @@
                     webinarDetails.data.webijadwal_status ===
                       'pendaftaran-dibuka'
                   ">
-                  <tr>
+                  <!-- hide aja kan linknya jg dapet via email-->
+                  <!-- <tr>
                     <td><b>Link</b></td>
                     <td class="font-weight-bold">
                       :
@@ -109,7 +110,7 @@
                     <td class="font-weight-bold">
                       : {{ webinarDetails.data.webijadwal_password }}
                     </td>
-                  </tr>
+                  </tr> -->
                 </template>
               </tbody>
             </table>
