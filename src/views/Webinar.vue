@@ -2,8 +2,15 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div class="p-2 mx-auto">
-      <div style="width: 100%" class="pl-25"></div>
+    <div class="p-2 mx-auto" v-if="webinar.data && !webinar.isLoading">
+      <div style="width: 100%" class="pl-25">
+        <b-button
+          variant="outline-danger"
+          block
+          @click="$router.push('/webinar/jadwal')">
+          Lihat Jadwal
+        </b-button>
+      </div>
       <br />
       <div>
         <b-card
@@ -71,6 +78,12 @@
         </div>
       </div>
     </div>
+    <!-- <div v-else class="p-2 mx-auto">
+      <b-card
+        class="shadow-none border mb-1 pointer mr-1 webinar-card"
+        :img-src="webinarNotFound">
+      </b-card>
+    </div> -->
   </div>
 </template>
 
@@ -114,7 +127,6 @@ export default {
   data() {
     return {
       required,
-      examplePicStudiKasus: require("@/assets/images/pages/Studi_Kasus_Contoh.jpeg"),
       webinar: {
         data: null,
         isLoading: false,
@@ -126,25 +138,9 @@ export default {
     };
   },
   computed: {
-    getWebinarImg() {
-      return (item) => {
-        if (item.webijadwal_img) {
-          return item.webijadwal_img;
-        }
-        return require("@/assets/images/logo/no_available.jpg");
-      };
-    },
-    checkStatusWebinar() {
-      return (item) => {
-        if (item.id) {
-          apis.webinar.checkWebinarStatus(item.id).then(({ data }) => {
-            return data.data;
-          });
-        } else {
-          return false;
-        }
-      };
-    },
+    // webinarNotFound() {
+    //   return require("@/assets/images/logo/404Images.jpeg");
+    // },
   },
   mounted() {
     document

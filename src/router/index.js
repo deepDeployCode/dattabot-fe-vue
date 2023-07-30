@@ -242,6 +242,16 @@ const router = new VueRouter({
       },
     },
     {
+      path: "/webinar/jadwal",
+      name: "jadwal-krip",
+      component: () => import("@/views/JadwalWEBINAR.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "Jadwal WEBINAR",
+      },
+    },
+    {
       path: "/mutasi",
       name: "mutasi",
       component: () => import("@/views/Mutasi.vue"),
