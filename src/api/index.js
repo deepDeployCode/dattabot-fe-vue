@@ -20,6 +20,16 @@ const endpoints = {
     validateEmailBeforeRegister: "/auth/validateEmail",
     restoreDataUsers: "/auth/restore/data",
     register: "/auth/register",
+    /**
+      register v2
+     */
+    registerv2: {
+      npaBeforeRegister: "/auth/v2/npaBeforeRegister",
+      checkRegistered: "/auth/v2/check-registered",
+    },
+    /**
+     * end register v2
+     */
     user: "/auth/user",
     verify: "/auth/verify",
   },
@@ -124,6 +134,24 @@ const apis = {
       return resource.post(endpoints.auth.restoreDataUsers, email);
     },
   },
+  /**
+   * auth v2 register
+   */
+
+  authv2: {
+    npaBeforeRegister(npa) {
+      return resource.post(
+        `${endpoints.auth.registerv2.npaBeforeRegister}`,
+        npa
+      );
+    },
+    checkRegistered(npa) {
+      return resource.post(`${endpoints.auth.registerv2.checkRegistered}`, npa);
+    },
+  },
+  /**
+   * end auth v2 register
+   */
   completeRegistration: {
     emailVerify(reg_token) {
       return resource.get(`${endpoints.auth.verify}/${reg_token}`);

@@ -414,6 +414,18 @@ const router = new VueRouter({
         authenticationPage: true,
       },
     },
+    {
+      path: "/v2/register",
+      name: "registerv2",
+      component: () => import("@/views/RegisterV2.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "Cek Akun Anda",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
     //check verify email before lengkapi data calon anggota
 
     {

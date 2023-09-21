@@ -15,18 +15,18 @@
       </div>
       <validation-observer ref="validateBeforeRegister">
         <b-form class="auth-login-form" @submit.prevent>
-          <b-form-group label="Email" label-for="login-email">
+          <b-form-group label="NPA" label-for="npa-validate">
             <validation-provider
               #default="{ errors }"
-              name="Email"
-              rules="required|email"
+              name="Npa"
+              rules="required|integer"
             >
               <b-form-input
-                id="login-email"
-                v-model="emailValidate"
+                id="cek-npa"
+                v-model="npaValidate"
                 :state="errors.length > 0 ? false : null"
-                name="login-email"
-                placeholder="john@example.com"
+                name="cek-npa"
+                placeholder="12838281"
               />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
@@ -37,9 +37,9 @@
             type="submit"
             variant="outline-danger"
             block
-            @click="validateBeforeRegisterData"
+            @click="validateNpaBeforeRegister"
           >
-            Cek email
+            Cek NPA
           </b-button>
         </b-form>
       </validation-observer>
@@ -562,7 +562,7 @@ export default {
       });
     },
 
-    validateBeforeRegisterData() {
+    validateNpaBeforeRegister() {
       this.$refs.validateBeforeRegister.validate().then((success) => {
         if (success) {
           this.fetchValidateBeforeRegister();
