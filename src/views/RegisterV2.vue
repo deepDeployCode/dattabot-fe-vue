@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="validate.data.status === false" class="p-2 mx-auto">
+    <div v-if="validate.data.status == false" class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
         <b-img
@@ -37,7 +37,7 @@
             type="submit"
             variant="outline-danger"
             block
-            @click="validateNpaBeforeRegister"
+            @click="validateNpaPbIdi"
           >
             Cek NPA
           </b-button>
@@ -60,41 +60,25 @@
               <p>
                 {{ validate.data.message }}
               </p>
+              <p>{{ npa.data.message }}</p>
               <b-button
-                v-if="validate.data.login === true"
+                v-if="validate.data.register === true"
                 type="submit"
                 variant="outline-info"
                 block
-                @click="$router.push('/login')"
+                @click="checkNpaBeforeRegister()"
               >
-                Login
+                Check Registered?
               </b-button>
             </b-card-text>
-            <b-button
-              v-if="validate.data.restore === true"
-              type="submit"
-              variant="outline-info"
-              block
-              @click="restoreDataUsers"
-            >
-              Restore Data
-            </b-button>
           </b-card>
         </b-col>
         <!-- submit buttons -->
       </div>
     </div>
-    <div v-else class="p-2 mx-auto">
+    <div v-else-if="npa.data.status === true" class="p-2 mx-auto">
       <!-- form -->
-      <div class="d-flex justify-content-center mb-2">
-        <b-img
-          fluid
-          width="150"
-          height="150"
-          :src="simfoniLogo"
-          alt="simfoniLogo"
-        />
-      </div>
+      <div class="d-flex justify-content-center mb-2"></div>
       <validation-observer ref="registerValidation">
         <b-form class="auth-login-form mt-2" @submit.prevent>
           <b-form-group label="Opsi Pendaftaran *" label-for="opsi-pendaftaran">
@@ -424,7 +408,7 @@
       <b-card-text class="text-center mt-2">
         <span>Sudah punya akun? </span>
         <b-link :to="{ name: 'login' }">
-          <span>&nbsp;Daftar disini</span>
+          <span>&nbsp;Login disini</span>
         </b-link>
       </b-card-text>
     </div>
@@ -535,6 +519,10 @@ export default {
         data: null,
         isLoading: false,
       },
+      npa: {
+        data: null,
+        isLodaing: false,
+      },
     };
   },
   computed: {
@@ -551,7 +539,8 @@ export default {
     },
   },
   created() {
-    this.fetchValidateBeforeRegister();
+    this.fetchValidatePbIdi();
+    this.checkNpaBeforeRegister();
   },
   methods: {
     validationForm() {
@@ -562,10 +551,10 @@ export default {
       });
     },
 
-    validateNpaBeforeRegister() {
+    validateNpaPbIdi() {
       this.$refs.validateBeforeRegister.validate().then((success) => {
         if (success) {
-          this.fetchValidateBeforeRegister();
+          this.fetchValidatePbIdi();
         }
       });
     },
@@ -625,36 +614,33 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    fetchValidateBeforeRegister() {
+    fetchValidatePbIdi() {
       this.validate.isLoading = true;
-      apis.auth
-        .validateEmailBeforeRegister({
-          email: this.emailValidate != null ? this.emailValidate : null,
+      apis.authv2
+        .npaBeforeRegister({
+          npa: this.npaValidate != null ? this.npaValidate : null,
         })
         .then(({ data }) => {
           this.validate.data = data;
         })
         .catch((error) => {
-          this.errorHandler(error, "gagal validate email");
+          this.errorHandler(error, "gagal validate npa");
         })
         .finally(() => {
           this.validate.isLoading = false;
         });
     },
 
-    restoreDataUsers() {
-      this.validate.isLoading = true;
-
-      apis.auth
-        .restoreDataUsers({ email: this.validate.data.user.email })
+    checkNpaBeforeRegister() {
+      this.npa.isLoading = true;
+      apis.authv2
+        .checkRegistered({ npa: this.npaValidate })
         .then(({ data }) => {
-          this.successHandler(data.message);
+          this.npa.data = data;
         })
-        .catch((error) => {
-          this.errorHandler(error, "gagal harap coba lagi");
-        })
+        .catch((error) => this.errorHandler(error, "gagal validate npa"))
         .finally(() => {
-          this.validate.isLoading = false;
+          this.npa.isLoading = false;
         });
     },
 
