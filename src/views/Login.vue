@@ -7,7 +7,8 @@
           width="100"
           height="100"
           :src="logoSimfoniNew"
-          alt="logoSimfoniNew" />
+          alt="logoSimfoniNew"
+        />
       </div>
       <br />
       <div class="d-flex justify-content-center">
@@ -28,13 +29,15 @@
             <validation-provider
               #default="{ errors }"
               name="Email"
-              rules="required|email">
+              rules="required|email"
+            >
               <b-form-input
                 id="login-email"
                 v-model="userEmail"
                 :state="errors.length > 0 ? false : null"
                 name="login-email"
-                placeholder="john@example.com" />
+                placeholder="john@example.com"
+              />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -50,10 +53,12 @@
             <validation-provider
               #default="{ errors }"
               name="Password"
-              rules="required">
+              rules="required"
+            >
               <b-input-group
                 class="input-group-merge"
-                :class="errors.length > 0 ? 'is-invalid' : null">
+                :class="errors.length > 0 ? 'is-invalid' : null"
+              >
                 <b-form-input
                   id="login-password"
                   v-model="password"
@@ -61,12 +66,14 @@
                   class="form-control-merge"
                   :type="passwordFieldType"
                   name="login-password"
-                  placeholder="············" />
+                  placeholder="············"
+                />
                 <b-input-group-append is-text>
                   <feather-icon
                     class="cursor-pointer"
                     :icon="passwordToggleIcon"
-                    @click="togglePasswordVisibility" />
+                    @click="togglePasswordVisibility"
+                  />
                 </b-input-group-append>
               </b-input-group>
               <small class="text-danger">{{ errors[0] }}</small>
@@ -78,7 +85,8 @@
             type="submit"
             variant="danger"
             block
-            @click="validationForm">
+            @click="validationForm"
+          >
             Masuk
           </b-button>
         </b-form>
@@ -168,7 +176,7 @@ export default {
     },
     login() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      apis.auth
+      apis.authv2
         .login({
           email: this.userEmail,
           password: this.password,
