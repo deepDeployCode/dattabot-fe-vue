@@ -78,7 +78,7 @@
                   v-model="integrasi_detail.data.npa_masaberlaku"
                   :state="errors.length > 0 ? false : null"
                   name="npa-masa-berlaku"
-                  type="text"
+                  type="date"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -115,12 +115,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="gelar belakang *" label-for="gelar_belakang">
-              <validation-provider
-                #default="{ errors }"
-                name="gelar belakang"
-                rules="required"
-              >
+            <b-form-group label="gelar belakang" label-for="gelar_belakang">
+              <validation-provider #default="{ errors }" name="gelar belakang">
                 <b-form-input
                   id="gelar_belakang"
                   v-model="integrasi_detail.data.suffix"
@@ -156,6 +152,7 @@
                   v-model="integrasi_detail.data.tanggal_lahir"
                   :state="errors.length > 0 ? false : null"
                   name="tanggal_lahir"
+                  type="date"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
@@ -164,7 +161,7 @@
               <validation-provider
                 #default="{ errors }"
                 name="jenis_kelamin"
-                rules="required|string"
+                rules="required"
               >
                 <b-form-input
                   id="jenis_kelamin"
@@ -211,21 +208,18 @@
             </b-form-group>
             <b-form-group
               label="Pernikahan Status"
-              label-for="pernikahan_status"
+              label-for="pernikahan-status"
             >
               <validation-provider
                 #default="{ errors }"
                 name="Pernikahan Status"
               >
-                <b-form-input
-                  id="pernikahan_status"
+                <b-form-select
                   v-model="integrasi_detail.data.pernikahan_status"
                   :state="errors.length > 0 ? false : null"
-                  name="pernikahan_status"
+                  :options="optionRegistration"
                 />
-                <small class="text-danger">
-                  {{ errors[0] }}
-                </small>
+                <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <b-form-group
@@ -491,6 +485,7 @@ export default {
       password: "home258",
       userEmail: "forumkita.idijakpus@gmail.com",
       sideImg: require("@/assets/images/pages/login-v2.svg"),
+      optionRegistration: ["Belum Menikah", "Sudah Menikah"],
       // validation rulesimport store from '@/store/index'
       required,
       email,
@@ -606,11 +601,29 @@ export default {
     register() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
       var insertData = {
-        ...this.form,
-        email: this.validate.data.user,
-        kartu_id_file: this.kartu_id_file,
-        pasphoto: this.pasphoto,
-        npa_file: this.npa_file,
+        orang_level: this.integrasi_detail.data.nama_cabang,
+        orang_level_wilayah: this.integrasi_detail.data.nama_wilayah,
+        orang_npa_idi: this.integrasi_detail.data.npa,
+        orang_npa_masa_berlaku: this.integrasi_detail.data.npa_masaberlaku,
+        orang_npa_file: this.upload.npa_file, // file kta/iuran
+        orang_nama_lengkap: this.integrasi_detail.data.nama_lengkap,
+        orang_gelar_depan: this.integrasi_detail.data.prefix,
+        orang_gelar_belakang: this.integrasi_detail.data.suffix,
+        orang_tempat_lahir: this.integrasi_detail.data.tempat_lahir,
+        orang_tanggal_lahir: this.integrasi_detail.data.tanggal_lahir,
+        orang_jenis_kelamin: this.integrasi_detail.data.jenis_kelamin,
+        orang_kartu_id_jenis: this.integrasi_detail.data.jenis_identitas,
+        orang_kartu_id_nomor: this.integrasi_detail.data.no_identitas,
+        orang_kartu_id_file: this.upload.kartu_id_file, // file ktp
+        orang_pernikahan_status: this.integrasi_detail.data.pernikahan_status,
+        orang_pernikahan_nama_pasangan:
+          this.integrasi_detail.data.nama_pasangan,
+        orang_alamat_rumah: this.integrasi_detail.data.alamat,
+        orang_nomor_hp: this.integrasi_detail.data.no_hp_1,
+        orang_nomor_telpon: this.integrasi_detail.data.telp_rumah,
+        orang_file_photo_resmi: this.upload.file_photo_resmi, // photo profile
+        orang_email: this.integrasi_detail.data.email_account,
+        orang_password: this.integrasi_detail.data.password,
       };
       apis.auth
         .register(insertData)
