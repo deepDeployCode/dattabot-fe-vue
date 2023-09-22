@@ -416,7 +416,7 @@ const router = new VueRouter({
     },
 
     /**
-     * route new register
+     * route new authentication
      */
     {
       path: "/v2/register",
@@ -425,7 +425,7 @@ const router = new VueRouter({
       meta: {
         layout: "full",
         navbar: true,
-        title: "Cek Akun Anda",
+        title: "Register account",
         isNavMenu: false,
         authenticationPage: true,
       },
@@ -437,11 +437,27 @@ const router = new VueRouter({
       meta: {
         layout: "full",
         navbar: true,
-        title: "Cek Akun Anda",
+        title: "Submit Data",
         isNavMenu: false,
         authenticationPage: true,
       },
     },
+    {
+      path: "/auth/v2/verify/:npa",
+      name: "registerv2submit",
+      component: () => import("@/views/verifyAccountv2.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "Verifikasi Account",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+
+    /**
+     * route new authentication
+     */
 
     //check verify email before lengkapi data calon anggota
 

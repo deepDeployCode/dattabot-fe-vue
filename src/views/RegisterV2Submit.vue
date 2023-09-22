@@ -625,7 +625,7 @@ export default {
         orang_email: this.integrasi_detail.data.email_account,
         orang_password: this.integrasi_detail.data.password,
       };
-      apis.auth
+      apis.authv2
         .register(insertData)
         .then(() => {
           this.$toast({

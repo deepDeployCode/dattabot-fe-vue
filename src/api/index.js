@@ -20,19 +20,23 @@ const endpoints = {
     validateEmailBeforeRegister: "/auth/validateEmail",
     restoreDataUsers: "/auth/restore/data",
     register: "/auth/register",
-    /**
-      register v2
-     */
-    registerv2: {
-      npaBeforeRegister: "/auth/v2/npaBeforeRegister",
-      checkRegistered: "/auth/v2/check-registered",
-    },
-    /**
-     * end register v2
-     */
     user: "/auth/user",
     verify: "/auth/verify",
   },
+  /**
+   * BEGIN::authentication v2
+   */
+
+  authv2: {
+    npaBeforeRegister: "/auth/v2/npaBeforeRegister",
+    checkRegistered: "/auth/v2/check-registered",
+    login: "/auth/v2/login",
+    verify: "/auth/v2/verify",
+    register: "/auth/v2/register",
+  },
+  /**
+   * END::authentication v2
+   */
   forum: {
     default: "/forum",
     comment: "/forum/comment",
@@ -140,20 +144,26 @@ const apis = {
 
   authv2: {
     npaBeforeRegister(npa) {
-      return resource.post(
-        `${endpoints.auth.registerv2.npaBeforeRegister}`,
-        npa
-      );
+      return resource.post(`${endpoints.authv2.npaBeforeRegister}`, npa);
+    },
+
+    login(data) {
+      return resource.post(endpoints.auth.login, data);
+    },
+
+    register(data) {
+      return resource.post(endpoints.authv2.register, data);
     },
 
     detailDataPbIdi(npa) {
-      return resource.post(
-        `${endpoints.auth.registerv2.npaBeforeRegister}`,
-        npa
-      );
+      return resource.post(`${endpoints.authv2.npaBeforeRegister}`, npa);
     },
     checkRegistered(npa) {
-      return resource.post(`${endpoints.auth.registerv2.checkRegistered}`, npa);
+      return resource.post(`${endpoints.authv2.checkRegistered}`, npa);
+    },
+
+    verifyAccount(npa) {
+      return resource.post(`${endpoints.authv2.verify}/${npa}`);
     },
   },
   /**
