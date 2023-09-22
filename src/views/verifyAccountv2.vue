@@ -15,19 +15,19 @@
           </b-card-title>
           <b-card-text>
             <p>{{ verify.data.message }}</p>
-            <p>
+            <p v-if="verify.data.status === true">
               {{ "dengan cara mengklik tombol di bawah ini" }}
             </p>
-            <b-button
-              v-if="verify.data.status === true"
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="$router.push(`/login`)"
-            >
-              Login
-            </b-button>
           </b-card-text>
+          <b-button
+            v-if="verify.data.status === true"
+            type="submit"
+            variant="outline-info"
+            block
+            @click="$router.push(`/login`)"
+          >
+            Login
+          </b-button>
         </b-card>
       </b-col>
     </div>

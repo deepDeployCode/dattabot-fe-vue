@@ -309,13 +309,27 @@
                 name="password"
                 rules="required"
               >
-                <b-form-input
-                  id="password"
-                  v-model="integrasi_detail.data.password"
-                  :state="errors.length > 0 ? false : null"
-                  name="password"
-                  type="password"
-                />
+                <b-input-group
+                  class="input-group-merge"
+                  :class="errors.length > 0 ? 'is-invalid' : null"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="integrasi_detail.data.password"
+                    :state="errors.length > 0 ? false : null"
+                    class="form-control-merge"
+                    name="password"
+                    :type="passwordFieldType"
+                    placeholder=".............."
+                  />
+                  <b-input-group-append is-text>
+                    <feather-icon
+                      class="cursor-pointer"
+                      :icon="passwordToggleIcon"
+                      @click="togglePasswordVisibility"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
                 <small class="text-danger">
                   {{ errors[0] }}
                 </small>
@@ -330,13 +344,27 @@
                 name="confirm"
                 rules="required|password:@password"
               >
-                <b-form-input
-                  id="confirm-password"
-                  v-model="confirmPassword"
-                  :state="errors.length > 0 ? false : null"
-                  name="confirm-password"
-                  type="password"
-                />
+                <b-input-group
+                  class="input-group-merge"
+                  :class="errors.length > 0 ? 'is-invalid' : null"
+                >
+                  <b-form-input
+                    id="confirm-password"
+                    v-model="confirmPassword"
+                    :state="errors.length > 0 ? false : null"
+                    name="confirm-password"
+                    class="form-control-merge"
+                    :type="passwordFieldType"
+                    placeholder="..............."
+                  />
+                  <b-input-group-append is-text>
+                    <feather-icon
+                      class="cursor-pointer"
+                      :icon="passwordToggleIcon"
+                      @click="togglePasswordVisibility"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
                 <small class="text-danger">
                   {{ errors[0] }}
                 </small>
@@ -443,9 +471,12 @@ import {
   BFormGroup,
   BCardText,
   BForm,
+  BInputGroupAppend,
+  BInputGroup,
   BModal,
   BCard,
   BButton,
+  BCardTitle,
   BFormSelect,
   BFormFile,
   BFormInput,
@@ -466,6 +497,9 @@ export default {
     BCardText,
     BForm,
     BModal,
+    BInputGroupAppend,
+    BInputGroup,
+    BCardTitle,
     BCard,
     BButton,
     BFormFile,
@@ -490,7 +524,7 @@ export default {
       // validation rulesimport store from '@/store/index'
       required,
       email,
-      confirmPassword: "",
+      passwordFieldType: "password",
       colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],
       integrasi_detail: {
         data: null,
@@ -505,7 +539,7 @@ export default {
   },
   computed: {
     passwordToggleIcon() {
-      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
+      return this.passwordFieldType === "password" ? "EyeOffIcon" : "EyeIcon";
     },
     imgUrl() {
       if (store.state.appConfig.layout.skin === "dark") {
