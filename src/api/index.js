@@ -148,7 +148,7 @@ const apis = {
     },
 
     login(data) {
-      return resource.post(endpoints.auth.login, data);
+      return resource.post(endpoints.authv2.login, data);
     },
 
     register(data) {

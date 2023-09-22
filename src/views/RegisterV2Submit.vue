@@ -314,6 +314,7 @@
                   v-model="integrasi_detail.data.password"
                   :state="errors.length > 0 ? false : null"
                   name="password"
+                  type="password"
                 />
                 <small class="text-danger">
                   {{ errors[0] }}
