@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="validate.data.status == false" class="p-2 mx-auto">
+    <div class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
         <b-img
@@ -62,7 +62,7 @@
               </p>
               <p>{{ npa.data.message }}</p>
               <b-button
-                v-if="validate.data.register === true"
+                v-if="validate.data.status === 'true'"
                 type="submit"
                 variant="outline-info"
                 block
@@ -70,347 +70,317 @@
               >
                 Check Registered?
               </b-button>
+              <b-button
+                v-if="npa.data.status === 'true'"
+                type="submit"
+                variant="outline-info"
+                block
+                @click="
+                  $router.push(`/v2/register/${validate.data.data.npa}/submit`)
+                "
+              >
+                Lanjutkan?
+              </b-button>
+              <b-button
+                v-else-if="npa.data.status === 'false'"
+                type="submit"
+                variant="outline-info"
+                block
+                @click="$router.push(`/login`)"
+              >
+                login
+              </b-button>
             </b-card-text>
+          </b-card>
+          <b-card
+            v-if="validate.data.data"
+            class="shadow-none border mb-1"
+            no-body
+          >
+            <div class="d-flex p-1 border-bottom">
+              <div>
+                <div class="font-weight-bold">
+                  #Data From PBIDI - {{ validate.data.data.nama_lengkap }}
+                </div>
+                <!-- <b-badge variant="clight-danger font-weight–light mt-25">
+                Belum terverifikasi
+              </b-badge> -->
+              </div>
+            </div>
+            <div class="p-1">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>npa</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.npa }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_wilayah</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_wilayah }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_cabang</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_cabang }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>jenis_identitas</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.jenis_identitas }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>no_identitas</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.no_identitas }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>prefix</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.prefix }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_depan</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_depan }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_tengah</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_tengah }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_belakang</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_belakang }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_lengkap</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_lengkap }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>suffix</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.suffix }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>tempat_lahir</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.tempat_lahir }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>tanggal_lahir</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.tanggal_lahir }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>jenis_kelamin</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.jenis_kelamin }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_negara</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_negara }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_agama</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_agama }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_pasangan</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_pasangan }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>alamat</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.alamat }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>rt</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.rt }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>rw</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.rw }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>kode_pos</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.kode_pos }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_provinsi</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_provinsi }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kab_kota</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kab_kota }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kecamatan</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kecamatan }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kelurahan</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kelurahan }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>kode_area</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.kode_area }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>telp_rumah</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.telp_rumah }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>jenis_hp_1</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.jenis_hp_1 }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>kode</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.kode }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>no_hp_1</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.no_hp_1 }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>jenis_hp_2</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.jenis_hp_2 }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>no_hp_2</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.no_hp_2 }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>email_daftar</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.email_daftar }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>email_account</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.email_account }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>sesuai_ktp</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.sesuai_ktp }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>alamat_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.alamat_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_provinsi_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_provinsi_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kab_kota_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kab_kota_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kecamatan_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kecamatan_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>nama_kelurahan_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.nama_kelurahan_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>rt_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.rt_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>rw_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.rw_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>kode_pos_kor</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.kode_pos_kor }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>tanggal_daftar</td>
+                    <td class="font-weight-bold">
+                      : {{ validate.data.data.tanggal_daftar }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </b-card>
         </b-col>
         <!-- submit buttons -->
       </div>
-    </div>
-    <div v-else-if="npa.data.status === true" class="p-2 mx-auto">
-      <!-- form -->
-      <div class="d-flex justify-content-center mb-2"></div>
-      <validation-observer ref="registerValidation">
-        <b-form class="auth-login-form mt-2" @submit.prevent>
-          <b-form-group label="Opsi Pendaftaran *" label-for="opsi-pendaftaran">
-            <validation-provider
-              #default="{ errors }"
-              name="Opsi Pendaftaran"
-              rules="required"
-            >
-              <b-form-select
-                v-model="form.jenis_pendaftaran"
-                :state="errors.length > 0 ? false : null"
-                :options="optionRegistration"
-              />
-              <small class="text-danger">{{ errors[0] }}</small>
-            </validation-provider>
-          </b-form-group>
-
-          <div v-if="form.jenis_pendaftaran">
-            <b-form-group
-              v-if="
-                form.jenis_pendaftaran === 'anggota-jakpus' ||
-                form.jenis_pendaftaran === 'non-anggota-jakpus'
-              "
-              label="Nomor Pokok Anggota *"
-              label-for="nomor-pokok"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Pokok Anggota"
-                rules="required"
-              >
-                <b-form-input
-                  id="nomor-pokok"
-                  v-model="form.npa_idi"
-                  :state="errors.length > 0 ? false : null"
-                  name="nomor-pokok"
-                  type="number"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Nomor Identitas (No.KTP) *"
-              label-for="nomor-identitas"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Identitas (KTP)"
-                rules="required"
-              >
-                <b-form-input
-                  id="nomor-identitas"
-                  v-model="form.kartu_id_nomor"
-                  :state="errors.length > 0 ? false : null"
-                  name="nomor-identitas"
-                  type="text"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Nama Lengkap Tanpa Gelar *"
-              label-for="nama-lengkap"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Lengkap Tanpa Gelar"
-                rules="required"
-              >
-                <b-form-input
-                  id="nama-lengkap"
-                  v-model="form.nama_lengkap"
-                  :state="errors.length > 0 ? false : null"
-                  name="nama-lengkap"
-                  type="text"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Tanggal lahir *" label-for="tanggal-lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="Tanggal lahir"
-                rules="required"
-              >
-                <b-form-input
-                  id="tanggal-lahir"
-                  v-model="form.tanggal_lahir"
-                  :state="errors.length > 0 ? false : null"
-                  name="tanggal-lahir"
-                  type="date"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Tempat Lahir *" label-for="tempat-lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="Tempat Lahir"
-                rules="required"
-              >
-                <b-form-input
-                  id="tempat-lahir"
-                  v-model="form.tempat_lahir"
-                  :state="errors.length > 0 ? false : null"
-                  name="tempat-lahir"
-                  type="text"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Nama Universitas (FK Dokter Umum) *"
-              label-for="nama-univ"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Universitas (FK Dokter Umum)"
-                rules="required"
-              >
-                <b-form-input
-                  id="nama-univ"
-                  v-model="form.du_asal_fak_kedokteran"
-                  :state="errors.length > 0 ? false : null"
-                  name="nama-univ"
-                  type="text"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Negara Asal Universitas *"
-              label-for="negara-asal-univ"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Negara Asal Universitas"
-                rules="required"
-              >
-                <b-form-input
-                  id="negara-asal-univ"
-                  v-model="form.du_asal_negara_univ"
-                  :state="errors.length > 0 ? false : null"
-                  name="negara-asal-univ"
-                  type="text"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Tahun Masuk Pendidikan Dokter Umum *"
-              label-for="tahun-masuk-dr-umum"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Masuk Pendidikan Dokter Umum"
-                rules="required"
-              >
-                <b-form-input
-                  id="tahun-masuk-dr-umum"
-                  v-model="form.du_tahun_masuk"
-                  :state="errors.length > 0 ? false : null"
-                  name="tahun-masuk-dr-umum"
-                  type="number"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Tahun Lulus Pendidikan Dokter Umum *"
-              label-for="tahun-lulus-dr-umum"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Lulus Pendidikan Dokter Umum"
-                rules="required"
-              >
-                <b-form-input
-                  id="tahun-lulus-dr-umum"
-                  v-model="form.du_tahun_lulus"
-                  :state="errors.length > 0 ? false : null"
-                  name="tahun-lulus-dr-umum"
-                  type="number"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Nomor Handphone *" label-for="nomor-hp">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Handphone"
-                rules="required"
-              >
-                <b-form-input
-                  id="nomor-hp"
-                  v-model="form.nomor_hp"
-                  :state="errors.length > 0 ? false : null"
-                  name="nomor-hp"
-                  type="number"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Email *" label-for="email">
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
-                rules="required|email"
-              >
-                <b-form-input
-                  id="email"
-                  v-model="validate.data.user"
-                  :state="errors.length > 0 ? false : null"
-                  name="email"
-                  type="email"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Password *" label-for="password">
-              <validation-provider
-                #default="{ errors }"
-                name="password"
-                rules="required"
-              >
-                <b-form-input
-                  id="password"
-                  v-model="form.password"
-                  :state="errors.length > 0 ? false : null"
-                  name="password"
-                  type="password"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Ketik Ulang Password *"
-              label-for="confirm-password"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="confirm"
-                rules="required|password:@password"
-              >
-                <b-form-input
-                  id="confirm-password"
-                  v-model="confirmPassword"
-                  :state="errors.length > 0 ? false : null"
-                  name="confirm-password"
-                  type="password"
-                />
-                <small class="text-danger">
-                  {{ errors[0] }}
-                </small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="File Kartu (KTP) *"
-              label-for="kartu_id_file"
-              class="mt-1"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="kartu_id_file"
-                rules="required"
-              >
-                <b-form-file
-                  id="kartu_id_file"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.kartu_id_file"
-                  accept="image/*"
-                  @change="handlerKartuFile($event)"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Pas Foto *" label-for="pas-foto" class="mt-1">
-              <validation-provider
-                #default="{ errors }"
-                name="pas-foto"
-                rules="required"
-              >
-                <b-form-file
-                  id="pas-foto"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.pasphoto"
-                  accept="image/*"
-                  @change="handlerPassFoto($event)"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="File KTA (kwitansi iuran) *"
-              label-for="file-kta"
-              class="mt-1"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="file-kta"
-                rules="required"
-              >
-                <b-form-file
-                  id="file-kta"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.npa_file"
-                  accept="image/*"
-                  @change="handlerFileKta($event)"
-                />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-
-            <!-- submit buttons -->
-            <b-button
-              type="submit"
-              variant="outline-danger"
-              block
-              @click="validationForm"
-            >
-              Daftar
-            </b-button>
-          </div>
-        </b-form>
-      </validation-observer>
-
-      <b-card-text class="text-center mt-2">
-        <span>Sudah punya akun? </span>
-        <b-link :to="{ name: 'login' }">
-          <span>&nbsp;Login disini</span>
-        </b-link>
-      </b-card-text>
     </div>
   </div>
 </template>
@@ -471,57 +441,16 @@ export default {
   data() {
     return {
       simfoniLogo: require("@/assets/images/logo/logo-new-idi.png"),
-      status: "",
-      password: "home258",
-      userEmail: "forumkita.idijakpus@gmail.com",
-      sideImg: require("@/assets/images/pages/login-v2.svg"),
       // validation rulesimport store from '@/store/index'
       required,
-      email,
-      confirmPassword: "",
       colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],
-      optionRegistration: [
-        {
-          value: null,
-          text: "Silahkan pilih opsi pendaftaran",
-        },
-        {
-          value: "anggota-jakpus",
-          text: "Anggota IDI Jakarta Pusat",
-        },
-        {
-          value: "baru",
-          text: "Belum menjadi anggota IDI",
-        },
-        {
-          value: "non-anggota-jakpus",
-          text: "Anggota Non IDI Jakarta Pusat",
-        },
-      ],
-      form: {
-        password: "",
-        npa_idi: "", // 0000
-        kartu_id_nomor: "",
-        pasphoto: "",
-        kartu_id_file: "",
-        npa_file: "",
-        nama_lengkap: "",
-        tanggal_lahir: "",
-        tempat_lahir: "",
-        du_asal_negara_univ: "Indonesia",
-        du_asal_fak_kedokteran: "",
-        du_tahun_masuk: "",
-        du_tahun_lulus: "",
-        jenis_pendaftaran: null,
-        nomor_hp: "",
-      },
       validate: {
         data: null,
         isLoading: false,
       },
       npa: {
         data: null,
-        isLodaing: false,
+        isLoading: false,
       },
     };
   },
@@ -529,89 +458,18 @@ export default {
     passwordToggleIcon() {
       return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
     },
-    imgUrl() {
-      if (store.state.appConfig.layout.skin === "dark") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require("@/assets/images/pages/login-v2-dark.svg");
-        return this.sideImg;
-      }
-      return this.sideImg;
-    },
   },
   created() {
     this.fetchValidatePbIdi();
     this.checkNpaBeforeRegister();
   },
   methods: {
-    validationForm() {
-      this.$refs.registerValidation.validate().then((success) => {
-        if (success) {
-          this.register();
-        }
-      });
-    },
-
     validateNpaPbIdi() {
       this.$refs.validateBeforeRegister.validate().then((success) => {
         if (success) {
           this.fetchValidatePbIdi();
         }
       });
-    },
-
-    // handler img passfoto and file kartu(ktp)
-    handlerPassFoto(e) {
-      const { files } = e.target;
-      if (files.length) {
-        this.createPassfoto(files[0], (result) => {
-          this.pasphoto = result;
-        });
-      }
-    },
-
-    createPassfoto(file, cb) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        cb(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    },
-
-    handlerKartuFile(e) {
-      const { files } = e.target;
-      if (files.length) {
-        this.createKartuFile(files[0], (result) => {
-          this.kartu_id_file = result;
-        });
-      }
-    },
-
-    createKartuFile(file, cb) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        cb(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    },
-
-    handlerFileKta(e) {
-      const { files } = e.target;
-      if (files.length) {
-        this.createFileNpa(files[0], (result) => {
-          this.npa_file = result;
-        });
-      }
-    },
-
-    createFileNpa(file, cb) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        cb(e.target.result);
-      };
-      reader.readAsDataURL(file);
     },
 
     fetchValidatePbIdi() {
@@ -641,40 +499,6 @@ export default {
         .catch((error) => this.errorHandler(error, "gagal validate npa"))
         .finally(() => {
           this.npa.isLoading = false;
-        });
-    },
-
-    register() {
-      this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      if (this.form.jenis_pendaftaran === "baru") {
-        this.form.npa_idi = "0000";
-      }
-      var insertData = {
-        ...this.form,
-        email: this.validate.data.user,
-        kartu_id_file: this.kartu_id_file,
-        pasphoto: this.pasphoto,
-        npa_file: this.npa_file,
-      };
-      apis.auth
-        .register(insertData)
-        .then(() => {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title:
-                "Register berhasil, Silahkan cek email dan temukan informasi untuk login",
-              icon: "CheckIcon",
-              variant: "success",
-            },
-          });
-          this.$router.push({ path: "/login", replace: true });
-        })
-        .catch((error) => {
-          this.errorHandler(error, "regsiter gagal, silahkan coba lagi nanti");
-        })
-        .finally(() => {
-          this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
         });
     },
   },

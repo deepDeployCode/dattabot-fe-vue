@@ -145,6 +145,13 @@ const apis = {
         npa
       );
     },
+
+    detailDataPbIdi(npa) {
+      return resource.post(
+        `${endpoints.auth.registerv2.npaBeforeRegister}`,
+        npa
+      );
+    },
     checkRegistered(npa) {
       return resource.post(`${endpoints.auth.registerv2.checkRegistered}`, npa);
     },
