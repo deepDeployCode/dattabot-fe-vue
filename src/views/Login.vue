@@ -94,7 +94,7 @@
 
       <b-card-text class="text-center mt-2">
         <span>Belum punya akun? </span>
-        <b-link :to="{ name: 'registerv2' }">
+        <b-link :to="{ name: 'register' }">
           <span>&nbsp;Daftar disini</span>
         </b-link>
       </b-card-text>

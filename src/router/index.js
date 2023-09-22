@@ -402,30 +402,18 @@ const router = new VueRouter({
         authenticationPage: true,
       },
     },
-    {
-      path: "/register",
-      name: "register",
-      component: () => import("@/views/Register.vue"),
-      meta: {
-        layout: "full",
-        navbar: true,
-        title: "Daftar Akun",
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
 
     /**
      * route new authentication
      */
     {
-      path: "/v2/register",
-      name: "registerv2",
+      path: "/register",
+      name: "register",
       component: () => import("@/views/RegisterV2.vue"),
       meta: {
         layout: "full",
         navbar: true,
-        title: "Register account",
+        title: "Daftar Akun",
         isNavMenu: false,
         authenticationPage: true,
       },
