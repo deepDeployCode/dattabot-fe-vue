@@ -2,7 +2,85 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div class="p-2 mx-auto">
+    <div v-if="npa.data.status != true" class="p-2 mx-auto">
+      <!-- form -->
+      <div class="d-flex justify-content-center mb-2">
+        <b-img
+          fluid
+          width="150"
+          height="150"
+          :src="simfoniLogo"
+          alt="simfoniLogo"
+        />
+      </div>
+      <validation-observer ref="validateBeforeRegister">
+        <b-form class="auth-login-form" @submit.prevent>
+          <b-form-group label="NPA" label-for="npa-validate">
+            <validation-provider
+              #default="{ errors }"
+              name="Npa"
+              rules="required|integer"
+            >
+              <b-form-input
+                id="cek-npa"
+                v-model="npaValidate"
+                :state="errors.length > 0 ? false : null"
+                name="cek-npa"
+                placeholder="12838281"
+              />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+
+          <!-- submit buttons -->
+          <b-button
+            type="submit"
+            variant="outline-danger"
+            block
+            @click="validateNpa"
+          >
+            Cek NPA Idi Jakpus
+          </b-button>
+        </b-form>
+      </validation-observer>
+      <br />
+      <div class="d-flex align-self-center">
+        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
+        <h4>Status Account</h4>
+      </div>
+      <div>
+        <b-col
+          v-for="(data, index) in colorVerifyStatusAccount"
+          :key="index"
+          md="6"
+          xl="4"
+        >
+          <b-card :bg-variant="data.bg" text-variant="white">
+            <b-card-text v-if="npa.data.message">
+              <p v-if="npa.data.login == true">
+                {{ npa.data.message }}
+              </p>
+              <p v-else>
+                {{
+                  "Masukan NPA untuk check status daftar anda di sistem kami"
+                }}
+              </p>
+              <b-button
+                v-if="npa.data.login === true"
+                type="submit"
+                variant="outline-info"
+                block
+                @click="$router.push(`/login`)"
+              >
+                Login
+              </b-button>
+            </b-card-text>
+          </b-card>
+        </b-col>
+        <!-- submit buttons -->
+      </div>
+    </div>
+    <div v-else class="p-2 mx-auto">
       <!-- form -->
       <div class="d-flex justify-content-center mb-2">
         <b-img
@@ -39,7 +117,7 @@
             block
             @click="validateNpaPbIdi"
           >
-            Cek NPA
+            Cek NPA PB idi
           </b-button>
         </b-form>
       </validation-observer>
@@ -57,21 +135,16 @@
         >
           <b-card :bg-variant="data.bg" text-variant="white">
             <b-card-text v-if="validate.data.message">
-              <p>
+              <p v-if="validate.data.status == true">
                 {{ validate.data.message }}
               </p>
-              <p>{{ npa.data.message }}</p>
+              <p v-else>
+                {{
+                  "anda belum terdaftar di sistem kami, mohon untuk lanjutkan process pengecekan data di pbidi untuk register di sistem kami"
+                }}
+              </p>
               <b-button
-                v-if="validate.data.status === 'true'"
-                type="submit"
-                variant="outline-info"
-                block
-                @click="checkNpaBeforeRegister()"
-              >
-                Check Registered?
-              </b-button>
-              <b-button
-                v-if="npa.data.status === 'true'"
+                v-if="validate.data.status === true"
                 type="submit"
                 variant="outline-info"
                 block
@@ -79,16 +152,7 @@
                   $router.push(`/v2/register/${validate.data.data.npa}/submit`)
                 "
               >
-                Lanjutkan?
-              </b-button>
-              <b-button
-                v-else-if="npa.data.status === 'false'"
-                type="submit"
-                variant="outline-info"
-                block
-                @click="$router.push(`/login`)"
-              >
-                login
+                Lanjutkan Register?
               </b-button>
             </b-card-text>
           </b-card>
@@ -230,6 +294,13 @@ export default {
     this.checkNpaBeforeRegister();
   },
   methods: {
+    validateNpa() {
+      this.$refs.validateBeforeRegister.validate().then((success) => {
+        if (success) {
+          this.checkNpaBeforeRegister();
+        }
+      });
+    },
     validateNpaPbIdi() {
       this.$refs.validateBeforeRegister.validate().then((success) => {
         if (success) {
