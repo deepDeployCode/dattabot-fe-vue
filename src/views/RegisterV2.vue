@@ -140,8 +140,11 @@
               </p>
               <p v-else>
                 {{
-                  "anda belum terdaftar di sistem kami, mohon untuk lanjutkan process pengecekan data di pbidi untuk register di sistem kami"
+                  "anda belum terdaftar di sistem kami, mohon untuk lanjutkan process pengecekan data di pbidi untuk register di sistem kami."
                 }}
+                <br />
+                <br />
+                <b>Message: {{ validate.data.message }}</b>
               </p>
               <b-button
                 v-if="validate.data.status === true"

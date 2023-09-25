@@ -17,12 +17,8 @@
       <validation-observer ref="registerValidation">
         <b-form class="auth-login-form mt-2" @submit.prevent>
           <div>
-            <b-form-group label="Level *" label-for="level">
-              <validation-provider
-                #default="{ errors }"
-                name="Level"
-                rules="required"
-              >
+            <b-form-group label="Level" label-for="level">
+              <validation-provider #default="{ errors }" name="Level">
                 <b-form-input
                   id="level"
                   v-model="integrasi_detail.data.nama_cabang"
@@ -33,12 +29,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="wilayah *" label-for="wilayah">
-              <validation-provider
-                #default="{ errors }"
-                name="wilayah"
-                rules="required"
-              >
+            <b-form-group label="wilayah" label-for="wilayah">
+              <validation-provider #default="{ errors }" name="wilayah">
                 <b-form-input
                   id="wilayah"
                   v-model="integrasi_detail.data.nama_wilayah"
@@ -49,12 +41,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="npa *" label-for="npa">
-              <validation-provider
-                #default="{ errors }"
-                name="npa"
-                rules="required"
-              >
+            <b-form-group label="npa" label-for="npa">
+              <validation-provider #default="{ errors }" name="npa">
                 <b-form-input
                   id="npa"
                   v-model="integrasi_detail.data.npa"
@@ -64,31 +52,24 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="npa masa berlaku *"
-              label-for="npa-masa-berlaku"
-            >
+            <b-form-group label="Tanggal Daftar" label-for="tanggal-daftar">
               <validation-provider
                 #default="{ errors }"
-                name="npa masa berlaku"
+                name="tanggal-daftar"
                 rules="required"
               >
                 <b-form-input
-                  id="npa-masa-berlaku"
-                  v-model="integrasi_detail.data.npa_masaberlaku"
+                  id="tangal-daftar"
+                  v-model="integrasi_detail.data.tanggal_daftar"
                   :state="errors.length > 0 ? false : null"
-                  name="npa-masa-berlaku"
+                  name="tangal-daftar"
                   type="date"
                 />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nama Lengkap *" label-for="nama-lengkap">
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Lengkap"
-                rules="required"
-              >
+            <b-form-group label="Nama Lengkap" label-for="nama-lengkap">
+              <validation-provider #default="{ errors }" name="Nama Lengkap">
                 <b-form-input
                   id="nama-lengkap"
                   v-model="integrasi_detail.data.nama_lengkap"
@@ -99,12 +80,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="gelar depan *" label-for="gelar_depan">
-              <validation-provider
-                #default="{ errors }"
-                name="gelar depan"
-                rules="required"
-              >
+            <b-form-group label="gelar depan" label-for="gelar_depan">
+              <validation-provider #default="{ errors }" name="gelar depan">
                 <b-form-input
                   id="gelar_depan"
                   v-model="integrasi_detail.data.prefix"
@@ -126,12 +103,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="tempat lahir *" label-for="tempat_lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="tempat lahir"
-                rules="required"
-              >
+            <b-form-group label="tempat lahir" label-for="tempat_lahir">
+              <validation-provider #default="{ errors }" name="tempat lahir">
                 <b-form-input
                   id="tempat_lahir"
                   v-model="integrasi_detail.data.tempat_lahir"
@@ -141,12 +114,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="tanggal lahir *" label-for="tanggal_lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="tanggal lahir"
-                rules="required"
-              >
+            <b-form-group label="tanggal lahir" label-for="tanggal_lahir">
+              <validation-provider #default="{ errors }" name="tanggal lahir">
                 <b-form-input
                   id="tanggal_lahir"
                   v-model="integrasi_detail.data.tanggal_lahir"
@@ -157,12 +126,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Jenis Kelamin *" label-for="jenis_kelamin">
-              <validation-provider
-                #default="{ errors }"
-                name="jenis_kelamin"
-                rules="required"
-              >
+            <b-form-group label="Jenis Kelamin" label-for="jenis_kelamin">
+              <validation-provider #default="{ errors }" name="jenis_kelamin">
                 <b-form-input
                   id="jenis_kelamin"
                   v-model="integrasi_detail.data.jenis_kelamin"
@@ -173,12 +138,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Kartu Jenis *" label-for="Kartu Jenis">
-              <validation-provider
-                #default="{ errors }"
-                name="kartu_id_jenis"
-                rules="required"
-              >
+            <b-form-group label="Kartu Jenis" label-for="Kartu Jenis">
+              <validation-provider #default="{ errors }" name="kartu_id_jenis">
                 <b-form-input
                   id="kartu_id_jenis"
                   v-model="integrasi_detail.data.jenis_identitas"
@@ -189,12 +150,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor KTP *" label-for="kartu_id_nomor">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor KTP"
-                rules="required"
-              >
+            <b-form-group label="Nomor KTP" label-for="kartu_id_nomor">
+              <validation-provider #default="{ errors }" name="Nomor KTP">
                 <b-form-input
                   id="kartu_id_nomor"
                   v-model="integrasi_detail.data.no_identitas"
@@ -241,12 +198,8 @@
                 </small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Alamat Rumah *" label-for="alamat_rumah">
-              <validation-provider
-                #default="{ errors }"
-                name="Alamat Rumah"
-                rules="required"
-              >
+            <b-form-group label="Alamat Rumah " label-for="alamat_rumah">
+              <validation-provider #default="{ errors }" name="Alamat Rumah">
                 <b-form-input
                   id="alamat_rumah"
                   v-model="integrasi_detail.data.alamat"
@@ -258,12 +211,8 @@
                 </small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor HP *" label-for="nomor_hp">
-              <validation-provider
-                #default="{ errors }"
-                name="no hp"
-                rules="required"
-              >
+            <b-form-group label="Nomor HP" label-for="nomor_hp">
+              <validation-provider #default="{ errors }" name="no hp">
                 <b-form-input
                   id="nomor_hp"
                   v-model="integrasi_detail.data.no_hp_1"
@@ -372,12 +321,8 @@
             </b-form-group>
 
             <!-- file upload-->
-            <b-form-group label="Photo *" label-for="photo" class="mt-1">
-              <validation-provider
-                #default="{ errors }"
-                name="photo"
-                rules="required"
-              >
+            <b-form-group label="Photo" label-for="photo" class="mt-1">
+              <validation-provider #default="{ errors }" name="photo">
                 <b-form-file
                   id="photo"
                   :state="errors.length > 0 ? false : null"
@@ -389,14 +334,13 @@
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="File KTA/Kwitansi Iuran *"
+              label="File KTA/Kwitansi Iuran"
               label-for="file-kta-kwitansi-iuran"
               class="mt-1"
             >
               <validation-provider
                 #default="{ errors }"
                 name="file-kta-kwitansi-iuran"
-                rules="required"
               >
                 <b-form-file
                   id="file-kta-kwitansi-iuran"
@@ -408,16 +352,8 @@
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Photo KTP *"
-              label-for="photo-ktp"
-              class="mt-1"
-            >
-              <validation-provider
-                #default="{ errors }"
-                name="photo-ktp"
-                rules="required"
-              >
+            <b-form-group label="Photo KTP" label-for="photo-ktp" class="mt-1">
+              <validation-provider #default="{ errors }" name="photo-ktp">
                 <b-form-file
                   id="photo-ktp"
                   :state="errors.length > 0 ? false : null"
