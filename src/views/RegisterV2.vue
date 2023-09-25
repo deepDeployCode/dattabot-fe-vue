@@ -111,265 +111,31 @@
               <table>
                 <tbody>
                   <tr>
-                    <td>npa</td>
+                    <td>NPA</td>
                     <td class="font-weight-bold">
                       : {{ validate.data.data.npa }}
                     </td>
                   </tr>
                   <tr>
-                    <td>nama_wilayah</td>
+                    <td>Nama Wilayah</td>
                     <td class="font-weight-bold">
                       : {{ validate.data.data.nama_wilayah }}
                     </td>
                   </tr>
                   <tr>
-                    <td>nama_cabang</td>
+                    <td>Nama Cabang</td>
                     <td class="font-weight-bold">
                       : {{ validate.data.data.nama_cabang }}
                     </td>
                   </tr>
                   <tr>
-                    <td>jenis_identitas</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.jenis_identitas }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>no_identitas</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.no_identitas }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>prefix</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.prefix }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_depan</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_depan }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_tengah</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_tengah }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_belakang</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_belakang }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_lengkap</td>
+                    <td>Nama Lengkap</td>
                     <td class="font-weight-bold">
                       : {{ validate.data.data.nama_lengkap }}
                     </td>
                   </tr>
                   <tr>
-                    <td>suffix</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.suffix }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>tempat_lahir</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.tempat_lahir }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>tanggal_lahir</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.tanggal_lahir }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>jenis_kelamin</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.jenis_kelamin }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_negara</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_negara }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_agama</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_agama }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_pasangan</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_pasangan }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>alamat</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.alamat }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>rt</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.rt }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>rw</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.rw }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>kode_pos</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.kode_pos }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_provinsi</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_provinsi }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kab_kota</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kab_kota }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kecamatan</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kecamatan }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kelurahan</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kelurahan }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>kode_area</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.kode_area }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>telp_rumah</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.telp_rumah }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>jenis_hp_1</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.jenis_hp_1 }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>kode</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.kode }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>no_hp_1</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.no_hp_1 }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>jenis_hp_2</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.jenis_hp_2 }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>no_hp_2</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.no_hp_2 }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>email_daftar</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.email_daftar }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>email_account</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.email_account }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>sesuai_ktp</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.sesuai_ktp }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>alamat_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.alamat_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_provinsi_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_provinsi_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kab_kota_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kab_kota_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kecamatan_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kecamatan_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>nama_kelurahan_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.nama_kelurahan_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>rt_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.rt_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>rw_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.rw_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>kode_pos_kor</td>
-                    <td class="font-weight-bold">
-                      : {{ validate.data.data.kode_pos_kor }}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>tanggal_daftar</td>
+                    <td>Tanggal Daftar</td>
                     <td class="font-weight-bold">
                       : {{ validate.data.data.tanggal_daftar }}
                     </td>
