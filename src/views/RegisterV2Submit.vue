@@ -575,7 +575,7 @@ export default {
         orang_level: this.integrasi_detail.data.nama_cabang,
         orang_level_wilayah: this.integrasi_detail.data.nama_wilayah,
         orang_npa_idi: this.integrasi_detail.data.npa,
-        orang_npa_masa_berlaku: this.integrasi_detail.data.npa_masaberlaku,
+        orang_npa_masa_berlaku: this.integrasi_detail.data.tanggal_daftar,
         orang_npa_file: this.upload.npa_file, // file kta/iuran
         orang_nama_lengkap: this.integrasi_detail.data.nama_lengkap,
         orang_gelar_depan: this.integrasi_detail.data.prefix,

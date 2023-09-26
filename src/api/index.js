@@ -28,7 +28,6 @@ const endpoints = {
    */
 
   authv2: {
-    npaBeforeRegister: "/auth/v2/npaBeforeRegister",
     checkRegistered: "/auth/v2/check-registered",
     login: "/auth/v2/login",
     verify: "/auth/v2/verify",
@@ -153,10 +152,6 @@ const apis = {
 
     register(data) {
       return resource.post(endpoints.authv2.register, data);
-    },
-
-    detailDataPbIdi(npa) {
-      return resource.post(`${endpoints.authv2.npaBeforeRegister}`, npa);
     },
     checkRegistered(npa) {
       return resource.post(`${endpoints.authv2.checkRegistered}`, npa);
