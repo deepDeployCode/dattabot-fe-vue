@@ -142,10 +142,6 @@ const apis = {
    */
 
   authv2: {
-    npaBeforeRegister(npa) {
-      return resource.post(`${endpoints.authv2.npaBeforeRegister}`, npa);
-    },
-
     login(data) {
       return resource.post(endpoints.authv2.login, data);
     },

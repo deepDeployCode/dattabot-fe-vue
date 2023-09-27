@@ -409,23 +409,11 @@ const router = new VueRouter({
     {
       path: "/register",
       name: "register",
-      component: () => import("@/views/RegisterV2.vue"),
+      component: () => import("@/views/Register.vue"),
       meta: {
         layout: "full",
         navbar: true,
         title: "Daftar Akun",
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
-    {
-      path: "/v2/register/:npa_idi/submit",
-      name: "registerv2submit",
-      component: () => import("@/views/RegisterV2Submit.vue"),
-      meta: {
-        layout: "full",
-        navbar: true,
-        title: "Submit Data",
         isNavMenu: false,
         authenticationPage: true,
       },
