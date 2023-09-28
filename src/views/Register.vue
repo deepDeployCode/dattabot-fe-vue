@@ -227,7 +227,7 @@
           <b-card :bg-variant="data.bg" text-variant="white">
             <b-card-text v-if="npa.data.message">
               {{ npa.data.message }}
-              {{ "dan mohon tuk mengisi form dibawah ini untuk registrasi" }}
+              {{ "dan mohon mengisi form dibawah ini untuk registrasi" }}
             </b-card-text>
           </b-card>
           <b-card v-if="npa.data.data" class="shadow-none border mb-1" no-body>
