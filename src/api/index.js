@@ -149,8 +149,8 @@ const apis = {
     register(data) {
       return resource.post(endpoints.authv2.register, data);
     },
-    checkRegistered(npa) {
-      return resource.post(`${endpoints.authv2.checkRegistered}`, npa);
+    checkRegistered(data) {
+      return resource.post(`${endpoints.authv2.checkRegistered}`, data);
     },
 
     verifyAccount(npa) {

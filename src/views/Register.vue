@@ -22,10 +22,44 @@
             >
               <b-form-input
                 id="cek-npa"
-                v-model="npaValidate"
+                v-model="npa_validate"
                 :state="errors.length > 0 ? false : null"
                 name="cek-npa"
                 placeholder="12838281"
+              />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+          <b-form-group label="Tanggal Lahir" label-for="npa-validate">
+            <validation-provider
+              #default="{ errors }"
+              name="Tanggal Lahir"
+              rules="required"
+            >
+              <b-form-input
+                id="cek-tanggal-lahir"
+                v-model="tanggal_lahir_validate"
+                :state="errors.length > 0 ? false : null"
+                name="cek-tanggal-lahir"
+                type="date"
+                placeholder="mm/dd/yy"
+              />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+          <b-form-group label="Tanggal Daftar" label-for="npa-validate">
+            <validation-provider
+              #default="{ errors }"
+              name="Tanggal Daftar"
+              rules="required"
+            >
+              <b-form-input
+                id="cek-tanggal-daftar"
+                v-model="tanggal_daftar_validate"
+                :state="errors.length > 0 ? false : null"
+                name="cek-tanggal-daftar"
+                type="date"
+                placeholder="mm/dd/yy"
               />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
@@ -38,43 +72,130 @@
             block
             @click="validateNpa"
           >
-            Check NPA
+            Check
           </b-button>
         </b-form>
       </validation-observer>
       <br />
-      <div class="d-flex align-self-center">
-        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
-        <h4>Status Account</h4>
+      <div v-if="npa.data.login == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+                <b-button
+                  type="submit"
+                  variant="outline-info"
+                  block
+                  @click="$router.push(`/login`)"
+                >
+                  Login
+                </b-button>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
       </div>
-      <div>
-        <b-col
-          v-for="(data, index) in colorVerifyStatusAccount"
-          :key="index"
-          md="6"
-          xl="4"
-        >
-          <b-card :bg-variant="data.bg" text-variant="white">
-            <b-card-text v-if="npa.data.message">
-              <p v-if="npa.data.login == true">
-                {{ npa.data.message }}
-              </p>
-              <p v-else>
-                {{ npa.data.message }}
-              </p>
-              <b-button
-                v-if="npa.data.login === true"
-                type="submit"
-                variant="outline-info"
-                block
-                @click="$router.push(`/login`)"
-              >
-                Login
-              </b-button>
-            </b-card-text>
-          </b-card>
-        </b-col>
-        <!-- submit buttons -->
+      <div v-if="npa.data.pbidi == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
+      </div>
+      <div v-if="npa.data.tanggal_lahir == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
+      </div>
+      <div v-if="npa.data.tanggal_daftar == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
       </div>
     </div>
     <div v-else class="p-2 mx-auto">
@@ -631,7 +752,11 @@ export default {
     checkNpaBeforeRegister() {
       this.npa.isLoading = true;
       apis.authv2
-        .checkRegistered({ npa: this.npaValidate })
+        .checkRegistered({
+          npa: this.npa_validate,
+          tanggal_lahir: this.tanggal_lahir_validate,
+          tanggal_daftar: this.tanggal_daftar_validate,
+        })
         .then(({ data }) => {
           this.npa.data = data;
         })
