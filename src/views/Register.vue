@@ -25,12 +25,12 @@
                 v-model="npa_validate"
                 :state="errors.length > 0 ? false : null"
                 name="cek-npa"
-                placeholder="12838281"
+                placeholder="8572712"
               />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
-          <b-form-group label="Tanggal Lahir" label-for="npa-validate">
+          <b-form-group label="Tanggal Lahir" label-for="tanggal-lahir">
             <validation-provider
               #default="{ errors }"
               name="Tanggal Lahir"
@@ -47,15 +47,18 @@
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
-          <b-form-group label="Tanggal Daftar" label-for="npa-validate">
+          <b-form-group
+            label="Tanggal Daftar PB IDI"
+            label-for="tanggal-daftar"
+          >
             <validation-provider
               #default="{ errors }"
-              name="Tanggal Daftar"
+              name="Tanggal Daftar PB IDI"
               rules="required"
             >
               <b-form-input
-                id="cek-tanggal-daftar"
-                v-model="tanggal_daftar_validate"
+                id="cek-tanggal-daftar-pb-idi"
+                v-model="tanggal_daftar_pbidi_validate"
                 :state="errors.length > 0 ? false : null"
                 name="cek-tanggal-daftar"
                 type="date"
@@ -755,7 +758,7 @@ export default {
         .checkRegistered({
           npa: this.npa_validate,
           tanggal_lahir: this.tanggal_lahir_validate,
-          tanggal_daftar: this.tanggal_daftar_validate,
+          tanggal_daftar: this.tanggal_daftar_pbidi_validate,
         })
         .then(({ data }) => {
           this.npa.data = data;
