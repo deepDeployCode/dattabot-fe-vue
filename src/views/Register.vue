@@ -866,7 +866,7 @@ export default {
             component: ToastificationContent,
             props: {
               title:
-                "Register berhasil, Silahkan cek email dan temukan informasi untuk login",
+                "Sucessfully Registered, Selanjutnya Akun Anda Akan Di Verifikasi Oleh Pihak Admin",
               icon: "CheckIcon",
               variant: "success",
             },
