@@ -418,18 +418,6 @@ const router = new VueRouter({
         authenticationPage: true,
       },
     },
-    {
-      path: "/auth/v2/verify/:npa",
-      name: "registerv2submit",
-      component: () => import("@/views/verifyAccountv2.vue"),
-      meta: {
-        layout: "full",
-        navbar: true,
-        title: "Verifikasi Account",
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
 
     /**
      * route new authentication
