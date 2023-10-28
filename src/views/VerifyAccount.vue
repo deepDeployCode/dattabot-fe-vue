@@ -14,11 +14,8 @@
         xl="4"
       >
         <b-card :bg-variant="data.bg" text-variant="white">
-          <b-card-title class="text-white">
-            Halo {{ "Abdul Majid" }}
-          </b-card-title>
+          <b-card-title class="text-white"> Berhasil Registrasi </b-card-title>
           <b-card-text>
-            <p>Berhasil Registrasi</p>
             <p>
               Sudah register dan akan di verifikasi oleh tim IDI Jakpus dan
               silahkan hubungi kontak
