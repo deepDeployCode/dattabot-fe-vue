@@ -419,36 +419,51 @@ const router = new VueRouter({
       },
     },
 
+    {
+      path: "/verify/account",
+      name: "verify-account",
+      component: () => import("@/views/VerifyAccount.vue"),
+      meta: {
+        layout: "full",
+        navbar: true,
+        title: "Daftar Akun",
+        isNavMenu: false,
+        authenticationPage: true,
+      },
+    },
+
     /**
      * route new authentication
      */
 
     //check verify email before lengkapi data calon anggota
 
-    {
-      path: "/auth/verify/:reg_token",
-      name: "verify_email_account",
-      component: () => import("@/views/verifyAccount.vue"),
-      meta: {
-        layout: "full",
-        navbar: true,
-        title: "verify email account",
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
-    {
-      path: "/reg/:reg_token/data",
-      name: "complete_registration",
-      component: () => import("@/views/CompleteRegistration.vue"),
-      meta: {
-        layout: "full",
-        navbar: true,
-        title: "Complete Registration",
-        isNavMenu: false,
-        authenticationPage: true,
-      },
-    },
+    /** hide route reg account dan complete registration */
+    // {
+    //   path: "/auth/verify/:reg_token",
+    //   name: "verify_email_account",
+    //   component: () => import("@/views/verifyAccount.vue"),
+    //   meta: {
+    //     layout: "full",
+    //     navbar: true,
+    //     title: "verify email account",
+    //     isNavMenu: false,
+    //     authenticationPage: true,
+    //   },
+    // },
+    // {
+    //   path: "/reg/:reg_token/data",
+    //   name: "complete_registration",
+    //   component: () => import("@/views/CompleteRegistration.vue"),
+    //   meta: {
+    //     layout: "full",
+    //     navbar: true,
+    //     title: "Complete Registration",
+    //     isNavMenu: false,
+    //     authenticationPage: true,
+    //   },
+    // },
+    /** hide route reg account dan complete registration */
     //bayar tagihan
     {
       path: "/reg/bayar/:id_invoices/invoices",
