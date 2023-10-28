@@ -105,7 +105,9 @@
     <DividerNavigation />
     <div class="p-2 mx-auto">
       <br />
-      <center><img :src="iconVerify" alt="icon-verify" width="150px" /></center>
+      <center>
+        <img :src="iconCheckStatusAccount" alt="icon-verify" width="150px" />
+      </center>
       <br />
       <br />
       <b-col
@@ -210,8 +212,8 @@ export default {
     contactHandler() {
       return "whatsapp://send/?phone=08119110189&text=IDI-Jakpus";
     },
-    iconVerify() {
-      return require("@/assets/images/icons/iconVerify2.png");
+    iconCheckStatusAccount() {
+      return require("@/assets/images/icons/user-blocked.png");
     },
     passwordToggleIcon() {
       return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
