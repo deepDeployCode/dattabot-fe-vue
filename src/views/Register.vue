@@ -862,16 +862,7 @@ export default {
       apis.authv2
         .register(insertData)
         .then(() => {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title:
-                "Sucessfully Registered, Selanjutnya Akun Anda Akan Di Verifikasi Oleh Pihak Admin",
-              icon: "CheckIcon",
-              variant: "success",
-            },
-          });
-          this.$router.push({ path: "/login", replace: true });
+          this.$router.push({ path: "/register/success" });
         })
         .catch((error) => {
           this.errorHandler(error, "regsiter gagal, silahkan coba lagi nanti");

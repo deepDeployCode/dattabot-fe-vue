@@ -420,9 +420,9 @@ const router = new VueRouter({
     },
 
     {
-      path: "/verify/account",
-      name: "verify-account",
-      component: () => import("@/views/VerifyAccount.vue"),
+      path: "/register/success",
+      name: "register-success",
+      component: () => import("@/views/RegisterSuccess.vue"),
       meta: {
         layout: "full",
         navbar: true,
