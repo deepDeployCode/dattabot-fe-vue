@@ -1,5 +1,5 @@
 <template>
-  <div class="app-wrapper">
+  <div v-if="orang_status.data.orang_status === true" class="app-wrapper">
     <div class="login-wrapper p-2">
       <div class="d-flex justify-content-center mb-3">
         <b-img
@@ -100,11 +100,53 @@
       </b-card-text>
     </div>
   </div>
+  <div v-else-if="orang_status.data.orang_status === false" class="app-wrapper">
+    <BaseNavigation />
+    <DividerNavigation />
+    <div class="p-2 mx-auto">
+      <br />
+      <center><img :src="iconVerify" alt="icon-verify" width="150px" /></center>
+      <br />
+      <br />
+      <b-col
+        v-for="(data, index) in colorVerifyStatusAccount"
+        :key="index"
+        md="6"
+        xl="4"
+      >
+        <b-card :bg-variant="data.bg" text-variant="white">
+          <b-card-title class="text-white"> Halo {{ userEmail }} </b-card-title>
+          <b-card-text>
+            <p>Gagal Login</p>
+            <p>
+              {{ orang_status.data.message }} dan silahkan hubungi kontak untuk
+              mempercepat proses pengaktifan akun
+            </p>
+            <p>
+              Contact:
+              <a :href="contactHandler" target="_blank">{{ "08119110189" }}</a>
+            </p>
+          </b-card-text>
+          <b-button
+            type="submit"
+            variant="outline-warning"
+            block
+            @click="reloadPage"
+          >
+            Back To Home
+          </b-button>
+        </b-card>
+      </b-col>
+    </div>
+  </div>
 </template>
 
 <script>
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from "vee-validate";
+import BaseNavigation from "@/components/Base/BaseNavigation.vue";
+import DividerNavigation from "@/components/Base/DividerNavigation.vue";
+
 import {
   BLink,
   BFormGroup,
@@ -115,6 +157,7 @@ import {
   BCardTitle,
   BForm,
   BButton,
+  BCard,
   BImg,
 } from "bootstrap-vue";
 import { required, email } from "@validations";
@@ -128,6 +171,8 @@ export default {
   components: {
     BLink,
     BFormGroup,
+    BaseNavigation,
+    DividerNavigation,
     BFormInput,
     BInputGroupAppend,
     BInputGroup,
@@ -137,11 +182,13 @@ export default {
     BButton,
     ValidationProvider,
     ValidationObserver,
+    BCard,
     BImg,
   },
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],
       simfoniLogo: require("@/assets/images/logo/simfoni.png"),
       logoSimfoniNew: require("@/assets/images/logo/logo-new-idi.png"),
       status: "",
@@ -151,9 +198,21 @@ export default {
       sideImg: require("@/assets/images/pages/login-v2.svg"),
       required,
       email,
+      orang_status: {
+        data: null,
+      },
     };
   },
+  mounted() {
+    this.login();
+  },
   computed: {
+    contactHandler() {
+      return "whatsapp://send/?phone=08119110189&text=IDI-Jakpus";
+    },
+    iconVerify() {
+      return require("@/assets/images/icons/iconVerify2.png");
+    },
     passwordToggleIcon() {
       return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
     },
@@ -167,6 +226,9 @@ export default {
     },
   },
   methods: {
+    reloadPage() {
+      window.location.reload();
+    },
     validationForm() {
       this.$refs.loginValidation.validate().then((success) => {
         if (success) {
@@ -200,7 +262,13 @@ export default {
           this.$router.push({ path: "/", replace: true });
         })
         .catch((error) => {
-          this.errorHandler(error, "Login gagal, silahkan coba lagi nanti");
+          if (error.response.data.orang_status === true) {
+            this.errorHandler(error, "Login gagal, silahkan coba lagi nanti");
+            this.orang_status.data = error.response.data;
+          } else {
+            this.orang_status.data = error.response.data;
+            console.log(error.response.data);
+          }
         })
         .finally(() => {
           this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
@@ -218,5 +286,8 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 100vh;
+}
+a:link {
+  color: #ffff;
 }
 </style>
