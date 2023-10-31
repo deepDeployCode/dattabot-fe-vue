@@ -126,7 +126,9 @@
             </p>
             <p>
               Contact:
-              <a :href="contactHandler" target="_blank">{{ "08119110189" }}</a>
+              <a :href="contactHandler" class="text-white" target="_blank">{{
+                "08119110189"
+              }}</a>
             </p>
             <p>
               Mail:
@@ -220,13 +222,13 @@ export default {
   },
   computed: {
     contactHandler() {
-      return "whatsapp://send/?phone=08119110189&text=IDI-Jakpus";
+      return `whatsapp://send/?phone=08119110189&text=Halo saya ingin dipercepat verfikasi akunnya, berikut email saya yang akan di verifikasi di sistem simfoni, Email Account: ${this.userEmail}`;
     },
     mailHandler1() {
-      return "mailto:info@idijakpus.or.id";
+      return `mailto:info@idijakpus.or.id?subject=Verification Account&body=Halo saya ingin dipercepat verfikasi akunnya, berikut email saya yang akan di verifikasi di sistem simfoni, Email Account: ${this.userEmail}`;
     },
     mailHandler2() {
-      return "mailto:simfonicare@idijakpus.or.id";
+      return `mailto:simfonicare@idijakpus.or.id?subject=Verification Account&body=Halo saya ingin dipercepat verfikasi akunnya, berikut email saya yang akan di verifikasi di sistem simfoni, Email Account: ${this.userEmail}`;
     },
 
     iconCheckStatusAccount() {
