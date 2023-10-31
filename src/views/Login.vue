@@ -128,6 +128,16 @@
               Contact:
               <a :href="contactHandler" target="_blank">{{ "08119110189" }}</a>
             </p>
+            <p>
+              Mail:
+              <a :href="mailHandler1" class="text-white" target="_blank">{{
+                "info@idijakpus.or.id"
+              }}</a
+              >,
+              <a :href="mailHandler2" class="text-white" target="_blank">{{
+                "simfonicare@idijakpus.or.id"
+              }}</a>
+            </p>
           </b-card-text>
           <b-button
             type="submit"
@@ -212,6 +222,13 @@ export default {
     contactHandler() {
       return "whatsapp://send/?phone=08119110189&text=IDI-Jakpus";
     },
+    mailHandler1() {
+      return "mailto:info@idijakpus.or.id";
+    },
+    mailHandler2() {
+      return "mailto:simfonicare@idijakpus.or.id";
+    },
+
     iconCheckStatusAccount() {
       return require("@/assets/images/icons/user-blocked.png");
     },
