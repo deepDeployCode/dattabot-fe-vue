@@ -5,7 +5,8 @@
         style="width: 3rem; height: 3rem"
         class="mr-1"
         label="Large Spinner"
-        variant="danger" />
+        variant="danger"
+      />
     </div>
     <component :is="layout">
       <router-view />

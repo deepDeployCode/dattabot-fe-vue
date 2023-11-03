@@ -2,29 +2,68 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="validate.data.status === false" class="p-2 mx-auto">
-      <!-- form -->
+    <div v-if="npa.data.status != true" class="p-2 mx-auto">
       <div class="d-flex justify-content-center mb-2">
         <b-img
           fluid
           width="150"
           height="150"
           :src="simfoniLogo"
-          alt="simfoniLogo" />
+          alt="simfoniLogo"
+        />
       </div>
       <validation-observer ref="validateBeforeRegister">
         <b-form class="auth-login-form" @submit.prevent>
-          <b-form-group label="Email" label-for="login-email">
+          <b-form-group label="NPA" label-for="npa-validate">
             <validation-provider
               #default="{ errors }"
-              name="Email"
-              rules="required|email">
+              name="Npa"
+              rules="required|integer"
+            >
               <b-form-input
-                id="login-email"
-                v-model="emailValidate"
+                id="cek-npa"
+                v-model="npa_validate"
                 :state="errors.length > 0 ? false : null"
-                name="login-email"
-                placeholder="john@example.com" />
+                name="cek-npa"
+                placeholder="8572712"
+              />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+          <b-form-group label="Tanggal Lahir" label-for="tanggal-lahir">
+            <validation-provider
+              #default="{ errors }"
+              name="Tanggal Lahir"
+              rules="required"
+            >
+              <b-form-input
+                id="cek-tanggal-lahir"
+                v-model="tanggal_lahir_validate"
+                :state="errors.length > 0 ? false : null"
+                name="cek-tanggal-lahir"
+                type="date"
+                placeholder="mm/dd/yy"
+              />
+              <small class="text-danger">{{ errors[0] }}</small>
+            </validation-provider>
+          </b-form-group>
+          <b-form-group
+            label="Tanggal Daftar PB IDI"
+            label-for="tanggal-daftar"
+          >
+            <validation-provider
+              #default="{ errors }"
+              name="Tanggal Daftar PB IDI"
+              rules="required"
+            >
+              <b-form-input
+                id="cek-tanggal-daftar-pb-idi"
+                v-model="tanggal_daftar_pbidi_validate"
+                :state="errors.length > 0 ? false : null"
+                name="cek-tanggal-daftar"
+                type="date"
+                placeholder="mm/dd/yy"
+              />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -34,47 +73,132 @@
             type="submit"
             variant="outline-danger"
             block
-            @click="validateBeforeRegisterData">
-            Cek Email
+            @click="validateNpa"
+          >
+            Check
           </b-button>
         </b-form>
       </validation-observer>
       <br />
-      <div class="d-flex align-self-center">
-        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
-        <h4>Status Account</h4>
+      <div v-if="npa.data.login == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+                <b-button
+                  type="submit"
+                  variant="outline-info"
+                  block
+                  @click="$router.push(`/login`)"
+                >
+                  Login
+                </b-button>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
       </div>
-      <div>
-        <b-col
-          v-for="(data, index) in colorVerifyStatusAccount"
-          :key="index"
-          md="6"
-          xl="4">
-          <b-card :bg-variant="data.bg" text-variant="white">
-            <b-card-text v-if="validate.data.message">
-              <p>
-                {{ validate.data.message }}
-              </p>
-              <b-button
-                v-if="validate.data.login === true"
-                type="submit"
-                variant="outline-info"
-                block
-                @click="$router.push('/login')">
-                Login
-              </b-button>
-            </b-card-text>
-            <b-button
-              v-if="validate.data.restore === true"
-              type="submit"
-              variant="outline-info"
-              block
-              @click="restoreDataUsers">
-              Restore Data
-            </b-button>
-          </b-card>
-        </b-col>
-        <!-- submit buttons -->
+      <div v-if="npa.data.pbidi == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
+      </div>
+      <div v-if="npa.data.tanggal_lahir == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
+      </div>
+      <div v-if="npa.data.tanggal_daftar == true">
+        <div class="d-flex align-self-center">
+          <feather-icon
+            icon="InfoIcon"
+            size="20"
+            stroke-width="2"
+            class="mr-1"
+          />
+          <h4>Status Account</h4>
+        </div>
+        <div>
+          <b-col
+            v-for="(data, index) in colorVerifyStatusAccount"
+            :key="index"
+            md="6"
+            xl="4"
+          >
+            <b-card :bg-variant="data.bg" text-variant="white">
+              <b-card-text v-if="npa.data.message">
+                <p>
+                  {{ npa.data.message }}
+                </p>
+              </b-card-text>
+            </b-card>
+          </b-col>
+          <!-- submit buttons -->
+        </div>
       </div>
     </div>
     <div v-else class="p-2 mx-auto">
@@ -85,293 +209,449 @@
           width="150"
           height="150"
           :src="simfoniLogo"
-          alt="simfoniLogo" />
+          alt="simfoniLogo"
+        />
       </div>
+      <br />
+      <div class="d-flex align-self-center">
+        <feather-icon icon="InfoIcon" size="20" stroke-width="2" class="mr-1" />
+        <h4>Status Account</h4>
+      </div>
+      <div>
+        <b-col
+          v-for="(data, index) in colorVerifyStatusAccount"
+          :key="index"
+          md="6"
+          xl="4"
+        >
+          <b-card :bg-variant="data.bg" text-variant="white">
+            <b-card-text v-if="npa.data.message">
+              {{ npa.data.message }}
+              {{ "dan mohon mengisi form dibawah ini untuk registrasi" }}
+            </b-card-text>
+          </b-card>
+          <b-card v-if="npa.data.data" class="shadow-none border mb-1" no-body>
+            <div class="d-flex p-1 border-bottom">
+              <div>
+                <div class="font-weight-bold">
+                  #Data From PBIDI - {{ npa.data.data.nama_lengkap }}
+                </div>
+                <!-- <b-badge variant="clight-danger font-weight–light mt-25">
+                Belum terverifikasi
+              </b-badge> -->
+              </div>
+            </div>
+            <div class="p-1">
+              <table>
+                <tbody>
+                  <tr>
+                    <td>NPA</td>
+                    <td class="font-weight-bold">: {{ npa.data.data.npa }}</td>
+                  </tr>
+                  <tr>
+                    <td>Nama Wilayah</td>
+                    <td class="font-weight-bold">
+                      : {{ npa.data.data.nama_wilayah }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Nama Cabang</td>
+                    <td class="font-weight-bold">
+                      : {{ npa.data.data.nama_cabang }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Nama Lengkap</td>
+                    <td class="font-weight-bold">
+                      : {{ npa.data.data.nama_lengkap }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Tanggal Daftar</td>
+                    <td class="font-weight-bold">
+                      : {{ npa.data.data.tanggal_daftar }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </b-card>
+        </b-col>
+      </div>
+      <!-- register state -->
+      <!-- form -->
+      <div class="d-flex justify-content-center mb-2"></div>
       <validation-observer ref="registerValidation">
         <b-form class="auth-login-form mt-2" @submit.prevent>
-          <b-form-group label="Opsi Pendaftaran *" label-for="opsi-pendaftaran">
-            <validation-provider
-              #default="{ errors }"
-              name="Opsi Pendaftaran"
-              rules="required">
-              <b-form-select
-                v-model="form.jenis_pendaftaran"
-                :state="errors.length > 0 ? false : null"
-                :options="optionRegistration" />
-              <small class="text-danger">{{ errors[0] }}</small>
-            </validation-provider>
-          </b-form-group>
-
-          <div v-if="form.jenis_pendaftaran">
-            <b-form-group
-              v-if="
-                form.jenis_pendaftaran === 'anggota-jakpus' ||
-                form.jenis_pendaftaran === 'non-anggota-jakpus'
-              "
-              label="Nomor Pokok Anggota *"
-              label-for="nomor-pokok">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Pokok Anggota"
-                rules="required">
+          <div>
+            <b-form-group label="Level" label-for="level">
+              <validation-provider #default="{ errors }" name="Level">
                 <b-form-input
-                  id="nomor-pokok"
-                  v-model="form.npa_idi"
+                  id="level"
+                  v-model="npa.data.data.nama_cabang"
                   :state="errors.length > 0 ? false : null"
-                  name="nomor-pokok"
-                  type="number" />
+                  name="level"
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nomor Identitas (No.KTP) *"
-              label-for="nomor-identitas">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Identitas (KTP)"
-                rules="required">
+            <b-form-group label="wilayah" label-for="wilayah">
+              <validation-provider #default="{ errors }" name="wilayah">
                 <b-form-input
-                  id="nomor-identitas"
-                  v-model="form.kartu_id_nomor"
+                  id="wilayah"
+                  v-model="npa.data.data.nama_wilayah"
                   :state="errors.length > 0 ? false : null"
-                  name="nomor-identitas"
-                  type="text" />
+                  name="wilayah"
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nama Lengkap Tanpa Gelar *"
-              label-for="nama-lengkap">
+            <b-form-group label="npa" label-for="npa">
+              <validation-provider #default="{ errors }" name="npa">
+                <b-form-input
+                  id="npa"
+                  v-model="npa.data.data.npa"
+                  :state="errors.length > 0 ? false : null"
+                  name="npa"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Tanggal Daftar" label-for="tanggal-daftar">
               <validation-provider
                 #default="{ errors }"
-                name="Nama Lengkap Tanpa Gelar"
-                rules="required">
+                name="tanggal-daftar"
+                rules="required"
+              >
+                <b-form-input
+                  id="tangal-daftar"
+                  v-model="npa.data.data.tanggal_daftar"
+                  :state="errors.length > 0 ? false : null"
+                  name="tangal-daftar"
+                  type="date"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Nama Lengkap" label-for="nama-lengkap">
+              <validation-provider #default="{ errors }" name="Nama Lengkap">
                 <b-form-input
                   id="nama-lengkap"
-                  v-model="form.nama_lengkap"
+                  v-model="npa.data.data.nama_lengkap"
                   :state="errors.length > 0 ? false : null"
                   name="nama-lengkap"
-                  type="text" />
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tanggal lahir *" label-for="tanggal-lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="Tanggal lahir"
-                rules="required">
+            <b-form-group label="gelar depan" label-for="gelar_depan">
+              <validation-provider #default="{ errors }" name="gelar depan">
                 <b-form-input
-                  id="tanggal-lahir"
-                  v-model="form.tanggal_lahir"
+                  id="gelar_depan"
+                  v-model="npa.data.data.prefix"
                   :state="errors.length > 0 ? false : null"
-                  name="tanggal-lahir"
-                  type="date" />
+                  name="gelar_depan"
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Tempat Lahir *" label-for="tempat-lahir">
-              <validation-provider
-                #default="{ errors }"
-                name="Tempat Lahir"
-                rules="required">
+            <b-form-group label="gelar belakang" label-for="gelar_belakang">
+              <validation-provider #default="{ errors }" name="gelar belakang">
                 <b-form-input
-                  id="tempat-lahir"
-                  v-model="form.tempat_lahir"
+                  id="gelar_belakang"
+                  v-model="npa.data.data.suffix"
                   :state="errors.length > 0 ? false : null"
-                  name="tempat-lahir"
-                  type="text" />
+                  name="gelar_belakang"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Nama Universitas (FK Dokter Umum) *"
-              label-for="nama-univ">
-              <validation-provider
-                #default="{ errors }"
-                name="Nama Universitas (FK Dokter Umum)"
-                rules="required">
+            <b-form-group label="tempat lahir" label-for="tempat_lahir">
+              <validation-provider #default="{ errors }" name="tempat lahir">
                 <b-form-input
-                  id="nama-univ"
-                  v-model="form.du_asal_fak_kedokteran"
+                  id="tempat_lahir"
+                  v-model="npa.data.data.tempat_lahir"
                   :state="errors.length > 0 ? false : null"
-                  name="nama-univ"
-                  type="text" />
+                  name="tempat_lahir"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Negara Asal Universitas *"
-              label-for="negara-asal-univ">
-              <validation-provider
-                #default="{ errors }"
-                name="Negara Asal Universitas"
-                rules="required">
+            <b-form-group label="tanggal lahir" label-for="tanggal_lahir">
+              <validation-provider #default="{ errors }" name="tanggal lahir">
                 <b-form-input
-                  id="negara-asal-univ"
-                  v-model="form.du_asal_negara_univ"
+                  id="tanggal_lahir"
+                  v-model="npa.data.data.tanggal_lahir"
                   :state="errors.length > 0 ? false : null"
-                  name="negara-asal-univ"
-                  type="text" />
+                  name="tanggal_lahir"
+                  type="date"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tahun Masuk Pendidikan Dokter Umum *"
-              label-for="tahun-masuk-dr-umum">
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Masuk Pendidikan Dokter Umum"
-                rules="required">
+            <b-form-group label="Jenis Kelamin" label-for="jenis_kelamin">
+              <validation-provider #default="{ errors }" name="jenis_kelamin">
                 <b-form-input
-                  id="tahun-masuk-dr-umum"
-                  v-model="form.du_tahun_masuk"
+                  id="jenis_kelamin"
+                  v-model="npa.data.data.jenis_kelamin"
                   :state="errors.length > 0 ? false : null"
-                  name="tahun-masuk-dr-umum"
-                  type="number" />
+                  name="jenis_kelamin"
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group
-              label="Tahun Lulus Pendidikan Dokter Umum *"
-              label-for="tahun-lulus-dr-umum">
-              <validation-provider
-                #default="{ errors }"
-                name="Tahun Lulus Pendidikan Dokter Umum"
-                rules="required">
+            <b-form-group label="Kartu Jenis" label-for="Kartu Jenis">
+              <validation-provider #default="{ errors }" name="kartu_id_jenis">
                 <b-form-input
-                  id="tahun-lulus-dr-umum"
-                  v-model="form.du_tahun_lulus"
+                  id="kartu_id_jenis"
+                  v-model="npa.data.data.jenis_identitas"
                   :state="errors.length > 0 ? false : null"
-                  name="tahun-lulus-dr-umum"
-                  type="number" />
+                  name="kartu_id_jenis"
+                  type="text"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
-            <b-form-group label="Nomor Handphone *" label-for="nomor-hp">
-              <validation-provider
-                #default="{ errors }"
-                name="Nomor Handphone"
-                rules="required">
+            <b-form-group label="Nomor KTP" label-for="kartu_id_nomor">
+              <validation-provider #default="{ errors }" name="Nomor KTP">
                 <b-form-input
-                  id="nomor-hp"
-                  v-model="form.nomor_hp"
+                  id="kartu_id_nomor"
+                  v-model="npa.data.data.no_identitas"
                   :state="errors.length > 0 ? false : null"
-                  name="nomor-hp"
-                  type="number" />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Email *" label-for="email">
-              <validation-provider
-                #default="{ errors }"
-                name="Email"
-                rules="required|email">
-                <b-form-input
-                  id="email"
-                  v-model="validate.data.user"
-                  :state="errors.length > 0 ? false : null"
-                  name="email"
-                  type="email" />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Password *" label-for="password">
-              <validation-provider
-                #default="{ errors }"
-                name="password"
-                rules="required">
-                <b-form-input
-                  id="password"
-                  v-model="form.password"
-                  :state="errors.length > 0 ? false : null"
-                  name="password"
-                  type="password" />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group
-              label="Ketik Ulang Password *"
-              label-for="confirm-password">
-              <validation-provider
-                #default="{ errors }"
-                name="confirm"
-                rules="required|password:@password">
-                <b-form-input
-                  id="confirm-password"
-                  v-model="confirmPassword"
-                  :state="errors.length > 0 ? false : null"
-                  name="confirm-password"
-                  type="password" />
+                  name="kartu_id_nomor"
+                />
                 <small class="text-danger">
                   {{ errors[0] }}
                 </small>
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="File Kartu (KTP) *"
-              label-for="kartu_id_file"
-              class="mt-1">
+              label="Pernikahan Status"
+              label-for="pernikahan-status"
+            >
               <validation-provider
                 #default="{ errors }"
-                name="kartu_id_file"
-                rules="required">
-                <b-form-file
-                  id="kartu_id_file"
+                name="Pernikahan Status"
+              >
+                <b-form-select
+                  v-model="npa.data.data.pernikahan_status"
                   :state="errors.length > 0 ? false : null"
-                  v-model="form.kartu_id_file"
-                  accept="image/*"
-                  @change="handlerKartuFile($event)" />
-                <small class="text-danger">{{ errors[0] }}</small>
-              </validation-provider>
-            </b-form-group>
-            <b-form-group label="Pas Foto *" label-for="pas-foto" class="mt-1">
-              <validation-provider
-                #default="{ errors }"
-                name="pas-foto"
-                rules="required">
-                <b-form-file
-                  id="pas-foto"
-                  :state="errors.length > 0 ? false : null"
-                  v-model="form.pasphoto"
-                  accept="image/*"
-                  @change="handlerPassFoto($event)" />
+                  :options="optionPernikahan"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
             <b-form-group
-              label="File KTA (kwitansi iuran) *"
-              label-for="file-kta"
-              class="mt-1">
+              label="Pernikahan Nama Pasangan"
+              label-for="pernikahan_nama_pasangan"
+            >
               <validation-provider
                 #default="{ errors }"
-                name="file-kta"
-                rules="required">
-                <b-form-file
-                  id="file-kta"
+                name="Pernikahan Nama Pasangan"
+              >
+                <b-form-input
+                  id="pernikahan_nama_pasangan"
+                  v-model="npa.data.data.nama_pasangan"
                   :state="errors.length > 0 ? false : null"
-                  v-model="form.npa_file"
-                  accept="image/*"
-                  @change="handlerFileKta($event)" />
+                  name="pernikahan_nama_pasangan"
+                />
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Alamat Rumah " label-for="alamat_rumah">
+              <validation-provider #default="{ errors }" name="Alamat Rumah">
+                <b-form-input
+                  id="alamat_rumah"
+                  v-model="npa.data.data.alamat"
+                  :state="errors.length > 0 ? false : null"
+                  name="alamat_rumah"
+                />
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Nomor HP" label-for="nomor_hp">
+              <validation-provider #default="{ errors }" name="no hp">
+                <b-form-input
+                  id="nomor_hp"
+                  v-model="npa.data.data.no_hp_1"
+                  :state="errors.length > 0 ? false : null"
+                  name="nomor_hp"
+                />
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Nomor Telpon" label-for="nomor_telpon">
+              <validation-provider #default="{ errors }" name="nomor tempon">
+                <b-form-input
+                  id="nomor_telpon"
+                  v-model="npa.data.data.telp_rumah"
+                  :state="errors.length > 0 ? false : null"
+                  name="nomor_telpon"
+                />
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="email *" label-for="email">
+              <validation-provider
+                #default="{ errors }"
+                name="email"
+                rules="required"
+              >
+                <b-form-input
+                  id="email"
+                  v-model="npa.data.data.email_account"
+                  :state="errors.length > 0 ? false : null"
+                  name="email"
+                />
                 <small class="text-danger">{{ errors[0] }}</small>
               </validation-provider>
             </b-form-group>
+            <b-form-group label="password *" label-for="password">
+              <validation-provider
+                #default="{ errors }"
+                name="password"
+                rules="required"
+              >
+                <b-input-group
+                  class="input-group-merge"
+                  :class="errors.length > 0 ? 'is-invalid' : null"
+                >
+                  <b-form-input
+                    id="password"
+                    v-model="npa.data.data.password"
+                    :state="errors.length > 0 ? false : null"
+                    class="form-control-merge"
+                    name="password"
+                    :type="passwordFieldType"
+                    placeholder=".............."
+                  />
+                  <b-input-group-append is-text>
+                    <feather-icon
+                      class="cursor-pointer"
+                      :icon="passwordToggleIcon"
+                      @click="togglePasswordVisibility"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group
+              label="Ketik Ulang Password *"
+              label-for="confirm-password"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="confirm"
+                rules="required|password:@password"
+              >
+                <b-input-group
+                  class="input-group-merge"
+                  :class="errors.length > 0 ? 'is-invalid' : null"
+                >
+                  <b-form-input
+                    id="confirm-password"
+                    v-model="confirmPassword"
+                    :state="errors.length > 0 ? false : null"
+                    name="confirm-password"
+                    class="form-control-merge"
+                    :type="passwordFieldType"
+                    placeholder="..............."
+                  />
+                  <b-input-group-append is-text>
+                    <feather-icon
+                      class="cursor-pointer"
+                      :icon="passwordToggleIcon"
+                      @click="togglePasswordVisibility"
+                    />
+                  </b-input-group-append>
+                </b-input-group>
+                <small class="text-danger">
+                  {{ errors[0] }}
+                </small>
+              </validation-provider>
+            </b-form-group>
+
+            <!-- file upload-->
+            <b-form-group label="Photo" label-for="photo" class="mt-1">
+              <validation-provider #default="{ errors }" name="photo">
+                <b-form-file
+                  id="photo"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="upload.file_photo_resmi"
+                  accept="image/*"
+                  @change="handlerPhotoResmi($event)"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group
+              label="File KTA/Kwitansi Iuran"
+              label-for="file-kta-kwitansi-iuran"
+              class="mt-1"
+            >
+              <validation-provider
+                #default="{ errors }"
+                name="file-kta-kwitansi-iuran"
+              >
+                <b-form-file
+                  id="file-kta-kwitansi-iuran"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="upload.npa_file"
+                  accept="image/*"
+                  @change="handlerFileKta($event)"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+            <b-form-group label="Photo KTP" label-for="photo-ktp" class="mt-1">
+              <validation-provider #default="{ errors }" name="photo-ktp">
+                <b-form-file
+                  id="photo-ktp"
+                  :state="errors.length > 0 ? false : null"
+                  v-model="upload.kartu_id_file"
+                  accept="image/*"
+                  @change="handlerFileKTP($event)"
+                />
+                <small class="text-danger">{{ errors[0] }}</small>
+              </validation-provider>
+            </b-form-group>
+
+            <!-- end upload file-->
 
             <!-- submit buttons -->
             <b-button
               type="submit"
               variant="outline-danger"
               block
-              @click="validationForm">
+              @click="validationForm"
+            >
               Daftar
             </b-button>
           </div>
         </b-form>
       </validation-observer>
 
+      <!-- redirect to login if you have been registered -->
       <b-card-text class="text-center mt-2">
         <span>Sudah punya akun? </span>
         <b-link :to="{ name: 'login' }">
-          <span>&nbsp;Daftar disini</span>
+          <span>&nbsp;Login disini</span>
         </b-link>
       </b-card-text>
     </div>
@@ -395,9 +675,12 @@ import {
   BFormGroup,
   BCardText,
   BForm,
+  BInputGroupAppend,
+  BInputGroup,
   BModal,
   BCard,
   BButton,
+  BCardTitle,
   BFormSelect,
   BFormFile,
   BFormInput,
@@ -418,6 +701,9 @@ export default {
     BCardText,
     BForm,
     BModal,
+    BInputGroupAppend,
+    BInputGroup,
+    BCardTitle,
     BCard,
     BButton,
     BFormFile,
@@ -434,73 +720,56 @@ export default {
   data() {
     return {
       simfoniLogo: require("@/assets/images/logo/logo-new-idi.png"),
-      status: "",
-      password: "home258",
-      userEmail: "forumkita.idijakpus@gmail.com",
-      sideImg: require("@/assets/images/pages/login-v2.svg"),
       // validation rulesimport store from '@/store/index'
       required,
-      email,
-      confirmPassword: "",
       colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],
-      optionRegistration: [
-        {
-          value: null,
-          text: "Silahkan pilih opsi pendaftaran",
-        },
-        {
-          value: "anggota-jakpus",
-          text: "Anggota IDI Jakarta Pusat",
-        },
-        {
-          value: "baru",
-          text: "Belum menjadi anggota IDI",
-        },
-        {
-          value: "non-anggota-jakpus",
-          text: "Anggota Non IDI Jakarta Pusat",
-        },
-      ],
-      form: {
-        password: "",
-        npa_idi: "", // 0000
-        kartu_id_nomor: "",
-        pasphoto: "",
-        kartu_id_file: "",
-        npa_file: "",
-        nama_lengkap: "",
-        tanggal_lahir: "",
-        tempat_lahir: "",
-        du_asal_negara_univ: "Indonesia",
-        du_asal_fak_kedokteran: "",
-        du_tahun_masuk: "",
-        du_tahun_lulus: "",
-        jenis_pendaftaran: null,
-        nomor_hp: "",
-      },
-      validate: {
+      optionPernikahan: ["Belum Menikah", "Sudah Menikah"],
+      npa: {
         data: null,
         isLoading: false,
+      },
+      upload: {
+        file_photo_resmi: "",
+        npa_file: "", //file kta/iuran
+        kartu_id_file: "", //file ktp
       },
     };
   },
   computed: {
     passwordToggleIcon() {
-      return this.passwordFieldType === "password" ? "EyeIcon" : "EyeOffIcon";
-    },
-    imgUrl() {
-      if (store.state.appConfig.layout.skin === "dark") {
-        // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-        this.sideImg = require("@/assets/images/pages/login-v2-dark.svg");
-        return this.sideImg;
-      }
-      return this.sideImg;
+      return this.passwordFieldType === "password" ? "EyeOffIcon" : "EyeIcon";
     },
   },
   created() {
-    this.fetchValidateBeforeRegister();
+    this.checkNpaBeforeRegister();
   },
   methods: {
+    validateNpa() {
+      this.$refs.validateBeforeRegister.validate().then((success) => {
+        if (success) {
+          this.checkNpaBeforeRegister();
+        }
+      });
+    },
+
+    checkNpaBeforeRegister() {
+      this.npa.isLoading = true;
+      apis.authv2
+        .checkRegistered({
+          npa: this.npa_validate,
+          tanggal_lahir: this.tanggal_lahir_validate,
+          tanggal_daftar: this.tanggal_daftar_pbidi_validate,
+        })
+        .then(({ data }) => {
+          this.npa.data = data;
+        })
+        .catch((error) => this.errorHandler(error, "gagal validate npa"))
+        .finally(() => {
+          this.npa.isLoading = false;
+        });
+    },
+
+    // state register(submit) data registrasi
     validationForm() {
       this.$refs.registerValidation.validate().then((success) => {
         if (success) {
@@ -509,61 +778,17 @@ export default {
       });
     },
 
-    validateBeforeRegisterData() {
-      this.$refs.validateBeforeRegister.validate().then((success) => {
-        if (success) {
-          this.fetchValidateBeforeRegister();
-        }
-      });
-    },
-
-    // handler img passfoto and file kartu(ktp)
-    handlerPassFoto(e) {
-      const { files } = e.target;
-      if (files.length) {
-        this.createPassfoto(files[0], (result) => {
-          this.pasphoto = result;
-        });
-      }
-    },
-
-    createPassfoto(file, cb) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        cb(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    },
-
-    handlerKartuFile(e) {
-      const { files } = e.target;
-      if (files.length) {
-        this.createKartuFile(files[0], (result) => {
-          this.kartu_id_file = result;
-        });
-      }
-    },
-
-    createKartuFile(file, cb) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        cb(e.target.result);
-      };
-      reader.readAsDataURL(file);
-    },
-
+    // handler file KTA
     handlerFileKta(e) {
       const { files } = e.target;
       if (files.length) {
-        this.createFileNpa(files[0], (result) => {
-          this.npa_file = result;
+        this.createFileKTA(files[0], (result) => {
+          this.upload.npa_file = result;
         });
       }
     },
 
-    createFileNpa(file, cb) {
+    createFileKTA(file, cb) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
@@ -571,65 +796,73 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-
-    fetchValidateBeforeRegister() {
-      this.validate.isLoading = true;
-      apis.auth
-        .validateEmailBeforeRegister({
-          email: this.emailValidate != null ? this.emailValidate : null,
-        })
-        .then(({ data }) => {
-          this.validate.data = data;
-        })
-        .catch((error) => {
-          this.errorHandler(error, "gagal validate email");
-        })
-        .finally(() => {
-          this.validate.isLoading = false;
+    // handler file pas photo
+    handlerPhotoResmi(e) {
+      const { files } = e.target;
+      if (files.length) {
+        this.createPhotoFIle(files[0], (result) => {
+          this.upload.file_photo_resmi = result;
         });
+      }
     },
 
-    restoreDataUsers() {
-      this.validate.isLoading = true;
+    createPhotoFIle(file, cb) {
+      const reader = new FileReader();
 
-      apis.auth
-        .restoreDataUsers({ email: this.validate.data.user.email })
-        .then(({ data }) => {
-          this.successHandler(data.message);
-        })
-        .catch((error) => {
-          this.errorHandler(error, "gagal harap coba lagi");
-        })
-        .finally(() => {
-          this.validate.isLoading = false;
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
+    },
+    // handler file ktp
+    handlerFileKTP(e) {
+      const { files } = e.target;
+      if (files.length) {
+        this.createFileKTP(files[0], (result) => {
+          this.upload.kartu_id_file = result;
         });
+      }
+    },
+
+    createFileKTP(file, cb) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        cb(e.target.result);
+      };
+      reader.readAsDataURL(file);
     },
 
     register() {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-      if (this.form.jenis_pendaftaran === "baru") {
-        this.form.npa_idi = "0000";
-      }
       var insertData = {
-        ...this.form,
-        email: this.validate.data.user,
-        kartu_id_file: this.kartu_id_file,
-        pasphoto: this.pasphoto,
-        npa_file: this.npa_file,
+        orang_level: this.npa.data.data.nama_cabang,
+        orang_level_wilayah: this.npa.data.data.nama_wilayah,
+        orang_npa_idi: this.npa.data.data.npa,
+        orang_npa_masa_berlaku: this.npa.data.data.tanggal_daftar,
+        orang_npa_file: this.upload.npa_file, // file kta/iuran
+        orang_nama_lengkap: this.npa.data.data.nama_lengkap,
+        orang_gelar_depan: this.npa.data.data.prefix,
+        orang_gelar_belakang: this.npa.data.data.suffix,
+        orang_tempat_lahir: this.npa.data.data.tempat_lahir,
+        orang_tanggal_lahir: this.npa.data.data.tanggal_lahir,
+        orang_jenis_kelamin: this.npa.data.data.jenis_kelamin,
+        orang_kartu_id_jenis: this.npa.data.data.jenis_identitas,
+        orang_kartu_id_nomor: this.npa.data.data.no_identitas,
+        orang_kartu_id_file: this.upload.kartu_id_file, // file ktp
+        orang_pernikahan_status: this.npa.data.data.pernikahan_status,
+        orang_pernikahan_nama_pasangan: this.npa.data.data.nama_pasangan,
+        orang_alamat_rumah: this.npa.data.data.alamat,
+        orang_nomor_hp: this.npa.data.data.no_hp_1,
+        orang_nomor_telpon: this.npa.data.data.telp_rumah,
+        orang_file_photo_resmi: this.upload.file_photo_resmi, // photo profile
+        orang_email: this.npa.data.data.email_account,
+        orang_password: this.npa.data.data.password,
       };
-      apis.auth
+      apis.authv2
         .register(insertData)
         .then(() => {
-          this.$toast({
-            component: ToastificationContent,
-            props: {
-              title:
-                "Register berhasil, Silahkan cek email dan temukan informasi untuk login",
-              icon: "CheckIcon",
-              variant: "success",
-            },
-          });
-          this.$router.push({ path: "/login", replace: true });
+          this.$router.push({ path: "/register/success" });
         })
         .catch((error) => {
           this.errorHandler(error, "regsiter gagal, silahkan coba lagi nanti");

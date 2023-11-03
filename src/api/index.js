@@ -23,6 +23,19 @@ const endpoints = {
     user: "/auth/user",
     verify: "/auth/verify",
   },
+  /**
+   * BEGIN::authentication v2
+   */
+
+  authv2: {
+    checkRegistered: "/auth/v2/check-registered",
+    login: "/auth/v2/login",
+    verify: "/auth/v2/verify",
+    register: "/auth/v2/register",
+  },
+  /**
+   * END::authentication v2
+   */
   forum: {
     default: "/forum",
     comment: "/forum/comment",
@@ -124,6 +137,29 @@ const apis = {
       return resource.post(endpoints.auth.restoreDataUsers, email);
     },
   },
+  /**
+   * auth v2 register
+   */
+
+  authv2: {
+    login(data) {
+      return resource.post(endpoints.authv2.login, data);
+    },
+
+    register(data) {
+      return resource.post(endpoints.authv2.register, data);
+    },
+    checkRegistered(data) {
+      return resource.post(`${endpoints.authv2.checkRegistered}`, data);
+    },
+
+    verifyAccount(npa) {
+      return resource.post(`${endpoints.authv2.verify}/${npa}`);
+    },
+  },
+  /**
+   * end auth v2 register
+   */
   completeRegistration: {
     emailVerify(reg_token) {
       return resource.get(`${endpoints.auth.verify}/${reg_token}`);
