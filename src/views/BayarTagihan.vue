@@ -2,21 +2,22 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="bayar.data.user && bayar.data.invoice" class="p-2 mx-auto">
+    <div v-if="bayar.data.data.id" class="p-2 mx-auto">
       <validation-observer
         v-if="bayar.data && !bayar.isLoading"
-        ref="buktiBayarValidation">
+        ref="buktiBayarValidation"
+      >
         <b-form class="mt-1" @submit.prevent>
           <b-card class="shadow-none border p-1 mb-1" no-body>
             <div class="d-flex pb-1 border-bottom">
               <div>
                 <div class="font-weight-bold">
-                  Invoice: # {{ bayar.data.invoice.id }}
-                  <br />
-                  id: # {{ bayar.data.user.id }}
+                  Invoice: # {{ bayar.data.data.id }}
+                  <!-- <br />
+                  id: # {{ bayar.data.user.id }} -->
                 </div>
                 <small>
-                  {{ bayar.data.invoice.created_at }}
+                  {{ bayar.data.data.created_at }}
                 </small>
                 <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
@@ -26,21 +27,22 @@
 
             <div class="text-center pt-1">
               <div style="font-size: 24px">
-                <b>Rp {{ bayar.data.invoice.reginvoice_jumlah }}</b>
+                <b>Rp {{ bayar.data.data.invoice_jumlah }}</b>
               </div>
               <div class="border-1">
-                <span>{{ bayar.data.invoice.reginvoice_status }}</span>
+                <span>{{ bayar.data.data.invoice_status }}</span>
               </div>
               <br />
               <!-- card 1 -->
               <b-card
                 v-if="
-                  bayar.data.invoice.reginvoice_status == 'sudah-dibayar' ||
-                  bayar.data.invoice.reginvoice_status == 'sudah-bayar'
+                  bayar.data.data.invoice_status == 'sudah-dibayar' ||
+                  bayar.data.data.invoice_status == 'sudah-bayar'
                 "
                 img-alt="Card image cap"
                 img-top
-                no-body>
+                no-body
+              >
                 <b-card-body>
                   <b-card-text>
                     selamat tagihan anda sudah lunas harap untuk melakukan login
@@ -73,7 +75,7 @@
             <div class="d-flex pb-1 border-bottom">
               <div>
                 <div class="font-weight-bold">
-                  Informasi Pembayaran {{ bayar.data.invoice.reginvoice_nama }}
+                  Informasi Pembayaran {{ bayar.data.data.invoice_name }}
                 </div>
               </div>
             </div>
@@ -94,7 +96,7 @@
                 <tr>
                   <td>Keterangan</td>
                   <td class="font-weight-bold">
-                    : {{ bayar.data.invoice.reginvoice_keterangan }}
+                    : {{ bayar.data.data.invoice_name }}
                   </td>
                 </tr>
               </tbody>
@@ -104,17 +106,20 @@
           <b-form-group
             label="Upload Bukti Bayar *"
             label-for="upload-bukti-bayar"
-            class="mt-1">
+            class="mt-1"
+          >
             <validation-provider
               #default="{ errors }"
               name="upload-bukti-bayar"
-              rules="required">
+              rules="required"
+            >
               <b-form-file
                 id="upload-bukti-bayar"
                 :state="errors.length > 0 ? false : null"
                 v-model="tempBuktiBayar"
                 accept="image/*"
-                @change="buktiBayar($event)" />
+                @change="buktiBayar($event)"
+              />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -127,13 +132,14 @@
             </div>
             <table class="mt-1">
               <tbody>
-                <tr v-if="bayar.data.invoice.reginvoice_file != null">
+                <tr v-if="bayar.data.data.invoice_file != null">
                   <td>
                     <img
-                      :src="bayar.data.invoice.reginvoice_file"
+                      :src="bayar.data.data.invoice_file"
                       alt="gallery_image"
                       width="320"
-                      height="280" />
+                      height="280"
+                    />
                   </td>
                 </tr>
                 <tr v-else>
@@ -147,7 +153,8 @@
             type="submit"
             variant="outline-danger"
             block
-            @click="validateUploadBuktiBayar">
+            @click="validateUploadBuktiBayar"
+          >
             Simpan
           </b-button>
         </b-form>
@@ -158,7 +165,8 @@
         v-for="(data, index) in colorVerifyStatusAccount"
         :key="index"
         md="6"
-        xl="4">
+        xl="4"
+      >
         <b-card :bg-variant="data.bg" text-variant="white">
           <b-card-title class="text-white"> Info Invoices! </b-card-title>
           <b-card-text>
@@ -170,8 +178,9 @@
         type="submit"
         variant="outline-danger"
         block
-        @click="$router.push(`/login`)">
-        Login
+        @click="$router.push(`/`)"
+      >
+        Back To Home
       </b-button>
     </div>
   </div>
@@ -264,7 +273,7 @@ export default {
     validateUploadBuktiBayar() {
       this.$refs.buktiBayarValidation.validate().then((success) => {
         if (success) {
-          this.submitBayarIuran();
+          this.doPembayaran();
         }
       });
     },
@@ -287,10 +296,10 @@ export default {
       reader.readAsDataURL(file);
     },
 
-    getBayarInvoiceIuran() {
+    async getBayarInvoiceIuran() {
       this.bayar.isLoading = true;
-      apis.completeRegistration
-        .bayarInvoicesIuran(this.$route.params.id_invoices)
+      apis.pembayaran
+        .setDetailDataBayar(this.$route.params.id_invoices)
         .then(({ data }) => {
           this.bayar.data = data;
         })
@@ -302,7 +311,7 @@ export default {
         });
     },
 
-    async submitBayarIuran() {
+    async doPembayaran() {
       try {
         this.$swal({
           title: "Apakah kamu yakin?",
@@ -320,12 +329,9 @@ export default {
           .then((result) => {
             if (result.value) {
               this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
-              return apis.completeRegistration.submitBayarInvoicesIuran(
-                this.$route.params.id_invoices,
-                {
-                  reginvoice_file: this.fileInvoices,
-                }
-              );
+              return apis.pembayaran.setBayar(this.$route.params.id_invoices, {
+                invoice_file: this.fileInvoices,
+              });
             }
             return false;
           })

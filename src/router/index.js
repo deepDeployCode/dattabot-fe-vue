@@ -466,7 +466,7 @@ const router = new VueRouter({
     /** hide route reg account dan complete registration */
     //bayar tagihan
     {
-      path: "/reg/bayar/:id_invoices/invoices",
+      path: "/bayar/:id_invoices/invoice",
       name: "bayar-tagihan-calona-anggota",
       component: () => import("@/views/BayarTagihan.vue"),
       meta: {

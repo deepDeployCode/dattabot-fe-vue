@@ -108,6 +108,9 @@ const endpoints = {
     check: "check",
     sertifikat: "sertifikat",
   },
+  pembayaran: {
+    index: "/pembayaran",
+  },
 };
 
 const apis = {
@@ -191,6 +194,15 @@ const apis = {
         `${endpoints.completeRegistration.default}/${endpoints.completeRegistration.InvoicesIuran.bayar}/${id_invoices}/${endpoints.completeRegistration.InvoicesIuran.invoices}`,
         body
       );
+    },
+  },
+  pembayaran: {
+    setDetailDataBayar(idBayar) {
+      return resource.get(`${endpoints.pembayaran.index}/${idBayar}`);
+    },
+
+    setBayar(idBayar) {
+      return resource.post(`${endpoints.pembayaran.index}/${idBayar}`);
     },
   },
   forum: {
