@@ -75,7 +75,7 @@
             <div class="d-flex pb-1 border-bottom">
               <div>
                 <div class="font-weight-bold">
-                  Informasi Pembayaran {{ bayar.data.data.invoice_name }}
+                  Informasi Pembayaran : {{ bayar.data.data.invoice_name }}
                 </div>
               </div>
             </div>
