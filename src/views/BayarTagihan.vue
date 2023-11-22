@@ -2,7 +2,7 @@
   <div class="app-wrapper">
     <BaseNavigation />
     <DividerNavigation />
-    <div v-if="bayar.data.data.id" class="p-2 mx-auto">
+    <div class="p-2 mx-auto">
       <validation-observer
         v-if="bayar.data && !bayar.isLoading"
         ref="buktiBayarValidation"
@@ -160,29 +160,6 @@
         </b-form>
       </validation-observer>
     </div>
-    <div v-else class="p-2 mx-auto">
-      <b-col
-        v-for="(data, index) in colorVerifyStatusAccount"
-        :key="index"
-        md="6"
-        xl="4"
-      >
-        <b-card :bg-variant="data.bg" text-variant="white">
-          <b-card-title class="text-white"> Info Invoices! </b-card-title>
-          <b-card-text>
-            <p>id invoices anda salah harap request ulang</p>
-          </b-card-text>
-        </b-card>
-      </b-col>
-      <b-button
-        type="submit"
-        variant="outline-danger"
-        block
-        @click="$router.push(`/`)"
-      >
-        Back To Home
-      </b-button>
-    </div>
   </div>
 </template>
 
@@ -305,6 +282,8 @@ export default {
         })
         .catch((error) => {
           this.bayar.data = error;
+          console.log(error.response);
+          this.$router.push("/notifikasi");
         })
         .finally(() => {
           this.bayar.isLoading = false;
