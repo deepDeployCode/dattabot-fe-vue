@@ -13,11 +13,12 @@
       <div class="notif-menu pr-1">
         <feather-icon
           icon="BellIcon"
-          :badge="notifikasi.count"
+          :badge="handlerBellNotification"
           badge-classes="bg-warning"
           size="22"
           stroke-width="2"
-          @click="$router.push({ path: '/notifikasi' })" />
+          @click="$router.push({ path: '/notifikasi' })"
+        />
       </div>
       <div class="menu" @click="$router.push({ path: '/menu' })">
         <feather-icon icon="MenuIcon" size="22" stroke-width="2" />
@@ -39,11 +40,11 @@ export default {
       logo: require("@/assets/images/icons/simfoni_putih.png"),
       notifikasi: {
         isLoading: false,
-        count: null,
+        count: 0,
       },
     };
   },
-  created() {
+  mounted() {
     this.showCountNotification();
   },
   computed: {
@@ -60,14 +61,23 @@ export default {
         ? true
         : this.$route.meta?.isNavMenu;
     },
+    handlerBellNotification() {
+      return this.notifikasi.count.toString(); //count notification and convert to sting
+    },
   },
   methods: {
     showCountNotification() {
-      this.notification.isLoading = true;
-      apis.profile.notificationCount().then(({ data }) => {
-        this.notifikasi.count = data.data;
-        this.notifikasi.isLoading = false;
-      });
+      this.notifikasi.isLoading = true;
+      apis.profile
+        .notificationCount()
+        .then(({ data }) => {
+          this.notifikasi.count = data.data;
+          console.log({ totalNotif: this.notifikasi.count });
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {
+          this.notifikasi.isLoading = false;
+        });
     },
   },
 };
