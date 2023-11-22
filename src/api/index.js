@@ -201,8 +201,11 @@ const apis = {
       return resource.get(`${endpoints.pembayaran.index}/${idBayar}`);
     },
 
-    setBayar(idBayar) {
-      return resource.post(`${endpoints.pembayaran.index}/${idBayar}`);
+    setBayar(idBayar, filebayar) {
+      return resource.post(
+        `${endpoints.pembayaran.index}/${idBayar}`,
+        filebayar
+      );
     },
   },
   forum: {
