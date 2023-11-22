@@ -8,12 +8,14 @@
           v-for="item in notifikasi.data"
           :key="item.id"
           class="shadow-none border mb-1"
-          no-body>
+          no-body
+        >
           <div
             class="d-flex p-1 border-bottom"
-            :class="item.notif_read === false ? 'bg-warning text-white' : ''">
+            :class="item.notif_read === false ? 'bg-warning text-white' : ''"
+          >
             <div>
-              <div class="font-weight-bold">#NOTIFIKASI-{{ item.id }}</div>
+              <div class="font-weight-bold">#{{ item.notif_title }}</div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
               </b-badge> -->
@@ -22,7 +24,8 @@
               <b-button
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="$router.push(`/notifikasi/${item.id}`)">
+                @click="$router.push(`/notifikasi/${item.id}`)"
+              >
                 Show
               </b-button>
             </div>
@@ -31,16 +34,21 @@
             <table>
               <tbody>
                 <tr>
+                  <td>ID</td>
+                  <td class="font-weight-bold">: #{{ item.id }}</td>
+                </tr>
+                <tr>
+                  <td>Status Baca</td>
+                  <td class="font-weight-bold" v-if="item.notif_read !== true">
+                    : {{ "belum dibaca" }}
+                  </td>
+                  <td class="font-weight-bold" v-else>
+                    : {{ "sudah dibaca" }}
+                  </td>
+                </tr>
+                <tr>
                   <td>Tanggal</td>
                   <td class="font-weight-bold">: {{ item.created_at }}</td>
-                </tr>
-                <tr>
-                  <td>Title</td>
-                  <td class="font-weight-bold">: {{ item.notif_title }}</td>
-                </tr>
-                <tr>
-                  <td>Status</td>
-                  <td class="font-weight-bold">: {{ item.notif_read }}</td>
                 </tr>
               </tbody>
             </table>
@@ -49,7 +57,8 @@
 
         <div
           v-if="notifikasi.isLoading"
-          class="d-flex justify-content-center mb-1">
+          class="d-flex justify-content-center mb-1"
+        >
           <b-spinner label="Loading..." variant="danger" />
         </div>
       </div>
