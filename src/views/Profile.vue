@@ -17,7 +17,8 @@
               :src="photoResmi"
               alt="simfoniLogo"
               thumbnail
-              rounded="circle" />
+              rounded="circle"
+            />
             <div class="d-flex pl-1" style="display: flex; align-items: center">
               <div>
                 <div class="font-weight-bold" style="font-size: 20px">
@@ -32,11 +33,13 @@
         </b-card>
         <b-card class="shadow-none border mb-1">
           <div
-            class="d-flex flex-row justify-content-between align-items-start">
+            class="d-flex flex-row justify-content-between align-items-start"
+          >
             <div
               class="d-flex flex-column justify-content-center pointer"
               style="width: 25%"
-              @click="modalKTA = true">
+              @click="modalKTA = true"
+            >
               <div class="d-flex justify-content-center mb-25">
                 <b-img :src="ktaIcon" height="70" width="70" />
               </div>
@@ -45,7 +48,8 @@
             <div
               class="d-flex flex-column justify-content-center pointer"
               style="width: 25%"
-              @click="$router.push({ path: '/profile/kompetensi' })">
+              @click="$router.push({ path: '/profile/kompetensi' })"
+            >
               <div class="d-flex justify-content-center mb-25">
                 <b-img :src="kompetensiIcon" height="70" width="70" />
               </div>
@@ -54,7 +58,8 @@
             <div
               class="d-flex flex-column justify-content-center pointer"
               style="width: 25%"
-              @click="$router.push({ path: '/profile/str' })">
+              @click="$router.push({ path: '/profile/str' })"
+            >
               <div class="d-flex justify-content-center mb-25">
                 <b-img :src="strIcon" height="70" width="70" />
               </div>
@@ -63,7 +68,8 @@
             <div
               class="d-flex flex-column justify-content-center pointer"
               style="width: 25%"
-              @click="$router.push({ path: '/profile/pendidikan' })">
+              @click="$router.push({ path: '/profile/pendidikan' })"
+            >
               <div class="d-flex justify-content-center mb-25">
                 <b-img :src="pendidikanIcon" height="70" width="70" />
               </div>
@@ -79,47 +85,55 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Status Anggota"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="status-anggota"
                     v-model="user.data.orang_level"
                     :state="errors.length > 0 ? false : null"
                     name="status-anggota"
                     type="text"
-                    readonly />
+                    readonly
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Keanggotaan Wilayah *"
-                label-for="keanggotaan-wilayah">
+                label-for="keanggotaan-wilayah"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Keanggotaan Wilayah"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="keanggotaan-wilayah"
                     v-model="user.data.orang_level_wilayah"
                     :state="errors.length > 0 ? false : null"
                     name="keanggotaan-wilayah"
                     type="text"
-                    readonly />
+                    readonly
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Nama Lengkap Tanpa Gelar *"
-                label-for="nama-lengkap">
+                label-for="nama-lengkap"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Nama Lengkap Tanpa Gelar"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="nama-lengkap"
                     v-model="user.data.orang_nama_lengkap"
                     :state="errors.length > 0 ? false : null"
                     name="nama-lengkap"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -130,48 +144,55 @@
                     v-model="user.data.orang_gelar_depan"
                     :state="errors.length > 0 ? false : null"
                     name="gelar-depan"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group label="Gelar Belakang" label-for="gelar-belakang">
                 <validation-provider
                   #default="{ errors }"
-                  name="Gelar Belakang">
+                  name="Gelar Belakang"
+                >
                   <b-form-input
                     id="gelar-belakang"
                     v-model="user.data.orang_gelar_belakang"
                     :state="errors.length > 0 ? false : null"
                     name="gelar-belakang"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Tempat Lahir *"
                 label-for="tempat-lahir"
-                rules="required">
+                rules="required"
+              >
                 <validation-provider #default="{ errors }" name="Tempat Lahir">
                   <b-form-input
                     id="tempat-lahir"
                     v-model="user.data.orang_tempat_lahir"
                     :state="errors.length > 0 ? false : null"
                     name="tempat-lahir"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Tanggal Lahir *"
                 label-for="tanggal-lahir"
-                rules="required">
+                rules="required"
+              >
                 <validation-provider #default="{ errors }" name="Tanggal Lahir">
                   <b-form-input
                     id="tanggal-lahir"
                     v-model="user.data.orang_tanggal_lahir"
                     :state="errors.length > 0 ? false : null"
                     name="tanggal-lahir"
-                    type="date" />
+                    type="date"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -180,52 +201,61 @@
                   <b-form-select
                     v-model="user.data.orang_jenis_kelamin"
                     :state="errors.length > 0 ? false : null"
-                    :options="optionJenisKelamin" />
+                    :options="optionJenisKelamin"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Jenis Kartu Identitas *"
-                label-for="jenis-kartu-identitas">
+                label-for="jenis-kartu-identitas"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Jenis Kartu Identitas"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="jenis-kartu-identitas"
                     v-model="user.data.orang_kartu_id_jenis"
                     :state="errors.length > 0 ? false : null"
                     name="jenis-kartu-identitas"
                     type="text"
-                    readonly />
+                    readonly
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Nomor Identitas *"
-                label-for="nomor-identitas">
+                label-for="nomor-identitas"
+              >
                 <validation-provider
                   #default="{ errors }"
                   name="Nomor Identitas"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="nomor-identitas"
                     v-model="user.data.orang_kartu_id_nomor"
                     :state="errors.length > 0 ? false : null"
                     name="nomor-identitas"
                     type="text"
-                    readonly />
+                    readonly
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group label="Status Pasangan" label-for="status-pasangan">
                 <validation-provider
                   #default="{ errors }"
-                  name="Status Pasangan">
+                  name="Status Pasangan"
+                >
                   <b-form-select
                     v-model="user.data.orang_pernikahan_status"
                     :state="errors.length > 0 ? false : null"
-                    :options="optionStatusPasangan" />
+                    :options="optionStatusPasangan"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -236,22 +266,26 @@
                     v-model="user.data.orang_pernikahan_nama_pasangan"
                     :state="errors.length > 0 ? false : null"
                     name="nama-pasangan"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
               <b-form-group
                 label="Alamat Tempat Tinggal"
-                label-for="alamat-tempat-tinggal">
+                label-for="alamat-tempat-tinggal"
+              >
                 <validation-provider
                   #default="{ errors }"
-                  name="Alamat Tempat Tinggal">
+                  name="Alamat Tempat Tinggal"
+                >
                   <b-form-input
                     id="alamat-tempat-tinggal"
                     v-model="user.data.orang_alamat_rumah"
                     :state="errors.length > 0 ? false : null"
                     name="alamat-tempat-tinggal"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -262,7 +296,8 @@
                     v-model="user.data.orang_nomor_telpon"
                     :state="errors.length > 0 ? false : null"
                     name="telpon"
-                    type="text" />
+                    type="text"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -270,13 +305,15 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Handphone"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="handphone"
                     v-model="user.data.orang_nomor_hp"
                     :state="errors.length > 0 ? false : null"
                     name="handphone"
-                    type="number" />
+                    type="number"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -284,14 +321,16 @@
                 <validation-provider
                   #default="{ errors }"
                   name="Email"
-                  rules="required">
+                  rules="required"
+                >
                   <b-form-input
                     id="email"
                     v-model="user.data.orang_email"
                     :state="errors.length > 0 ? false : null"
                     name="email"
                     type="email"
-                    readonly />
+                    readonly
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
               </b-form-group>
@@ -303,7 +342,8 @@
                     name="photo-resmi"
                     accept="image/*"
                     v-model="upload.photo"
-                    @change="onPhotoResmiChange($event)" />
+                    @change="onPhotoResmiChange($event)"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
                 <b-img
@@ -313,19 +353,22 @@
                   :src="photoResmi"
                   alt="photoResmi"
                   class="mt-1"
-                  style="max-height: 250px" />
+                  style="max-height: 250px"
+                />
               </b-form-group>
               <b-form-group label="File Identitas" label-for="file-identitas">
                 <validation-provider
                   #default="{ errors }"
-                  name="File Identitas">
+                  name="File Identitas"
+                >
                   <b-form-file
                     id="file-identitas"
                     :state="errors.length > 0 ? false : null"
                     name="file-identitas"
                     accept="image/*"
                     v-model="upload.fileIdentitas"
-                    @change="onPhotoFileIdentitas($event)" />
+                    @change="onPhotoFileIdentitas($event)"
+                  />
                   <small class="text-danger">{{ errors[0] }}</small>
                 </validation-provider>
                 <b-img
@@ -335,13 +378,15 @@
                   :src="fileIdentitas"
                   alt="fileIdentitas"
                   class="mt-1"
-                  style="max-height: 250px" />
+                  style="max-height: 250px"
+                />
               </b-form-group>
               <b-button
                 type="submit"
                 variant="outline-danger"
                 block
-                @click="validationForm">
+                @click="validationForm"
+              >
                 Simpan
               </b-button>
             </b-form>
@@ -353,7 +398,8 @@
           modal-class="modal-danger"
           centered
           title="KTA"
-          hide-footer>
+          hide-footer
+        >
           <div v-if="user.data.orang_level === 'non-jakpus'">
             <p>
               <b
@@ -364,7 +410,8 @@
             <b-button
               size="sm"
               class="bg-danger mr-25"
-              @click="$router.push({ path: '/mutasi' })">
+              @click="$router.push({ path: '/mutasi' })"
+            >
               Daftar menjadi anggota
             </b-button>
           </div>
@@ -381,6 +428,15 @@
                   <td>Masa Berlaku</td>
                   <td class="font-weight-bold">: {{ masaBerlaku }}</td>
                 </tr>
+                <tr>
+                  <td>Status</td>
+                  <td class="font-weight-bold">
+                    :
+                    <b-badge variant="warning font-weight–light mt-25">
+                      Expire
+                    </b-badge>
+                  </td>
+                </tr>
               </tbody>
             </table>
             <b-img
@@ -390,7 +446,15 @@
               alt="photoResmi"
               class="mb-1 mt-1"
               style="max-height: 250px"
-              thumbnail />
+              thumbnail
+            />
+            <b-button
+              size="sm"
+              class="bg-danger mr-25"
+              @click="$router.push({ path: '/mutasi' })"
+            >
+              Perpanjang Masa Berlaku KTA ?
+            </b-button>
           </div>
         </b-modal>
       </div>
@@ -412,6 +476,7 @@ import {
   BSpinner,
   BFormFile,
   BModal,
+  BBadge,
 } from "bootstrap-vue";
 import BaseNavigation from "@/components/Base/BaseNavigation.vue";
 import DividerNavigation from "@/components/Base/DividerNavigation.vue";
@@ -438,6 +503,7 @@ export default {
     BSpinner,
     BFormFile,
     BModal,
+    BBadge,
   },
   data() {
     return {
