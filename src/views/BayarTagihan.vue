@@ -27,7 +27,7 @@
 
             <div class="text-center pt-1">
               <div style="font-size: 24px">
-                <b>Rp {{ bayar.data.data.invoice_jumlah }}</b>
+                <b>{{ handlerFormatCurrencyRupiah }}</b>
               </div>
               <div class="border-1">
                 <span>{{ bayar.data.data.invoice_status }}</span>
@@ -233,7 +233,16 @@ export default {
       fileInvoices: null,
     };
   },
-  computed: {},
+  computed: {
+    handlerFormatCurrencyRupiah() {
+      return (
+        "Rp. " +
+        this.bayar.data.data.invoice_jumlah
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1\.")
+      );
+    },
+  },
   watch: {
     reg: {
       deep: true,
