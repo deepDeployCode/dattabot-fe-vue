@@ -421,19 +421,27 @@
                 <tr>
                   <td>Nomor Pokok Anggota</td>
                   <td class="font-weight-bold">
-                    : {{ user.data.orang_npa_idi }}
+                    : {{ kta.data.orang_npa_idi }}
                   </td>
                 </tr>
                 <tr>
                   <td>Masa Berlaku</td>
-                  <td class="font-weight-bold">: {{ masaBerlaku }}</td>
+                  <td class="font-weight-bold">
+                    : {{ kta.data.orang_npa_masa_berlaku }}
+                  </td>
                 </tr>
                 <tr>
                   <td>Status</td>
                   <td class="font-weight-bold">
                     :
-                    <b-badge variant="warning font-weight–light mt-25">
-                      Expire
+                    <b-badge
+                      v-if="kta.data.npa_status_expire != 'active'"
+                      variant="warning font-weight–light mt-25"
+                    >
+                      {{ kta.data.npa_status_expire }}
+                    </b-badge>
+                    <b-badge v-else variant="success font-weight–light mt-25">
+                      {{ kta.data.npa_status_expire }}
                     </b-badge>
                   </td>
                 </tr>
@@ -449,9 +457,10 @@
               thumbnail
             />
             <b-button
+              v-if="kta.data.npa_status_expire == 'expire'"
               size="sm"
               class="bg-danger mr-25"
-              @click="$router.push({ path: '/mutasi' })"
+              @click="setPerpanjangKTA()"
             >
               Perpanjang Masa Berlaku KTA ?
             </b-button>
@@ -533,6 +542,10 @@ export default {
         data: null,
         isLoading: false,
       },
+      kta: {
+        data: {},
+        isLoading: false,
+      },
       upload: {
         photo: null,
         fileIdentitas: null,
@@ -590,6 +603,7 @@ export default {
   },
   created() {
     this.fetchUser();
+    this.setFetchKta();
   },
   methods: {
     fetchUser() {
@@ -601,6 +615,57 @@ export default {
           this.user.isLoading = false;
         })
         .catch(() => {});
+    },
+    setFetchKta() {
+      this.kta.isLoading = true;
+      apis.profile
+        .getKta()
+        .then(({ data }) => {
+          this.kta.data = data;
+        })
+        .catch((error) => console.log(error.response))
+        .finally(() => {
+          this.kta.isLoading = false;
+        });
+    },
+    setPerpanjangKTA() {
+      this.$swal({
+        title: "Apakah kamu yakin?",
+        text: "Memperpanjang masa berlaku KTA, pastikan kta yang diperpanjang telah memenuhi syarat",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Ya, Perpanjang!",
+        cancelButtonText: "Batal",
+        customClass: {
+          confirmButton: "btn btn-primary",
+          cancelButton: "btn btn-outline-danger ml-1",
+        },
+        buttonsStyling: false,
+      })
+        .then((result) => {
+          if (result.value) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
+            return apis.profile.perpanjangKTA();
+          }
+          return false;
+        })
+        .then((result) => {
+          if (result) {
+            this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
+            this.$toast({
+              component: ToastificationContentVue,
+              props: {
+                title: "Berhasil memperpanjang masa berlaku KTA ",
+                icon: "CheckIcon",
+                variant: "success",
+              },
+            });
+            location.reload();
+          }
+        })
+        .catch((error) => {
+          this.errorHandler(error, "gagal update masa perpanjang");
+        });
     },
 
     //encode base64 for upload foto resmi
