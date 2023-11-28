@@ -5,7 +5,8 @@
     <div class="p-2 mx-auto">
       <validation-observer
         v-if="rekomendasi.data && !rekomendasi.isLoading"
-        ref="buktiBayarValidation">
+        ref="buktiBayarValidation"
+      >
         <b-form class="mt-1" @submit.prevent>
           <b-card class="shadow-none border p-1 mb-1" no-body>
             <div class="d-flex pb-1 border-bottom">
@@ -26,7 +27,7 @@
 
             <div class="text-center pt-1">
               <div style="font-size: 24px">
-                <b>Rp {{ rekomendasi.data.invoices.invoice_jumlah }}</b>
+                <b> {{ handlerFormatCurrencyRupiah }}</b>
               </div>
               <div class="border-1">
                 <span>{{ rekomendasi.data.invoices.invoice_status }}</span>
@@ -40,7 +41,8 @@
                 "
                 img-alt="Card image cap"
                 img-top
-                no-body>
+                no-body
+              >
                 <b-card-body>
                   <b-card-text>
                     selanjutnya lakukan pengaktifan rekomendasi izin praktik
@@ -101,17 +103,20 @@
           <b-form-group
             label="Upload Bukti Bayar *"
             label-for="upload-bukti-bayar"
-            class="mt-1">
+            class="mt-1"
+          >
             <validation-provider
               #default="{ errors }"
               name="upload-bukti-bayar"
-              rules="required">
+              rules="required"
+            >
               <b-form-file
                 id="upload-bukti-bayar"
                 :state="errors.length > 0 ? false : null"
                 v-model="tempBuktiBayar"
                 accept="image/*"
-                @change="sendBuktiBayarRekomIzinPraktik($event)" />
+                @change="sendBuktiBayarRekomIzinPraktik($event)"
+              />
               <small class="text-danger">{{ errors[0] }}</small>
             </validation-provider>
           </b-form-group>
@@ -130,7 +135,8 @@
                       :src="rekomendasi.data.invoices.invoice_file"
                       alt="gallery_image"
                       width="320"
-                      height="280" />
+                      height="280"
+                    />
                   </td>
                 </tr>
                 <tr v-else>
@@ -144,7 +150,8 @@
             type="submit"
             variant="outline-danger"
             block
-            @click="validateUploadBuktiBayar">
+            @click="validateUploadBuktiBayar"
+          >
             Simpan
           </b-button>
         </b-form>
@@ -216,7 +223,16 @@ export default {
       invoicesFile: null,
     };
   },
-  computed: {},
+  computed: {
+    handlerFormatCurrencyRupiah() {
+      return (
+        "Rp. " +
+        this.rekomendasi.data.invoices.invoice_jumlah
+          .toString()
+          .replace(/(\d)(?=(\d{3})+(?:\.\d+)?$)/g, "$1\.")
+      );
+    },
+  },
   watch: {
     rekomendasi: {
       deep: true,
