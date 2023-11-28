@@ -419,6 +419,10 @@
             <table>
               <tbody>
                 <tr>
+                  <td>ID Anggota</td>
+                  <td class="font-weight-bold">: {{ kta.data.id }}</td>
+                </tr>
+                <tr>
                   <td>Nomor Pokok Anggota</td>
                   <td class="font-weight-bold">
                     : {{ kta.data.orang_npa_idi }}
