@@ -4,7 +4,8 @@
       v-if="isHowAddPengajuan"
       size="sm"
       variant="outline-danger"
-      @click="$router.push('/mutasi/pengajuan-mutasi-keluar')">
+      @click="$router.push('/mutasi/pengajuan-mutasi-keluar')"
+    >
       + Buat Pengauan
     </b-button>
     <div v-if="mutasi.isLoading" class="d-flex justify-content-center mb-1">
@@ -15,18 +16,21 @@
         v-for="item in mutasi.data"
         :key="item.id"
         class="f-flex flex-column shadow-none border mt-1 p-0"
-        no-body>
+        no-body
+      >
         <div class="d-flex p-1 border-bottom">
           <div>
             <div class="font-weight-bold">#MUTASI-KELUAR-{{ item.id }}</div>
           </div>
           <div
             v-if="item.mutkeluar_status === 'sedang-dibuat'"
-            class="ml-auto pointer">
+            class="ml-auto pointer"
+          >
             <b-button
               size="sm"
               class="bg-danger bg-lighten-1 mr-25"
-              @click="edit(item)">
+              @click="edit(item)"
+            >
               Edit
             </b-button>
           </div>
@@ -42,7 +46,8 @@
         </div> -->
         <div
           v-if="item.mutkeluar_status === 'selesai-sukses'"
-          class="font-weight-bold p-1">
+          class="font-weight-bold p-1"
+        >
           <div class="d-flex align-items-center justify-content-center mb-1">
             <feather-icon class="text-warning" icon="CheckIcon" size="50" />
           </div>
@@ -53,7 +58,8 @@
         <div class="p-1">
           <div
             v-if="item.mutkeluar_status === 'diajukan'"
-            class="font-weight-bold">
+            class="font-weight-bold"
+          >
             <div class="d-flex align-items-center justify-content-center mb-1">
               <feather-icon class="text-warning" icon="InfoIcon" size="50" />
             </div>
@@ -76,7 +82,8 @@
 
           <div
             v-if="item.mutkeluar_status === 'selesai-tolak'"
-            class="font-weight-bold">
+            class="font-weight-bold"
+          >
             <div class="d-flex align-items-center justify-content-center mb-1">
               <feather-icon class="text-warning" icon="InfoIcon" size="50" />
             </div>
@@ -88,7 +95,8 @@
 
           <div
             v-if="item.mutkeluar_status === 'sedang-dibuat'"
-            class="font-weight-bold">
+            class="font-weight-bold"
+          >
             <div class="d-flex align-items-center justify-content-center mb-1">
               <feather-icon class="text-warning" icon="InfoIcon" size="50" />
             </div>
@@ -133,7 +141,8 @@
                 :src="fileMutasi(item)"
                 style="max-width: 200px; max-height: 200px"
                 fluid
-                center />
+                center
+              />
             </div>
           </div>
         </div>
@@ -171,12 +180,12 @@ export default {
   computed: {
     isHidePengajuan() {
       return (
-        this.user?.data?.orang_level === "jakpus" &&
+        this.user?.data?.orang_level === "Jakarta Pusat" &&
         this.mutasi.data?.[0].mutkeluar_status === "selesai-sukses"
       );
     },
     isHowAddPengajuan() {
-      return this.user?.data?.orang_level === "jakpus";
+      return this.user?.data?.orang_level === "Jakarta Pusat";
     },
     fileMutasi() {
       return (item) => {
