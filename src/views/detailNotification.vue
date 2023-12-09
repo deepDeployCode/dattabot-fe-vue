@@ -5,6 +5,12 @@
     <div class="p-2 mx-auto">
       <p>Title : {{ this.notifikasi.detail.notif_title }}</p>
       <p>Message : {{ this.notifikasi.detail.notif_msg }}</p>
+      <p v-if="notifikasi.detail.notif_mobile_path">
+        Link :
+        <a :href="notifikasi.detail.notif_mobile_path" target="_blank">{{
+          this.notifikasi.detail.notif_mobile_path
+        }}</a>
+      </p>
     </div>
   </div>
 </template>
