@@ -65,6 +65,10 @@ const endpoints = {
   },
   profile: {
     default: "/profile",
+    kta: {
+      index: "kta",
+      perpanjang: "perpanjang",
+    },
     str: "/profile/str",
     createStr: "/profile/str/create",
     pendidikan: "/profile/pendidikan",
@@ -290,6 +294,18 @@ const apis = {
     getStr() {
       return resource.get(endpoints.profile.str);
     },
+    //kta
+    getKta() {
+      return resource.get(
+        `${endpoints.profile.default}/${endpoints.profile.kta.index}`
+      );
+    },
+    perpanjangKTA() {
+      return resource.post(
+        `${endpoints.profile.default}/${endpoints.profile.kta.index}/${endpoints.profile.kta.perpanjang}`
+      );
+    },
+    //end kta
     //notification
     notification(url = endpoints.profile.notification.index) {
       return resource.post(url);
