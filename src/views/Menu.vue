@@ -6,14 +6,16 @@
       <div
         style="font-weight: 500; font-size: 1.1rem"
         class="mb-1 pointer"
-        @click="$router.push({ path: '/' })">
+        @click="$router.push({ path: '/' })"
+      >
         Beranda
       </div>
-      <hr v-show="!isVisibleCollapseTentang" />
-      <div
+      <hr />
+      <!-- <div
         style="font-weight: 500; font-size: 1.1rem"
         class="mb-1 pointer"
-        @click="$router.push({ path: '/webinar' })">
+        @click="$router.push({ path: '/webinar' })"
+      >
         Webinar
       </div>
       <hr v-show="!isVisibleCollapseTentang" />
@@ -21,22 +23,26 @@
         <app-collapse-item
           title="Tentang"
           class="shadow-none p-0"
-          @visible="visibleCollapsTentang">
+          @visible="visibleCollapsTentang"
+        >
           <div
             style="line-height: 1.5; padding: 0.75rem 1.25rem"
-            class="border-bottom pointer">
+            class="border-bottom pointer"
+          >
             Profil IDI Cabang
           </div>
           <div
             style="line-height: 1.5; padding: 0.75rem 1.25rem"
             class="border-bottom pointer"
-            @click="$router.push({ path: '/tentang/susunan-pengurus' })">
+            @click="$router.push({ path: '/tentang/susunan-pengurus' })"
+          >
             Susunan Pengurus
           </div>
           <div
             style="line-height: 1.5; padding: 0.75rem 1.25rem"
             class="border-bottom pointer"
-            @click="$router.push({ path: '/tentang/galery' })">
+            @click="$router.push({ path: '/tentang/galery' })"
+          >
             Galeri
           </div>
         </app-collapse-item>
@@ -45,14 +51,15 @@
       <div
         style="font-weight: 500; font-size: 1.1rem"
         class="mb-1 pointer"
-        @click="$router.push({ path: '/berkas' })">
+        @click="$router.push({ path: '/berkas' })"
+      >
         Berkas
-      </div>
-      <hr />
+      </div> -->
       <div
         style="font-weight: 500; font-size: 1.1rem"
         class="mb-1 pointer"
-        @click="logout">
+        @click="logout"
+      >
         Logout
       </div>
       <hr />
@@ -67,6 +74,7 @@ import AppCollapse from "@core/components/app-collapse/AppCollapse.vue";
 import AppCollapseItem from "@core/components/app-collapse/AppCollapseItem.vue";
 import storage from "@/helpers/storage";
 import ToastificationContentVue from "@/@core/components/toastification/ToastificationContent.vue";
+import api from "@/api";
 
 export default {
   components: {
@@ -85,16 +93,22 @@ export default {
       this.isVisibleCollapseTentang = val;
     },
     logout() {
-      storage.clearStorage();
-      this.$toast({
-        component: ToastificationContentVue,
-        props: {
-          title: "Logout berhasil",
-          icon: "CheckIcon",
-          variant: "success",
-        },
-      });
-      this.$router.push({ path: "/login", replace: true });
+      api.authv2
+        .logout()
+        .then(() => {
+          storage.clearStorage();
+          this.$toast({
+            component: ToastificationContentVue,
+            props: {
+              title: "Logout Success",
+              icon: "CheckIcon",
+              variant: "success",
+            },
+          });
+          this.$router.push({ path: "/login", replace: true });
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {});
     },
   },
 };

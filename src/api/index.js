@@ -29,9 +29,10 @@ const endpoints = {
 
   authv2: {
     checkRegistered: "/auth/v2/check-registered",
-    login: "/auth/v2/login",
+    login: "/auth/login",
     verify: "/auth/v2/verify",
-    register: "/auth/v2/register",
+    register: "/auth/register",
+    logout: "/auth/logout",
   },
   /**
    * END::authentication v2
@@ -47,10 +48,11 @@ const endpoints = {
     berkas: "/document?page=1&filter_rules=[]",
   },
   krip: {
-    default: "/krip",
+    default: "/auth/pokedex/list",
+    detail: "detail",
     upload: "/krip/upload",
-    schedule: "/krip/schedule",
-    daftar: "/krip/register",
+    schedule: "/task/archive",
+    daftar: "/task",
     cancel: "/krip/cancel",
   },
   mutasiMasuk: {
@@ -163,6 +165,10 @@ const apis = {
     verifyAccount(npa) {
       return resource.post(`${endpoints.authv2.verify}/${npa}`);
     },
+
+    logout() {
+      return resource.post(`${endpoints.authv2.logout}`);
+    },
   },
   /**
    * end auth v2 register
@@ -247,8 +253,17 @@ const apis = {
     getKrip(url = endpoints.krip.default) {
       return resource.get(url);
     },
+    detail(id) {
+      return resource.get(`${"/auth/pokedex"}/${id}/${endpoints.krip.detail}`);
+    },
     upload(data) {
-      return resource.post(endpoints.krip.upload, data);
+      return resource.post(endpoints.krip.default, data);
+    },
+    archive(data) {
+      return resource.post(endpoints.krip.default, data);
+    },
+    finishTask(data) {
+      return resource.post(endpoints.krip.default, data);
     },
     getSchedule(url = endpoints.krip.schedule) {
       return resource.get(url);

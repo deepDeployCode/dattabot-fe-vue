@@ -719,7 +719,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      simfoniLogo: require("@/assets/images/logo/logo-new-idi.png"),
+      simfoniLogo: require("@/assets/images/logo/dattabot.png"),
       // validation rulesimport store from '@/store/index'
       required,
       colorVerifyStatusAccount: [{ bg: "danger", title: "Danger card title" }],

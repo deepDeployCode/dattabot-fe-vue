@@ -10,7 +10,7 @@
       </div>
     </div>
     <div v-if="isNavMenu" class="navigation-menu">
-      <div class="notif-menu pr-1">
+      <!-- <div class="notif-menu pr-1">
         <feather-icon
           icon="BellIcon"
           :badge="handlerBellNotification"
@@ -19,7 +19,7 @@
           stroke-width="2"
           @click="$router.push({ path: '/notifikasi' })"
         />
-      </div>
+      </div> -->
       <div class="menu" @click="$router.push({ path: '/menu' })">
         <feather-icon icon="MenuIcon" size="22" stroke-width="2" />
       </div>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       // eslint-disable-next-line global-require
-      logo: require("@/assets/images/icons/simfoni_putih.png"),
+      logo: require("@/assets/images/logo/dattabot.png"),
       notifikasi: {
         isLoading: false,
         count: 0,

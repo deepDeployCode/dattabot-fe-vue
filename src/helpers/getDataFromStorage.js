@@ -5,7 +5,7 @@ const USER_STORAGE = 'USER_STORAGE'
 const defaultObjOfUser = {
   tokenCurrent: '',
   userId: '',
-  userLevel: '',
+  // userLevel: '',
   email: '',
 }
 

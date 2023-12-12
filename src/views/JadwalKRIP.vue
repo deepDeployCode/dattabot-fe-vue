@@ -8,36 +8,25 @@
           v-for="item in schedule.data"
           :key="item.id"
           class="shadow-none border mb-1"
-          no-body>
+          no-body
+        >
           <div
             class="d-flex p-1 border-bottom"
-            :class="item.is_regis ? 'bg-warning text-white' : ''">
+            :class="item.is_regis ? 'bg-warning text-white' : ''"
+          >
             <div>
-              <div class="font-weight-bold">#JADWAL-{{ item.id }}</div>
+              <div class="font-weight-bold">#Archive-{{ item._id }}</div>
               <!-- <b-badge variant="light-danger font-weight–light mt-25">
                 Belum terverifikasi
               </b-badge> -->
             </div>
             <div class="ml-auto pointer">
               <b-button
-                v-if="
-                  item.kripjadwal_status === 'pendaftaran-dibuka' &&
-                  !item.is_regis
-                "
                 size="sm"
                 class="bg-primary bg-lighten-1"
-                @click="daftarKrip(item.id)">
-                Daftar
-              </b-button>
-              <b-button
-                v-if="
-                  item.kripjadwal_status === 'pendaftaran-dibuka' &&
-                  item.is_regis
-                "
-                size="sm"
-                class="bg-primary bg-lighten-1"
-                @click="batalkanKrip(item.id)">
-                Batalkan
+                @click="restoreTask(item._id, item.title, item.description)"
+              >
+                Restore
               </b-button>
             </div>
           </div>
@@ -45,36 +34,32 @@
             <table>
               <tbody>
                 <tr>
-                  <td>Tanggal</td>
-                  <td class="font-weight-bold">
-                    : {{ item.kripjadwal_tanggal }}
-                  </td>
+                  <td>Title</td>
+                  <td class="font-weight-bold">: {{ item.title }}</td>
                 </tr>
                 <tr>
-                  <td>Tempat</td>
-                  <td class="font-weight-bold">
-                    : {{ item.kripjadwal_tempat }}
-                  </td>
+                  <td>Description</td>
+                  <td class="font-weight-bold">: {{ item.description }}</td>
                 </tr>
                 <tr>
-                  <td>Jam / Durasi</td>
-                  <td class="font-weight-bold">
-                    : {{ item.kripjadwal_jam }} WIB /
-                    {{ item.kripjadwal_durasi }} Menit
-                  </td>
+                  <td>Due Date</td>
+                  <td class="font-weight-bold">: {{ item.due_date }}</td>
                 </tr>
                 <tr>
-                  <td>Status</td>
-                  <td class="font-weight-bold">
-                    : {{ item.kripjadwal_status }}
-                  </td>
+                  <td>Priority</td>
+                  <td class="font-weight-bold">: {{ item.task_priority }}</td>
                 </tr>
-                <template
+                <tr>
+                  <td>user</td>
+                  <td class="font-weight-bold">: {{ item.user.name }}</td>
+                </tr>
+                <!-- <template
                   v-if="
                     item.kripjadwal_link &&
                     item.kripjadwal_status === 'pendaftaran-dibuka' &&
                     item.is_regis
-                  ">
+                  "
+                >
                   <tr>
                     <td><b>Link</b></td>
                     <td class="font-weight-bold">
@@ -99,7 +84,7 @@
                       : {{ item.kripjadwal_pass }}
                     </td>
                   </tr>
-                </template>
+                </template> -->
               </tbody>
             </table>
           </div>
@@ -107,7 +92,8 @@
 
         <div
           v-if="schedule.isLoading"
-          class="d-flex justify-content-center mb-1">
+          class="d-flex justify-content-center mb-1"
+        >
           <b-spinner label="Loading..." variant="danger" />
         </div>
       </div>
@@ -228,18 +214,21 @@ export default {
           this.schedule.isLoading = false;
         });
     },
-    daftarKrip(id) {
+    restoreTask(id, title, description) {
       this.$store.commit("app/UPDATE_LOADING_BLOCK", true);
       apis.krip
         .daftar({
-          kripjadwal_id: id,
+          id: id,
+          title: title,
+          description: description,
+          archived: "restore",
         })
         .then(() => {
           this.fetchSchedule();
           this.$toast({
             component: ToastificationContentVue,
             props: {
-              title: "Berhasil mendaftar!",
+              title: "Successfully Restore Task!",
               icon: "CheckIcon",
               variant: "success",
             },
@@ -248,7 +237,7 @@ export default {
           this.fetchKrips();
         })
         .catch((error) => {
-          this.errorHandler(error, "Gagal daftar, silahkan coba lagi nanti");
+          this.errorHandler(error, "Failed Task, try again");
         })
         .finally(() => {
           this.$store.commit("app/UPDATE_LOADING_BLOCK", false);
