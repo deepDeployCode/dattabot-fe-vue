@@ -174,7 +174,6 @@
       </div>
       <b-modal
         id="pokemonsDetailData"
-        v-model="pokemonsDetailData"
         modal-class="modal-danger"
         centered
         title="Detail Pokemon"

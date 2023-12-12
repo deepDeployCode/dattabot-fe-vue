@@ -31,7 +31,7 @@
           <div
             class="d-flex flex-column center-content-center pointer"
             style="width: 33%"
-            @click="$router.push('/krip')"
+            @click="$router.push('/pokemon')"
           >
             <div class="d-flex justify-content-center mb-25">
               <b-img :src="rekomendasiIcon" height="70" width="70" />

@@ -17,7 +17,7 @@
             <h1>Welcome to dattabot!</h1>
           </b>
           <br />
-          please login to apps for try manage your task
+          please login to apps for try apps
           <b>Login with your account</b>
         </p>
       </div>
@@ -46,9 +46,6 @@
           <b-form-group>
             <div class="d-flex justify-content-between">
               <label for="login-password">Password</label>
-              <b-link :to="{ name: 'forget-password' }">
-                <small>Lupa Password?</small>
-              </b-link>
             </div>
             <validation-provider
               #default="{ errors }"
@@ -94,9 +91,7 @@
 
       <b-card-text class="text-center mt-2">
         <span>You dont have account? </span>
-        <b-link :to="{ name: 'register' }">
-          <span>&nbsp;Register</span>
-        </b-link>
+        <a @click="pageRegister()" class="color"><b>Register</b></a>
       </b-card-text>
     </div>
   </div>
@@ -250,6 +245,9 @@ export default {
     reloadPage() {
       window.location.reload();
     },
+    pageRegister() {
+      this.$router.push({ name: "register" });
+    },
     validationForm() {
       this.$refs.loginValidation.validate().then((success) => {
         if (success) {
@@ -308,8 +306,5 @@ export default {
   flex-direction: column;
   justify-content: center;
   height: 100vh;
-}
-a:link {
-  color: #ffff;
 }
 </style>

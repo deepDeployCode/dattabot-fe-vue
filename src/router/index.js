@@ -222,13 +222,13 @@ const router = new VueRouter({
       },
     },
     {
-      path: "/krip",
-      name: "krip",
-      component: () => import("@/views/KRIP.vue"),
+      path: "/pokemon",
+      name: "pokemon",
+      component: () => import("@/views/Pokemon.vue"),
       meta: {
         layout: "full",
         navbar: true,
-        title: "KRIP",
+        title: "POKEMON DATA",
       },
     },
     {
