@@ -105,9 +105,9 @@ export default {
                   total: {
                     show: true,
                     offsetY: 15,
-                    label: "App",
+                    label: "Grass",
                     formatter() {
-                      return "53";
+                      return "13";
                     },
                   },
                 },

@@ -60,6 +60,7 @@
       </b-card>
 
       <VisualPokemonChart :data="chart.data" />
+      <HighScores :data="chart.data" />
       <!-- <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
         <b-spinner label="Loading..." variant="danger" />
       </div>
@@ -125,6 +126,8 @@ import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import "swiper/css/swiper.css";
 import ButtonCreateNewPost from "@/components/Forum/ButtonCreateNewPost.vue";
 import VisualPokemonChart from "@/components/data-visualization/BaseDataVisualization.vue";
+import HighScores from "@/components/data-visualization/BaseDataHightScorePokemon.vue";
+
 import { codePagination } from "./code";
 
 import apis from "@/api";
