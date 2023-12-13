@@ -6,7 +6,7 @@
     <vue-apex-charts
       height="120"
       :options="statisticsProfit.chartOptions"
-      :series="highScores.series"
+      :series="highScores.pokemon"
     />
   </b-card>
 </template>
@@ -31,7 +31,9 @@ export default {
   },
   data() {
     return {
-      highScores: { series: [{ data: [20, 12, 29, 12, 5] }] },
+      highScores: {
+        pokemon: [{ data: [20, 12, 29, 12] }],
+      },
       statisticsProfit: {
         chartOptions: {
           chart: {
