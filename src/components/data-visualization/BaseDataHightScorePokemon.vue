@@ -1,12 +1,12 @@
 <template>
   <b-card v-if="highScores" class="card-tiny-line-stats" body-class="pb-50">
-    <h6>Profit</h6>
-    <h2 class="font-weight-bolder mb-1">6,24k</h2>
+    <h6>High Scores Pokemon</h6>
+    <h2 class="font-weight-bolder mb-1">Grafik Waves</h2>
     <!-- chart -->
     <vue-apex-charts
-      height="70"
+      height="120"
       :options="statisticsProfit.chartOptions"
-      :series="highScores.data"
+      :series="highScores.series"
     />
   </b-card>
 </template>
@@ -19,7 +19,7 @@ import { $themeColors } from "@themeConfig";
 const $trackBgColor = "#EBEBEB";
 
 export default {
-  comments: {
+  components: {
     BCard,
     VueApexCharts,
   },
@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      highScores: { data: [1, 2, 3, 4, 5] },
+      highScores: { series: [{ data: [20, 12, 29, 12, 5] }] },
       statisticsProfit: {
         chartOptions: {
           chart: {
