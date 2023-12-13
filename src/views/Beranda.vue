@@ -59,7 +59,7 @@
         </div>
       </b-card>
 
-      <!-- <ButtonCreateNewPost /> -->
+      <VisualPokemon />
       <!-- <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
         <b-spinner label="Loading..." variant="danger" />
       </div>
@@ -124,6 +124,7 @@ import CardPost from "@/components/Forum/CardPost.vue";
 import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import "swiper/css/swiper.css";
 import ButtonCreateNewPost from "@/components/Forum/ButtonCreateNewPost.vue";
+import VisualPokemon from "@/views/DataVisualization.vue";
 import { codePagination } from "./code";
 
 import apis from "@/api";
