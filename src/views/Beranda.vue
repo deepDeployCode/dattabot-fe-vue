@@ -220,8 +220,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@core/scss/vue/pages/dashboard-ecommerce.scss";
-@import "@core/scss/vue/libs/chart-apex.scss";
 .webinar-list {
   align-items: stretch;
   display: flex;

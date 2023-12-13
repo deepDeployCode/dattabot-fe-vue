@@ -120,3 +120,8 @@ export default {
   created() {},
 };
 </script>
+
+<style lang="scss">
+@import "@core/scss/vue/pages/dashboard-ecommerce.scss";
+@import "@core/scss/vue/libs/chart-apex.scss";
+</style>
