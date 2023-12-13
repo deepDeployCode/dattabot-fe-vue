@@ -60,7 +60,7 @@
       </b-card>
 
       <VisualPokemonChart :data="chart.data" />
-      <HighScores :data="chart.data" />
+      <HighScores />
       <!-- <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
         <b-spinner label="Loading..." variant="danger" />
       </div>
@@ -136,6 +136,7 @@ export default {
   components: {
     BCard,
     VisualPokemonChart,
+    HighScores,
     BaseNavigation,
     DividerNavigation,
     BImg,
@@ -219,6 +220,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "@core/scss/vue/pages/dashboard-ecommerce.scss";
+@import "@core/scss/vue/libs/chart-apex.scss";
 .webinar-list {
   align-items: stretch;
   display: flex;

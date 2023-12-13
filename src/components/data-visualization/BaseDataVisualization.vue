@@ -41,7 +41,6 @@ export default {
   },
   data() {
     return {
-      data: {},
       earningsChart: {
         chartOptions: {
           chart: {
