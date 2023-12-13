@@ -59,7 +59,7 @@
         </div>
       </b-card>
 
-      <VisualPokemon />
+      <VisualPokemonChart :data="chart.data" />
       <!-- <div v-if="forums.isLoading" class="d-flex justify-content-center mb-1">
         <b-spinner label="Loading..." variant="danger" />
       </div>
@@ -78,7 +78,7 @@
       /> -->
     </div>
 
-    <b-modal
+    <!-- <b-modal
       id="modal-rekomendasi"
       v-model="isShowRekomendasi"
       cancel-variant="secondary"
@@ -107,7 +107,7 @@
           Spesialis
         </b-button>
       </div>
-    </b-modal>
+    </b-modal> -->
 
     <DividerNavigation />
   </div>
@@ -124,7 +124,7 @@ import CardPost from "@/components/Forum/CardPost.vue";
 import BCardCode from "@core/components/b-card-code/BCardCode.vue";
 import "swiper/css/swiper.css";
 import ButtonCreateNewPost from "@/components/Forum/ButtonCreateNewPost.vue";
-import VisualPokemon from "@/views/DataVisualization.vue";
+import VisualPokemonChart from "@/components/data-visualization/BaseDataVisualization.vue";
 import { codePagination } from "./code";
 
 import apis from "@/api";
@@ -132,6 +132,7 @@ import apis from "@/api";
 export default {
   components: {
     BCard,
+    VisualPokemonChart,
     BaseNavigation,
     DividerNavigation,
     BImg,
@@ -160,31 +161,49 @@ export default {
           data: [],
         },
       },
+      chart: {
+        data: "",
+        isLoading: false,
+      },
       isShowRekomendasi: false,
     };
   },
   created() {
-    this.fetchForums();
-    this.fetchwebinar();
+    // this.fetchForums();
+    // this.fetchwebinar();
+    this.setPokemonChartPieVisual();
   },
   methods: {
-    fetchForums() {
-      this.forums.isLoading = true;
-      apis.forum
-        .getAll()
-        .then(({ data }) => {
-          this.forums.data = data.data;
-          this.forums.isLoading = false;
-        })
-        .catch(() => {});
-    },
+    // fetchForums() {
+    //   this.forums.isLoading = true;
+    //   apis.forum
+    //     .getAll()
+    //     .then(({ data }) => {
+    //       this.forums.data = data.data;
+    //       this.forums.isLoading = false;
+    //     })
+    //     .catch(() => {});
+    // },
 
-    fetchwebinar() {
-      this.forums.webinar.isLoading = true;
-      apis.webinar.listWebinarEvent().then(({ data }) => {
-        this.forums.webinar.data = data.data;
-        this.forums.webinar.isLoading = false;
-      });
+    // fetchwebinar() {
+    //   this.forums.webinar.isLoading = true;
+    //   apis.webinar.listWebinarEvent().then(({ data }) => {
+    //     this.forums.webinar.data = data.data;
+    //     this.forums.webinar.isLoading = false;
+    //   });
+    // },
+    setPokemonChartPieVisual() {
+      this.chart.isLoading = true;
+      apis.pokemonChartApi
+        .getPokemonChart()
+        .then(({ data }) => {
+          this.chart.data = data.data;
+          console.log(data.data);
+        })
+        .catch((error) => console.log(error))
+        .finally(() => {
+          this.chart.isLoading = false;
+        });
     },
 
     swiperOptions: {

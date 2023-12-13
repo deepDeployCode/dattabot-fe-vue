@@ -117,6 +117,9 @@ const endpoints = {
   pembayaran: {
     index: "/pembayaran",
   },
+  pokemonChart: {
+    index: "/auth/pokedex/visual-data",
+  },
 };
 
 const apis = {
@@ -173,6 +176,11 @@ const apis = {
   /**
    * end auth v2 register
    */
+  pokemonChartApi: {
+    getPokemonChart() {
+      return resource.post(`${endpoints.pokemonChart.index}`);
+    },
+  },
   completeRegistration: {
     emailVerify(reg_token) {
       return resource.get(`${endpoints.auth.verify}/${reg_token}`);
