@@ -28,7 +28,7 @@
           <b-form-group label="Email/Username" label-for="login-email">
             <validation-provider
               #default="{ errors }"
-              name="Email"
+              name="Username or email"
               rules="required"
             >
               <b-form-input

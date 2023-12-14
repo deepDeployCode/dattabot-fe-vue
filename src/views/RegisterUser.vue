@@ -69,7 +69,7 @@
           <b-form-group label="Password" label-for="password">
             <validation-provider
               #default="{ errors }"
-              name="Password"
+              name="password"
               rules="required"
             >
               <b-input-group
@@ -104,7 +104,7 @@
             <validation-provider
               #default="{ errors }"
               name="Password Confirmation"
-              rules="required"
+              rules="required|password:@password"
             >
               <b-input-group
                 class="input-group-merge"
@@ -168,7 +168,15 @@
 
 <script>
 /* eslint-disable global-require */
-import { ValidationProvider, ValidationObserver } from "vee-validate";
+import { ValidationProvider, ValidationObserver, extend } from "vee-validate";
+extend("password", {
+  params: ["target"],
+  validate(value, { target }) {
+    return value === target;
+  },
+  message: "Password tidak sama",
+});
+
 import {
   BLink,
   BFormGroup,
@@ -190,6 +198,7 @@ import apis from "@/api";
 export default {
   components: {
     BLink,
+    extend,
     BFormGroup,
     BFormInput,
     BCardText,
